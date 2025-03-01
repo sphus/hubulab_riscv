@@ -17,6 +17,8 @@ module id (
         // to id_ex
         output wire [31:0]  inst_o      ,
         output wire [31:0]  inst_addr_o ,
+        output reg  [31:0]  base_addr_o ,
+        output reg  [31:0]  offset_addr_o ,
         output reg  [31:0]  op1_o       ,   // operands 1
         output reg  [31:0]  op2_o       ,   // operands 2
         output reg  [ 4:0]  rd_addr_o   ,   // rd address
@@ -47,14 +49,15 @@ module id (
     always @(*) begin
         case (opcode)
             `INST_TYPE_I: begin
+                base_addr_o = 32'd0;
+                offset_addr_o = 32'd0;
                 case (func3)
                     `INST_ADDI ,
                     `INST_SLTI ,
                     `INST_SLTIU,
                     `INST_XORI ,
                     `INST_ORI  ,
-                    `INST_ANDI :
-                    begin
+                    `INST_ANDI : begin
                         rs1_addr_o  = rs1;
                         rs2_addr_o  = 5'd0;
                         rd_addr_o   = rd;
@@ -63,8 +66,7 @@ module id (
                         reg_wen     = 1'b1;
                     end
                     `INST_SLLI ,
-                    `INST_SRI:
-                    begin
+                    `INST_SRI: begin
                         rs1_addr_o  = rs1;
                         rs2_addr_o  = 32'd0;
                         rd_addr_o   = rd;
@@ -82,9 +84,20 @@ module id (
                     end
                 endcase
             end
+
             `INST_TYPE_R_M: begin
+                base_addr_o = 32'd0;
+                offset_addr_o = 32'd0;
                 case (func3)
-                    `INST_ADD_SUB: begin
+                    `INST_ADD_SUB,
+                    `INST_SLL   ,
+                    `INST_SLT   ,
+                    `INST_SLTU  ,
+                    `INST_XOR   ,
+                    `INST_SR    ,
+                    `INST_OR    ,
+                    `INST_AND
+                    : begin
                         rs1_addr_o  = rs1;
                         rs2_addr_o  = rs2;
                         rd_addr_o   = rd;
@@ -103,8 +116,15 @@ module id (
                 endcase
             end
             `INST_TYPE_B: begin
+                base_addr_o = 32'd0;
+                offset_addr_o = 32'd0;
                 case (func3)
-                    `INST_BNE,`INST_BEQ: begin
+                    `INST_BNE   ,
+                    `INST_BEQ   ,
+                    `INST_BLT   ,
+                    `INST_BGE   ,
+                    `INST_BLTU  ,
+                    `INST_BGEU  : begin
                         rs1_addr_o  = rs1;
                         rs2_addr_o  = rs2;
                         rd_addr_o   = 5'd0;
@@ -123,6 +143,8 @@ module id (
                 endcase
             end
             `INST_JAL: begin
+                base_addr_o = 32'd0;
+                offset_addr_o = 32'd0;
                 rs1_addr_o = 5'b0;
                 rs2_addr_o = 5'b0;
                 rd_addr_o  = rd;
@@ -130,7 +152,19 @@ module id (
                 op2_o      = 32'b0;
                 reg_wen    = 1'b1;
             end
-            `INST_LUI: begin
+            `INST_JALR: begin
+                base_addr_o = 32'd0;
+                offset_addr_o = 32'd0;
+                rs1_addr_o = rs1;
+                rs2_addr_o = 5'b0;
+                rd_addr_o  = rd;
+                op1_o      = rs1_data_i;
+                op2_o 	   = immI;
+                reg_wen    = 1'b1;
+            end
+            `INST_LUI,`INST_AUIPC: begin
+                base_addr_o = 32'd0;
+                offset_addr_o = 32'd0;
                 rs1_addr_o  = 5'd0  ;
                 rs2_addr_o  = 5'd0  ;
                 rd_addr_o   = rd    ;
@@ -139,6 +173,8 @@ module id (
                 reg_wen     = 1'b1  ;
             end
             default: begin
+                base_addr_o = 32'd0;
+                offset_addr_o = 32'd0;
                 rs1_addr_o  = 5'd0;
                 rs2_addr_o  = 5'd0;
                 rd_addr_o   = 5'd0;
@@ -148,9 +184,5 @@ module id (
             end
         endcase
     end
-
-
-
-
 
 endmodule

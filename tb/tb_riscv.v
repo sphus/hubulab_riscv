@@ -19,7 +19,7 @@ module tb_riscv();
     // initial rom
     initial begin
         // $readmemb("./inst_data_ADD.txt",tb_riscv.riscv_soc_uut.rom_inst.rom_mem);
-        $readmemh("./generated/rv32ui-p-andi.txt",tb_riscv.riscv_soc_uut.rom_inst.rom_mem);
+        $readmemh("./generated/rv32ui-p-add.txt",tb_riscv.riscv_soc_uut.rom_inst.rom_mem);
     end
 
 

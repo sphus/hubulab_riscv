@@ -4,8 +4,8 @@
 // 
 // 输入:
 //      opcode —— 操作码
-//      s0     —— 操作数0
-//      s1     —— 操作数1
+//      op1     —— 操作数0
+//      op2     —— 操作数1
 // 输出:
 //      o_low  —— 低16位结果
 //      o_high —— 高16位结果
@@ -19,43 +19,51 @@
 
 
 
-`define OP_ADD 3'b000
-`define OP_SUB 3'b001
-`define OP_MUL 3'b010
-`define OP_SH  3'b011
-`define OP_XOR 3'b100
-`define OP_AND 3'b101
-`define OP_OR  3'b110
-`define OP_NOT 3'b111
+`define INST_ADD_SUB 3'b000
+`define INST_SLL     3'b001
+`define INST_SLT     3'b010
+`define INST_SLTU    3'b011
+`define INST_XOR     3'b100
+`define INST_SR      3'b101
+`define INST_OR      3'b110
+`define INST_AND     3'b111
 
 
 module ALU (
-    input  wire         [2 :0]  opcode      ,
-    input  wire signed  [15:0]  s0          ,
-    input  wire signed  [15:0]  s1          ,
-    output reg          [15:0]  o_low       ,
-    output reg          [15:0]  o_high      ,
-    output reg                  write_high  
+    input  wire [31:0]  op1     ,
+    input  wire [31:0]  op2     ,
+    input  wire [2 :0]  fun3    ,
+    input  wire         aux     ,
+
+    output reg  [31:0]  result  
 );
-    wire sub = (opcode == `OP_SUB);
-    wire [15:0] addsub_val = s0 + (sub ? ~s1 : s1) + sub;
+    wire sub    = aux;
+    wire sign   = aux;
+    wire [31:0] addsub_val = op2 + (sub ? ~op1 + sub : op1);
 
-    wire [31:0] mul = s0 * s1;
-    wire [31:0] shift = {16'h0000,s0} << s1;
+    // always @(*) 
+    // begin
+    //     case (opcode)
+    //         `INST_ADD_SUB: result = addsub_val;
+    //         `INST_SLL    : result = ;
+    //         `INST_SLT    : result = ;
+    //         `INST_SLTU   : result = ;
+    //         `INST_XOR    : result = ;
+    //         `INST_SR     : result = ;
+    //         `INST_OR     : result = ;
+    //         `INST_AND    : result = ;
+    //     endcase
+    // end
 
-    always @(*) 
-    begin
-        case (opcode)
-            `OP_ADD: {o_high,o_low,write_high} = {16'd0,addsub_val ,1'b0};
-            `OP_SUB: {o_high,o_low,write_high} = {16'd0,addsub_val ,1'b0};
-            `OP_MUL: {o_high,o_low,write_high} = {     mul         ,1'b1};
-            `OP_SH : {o_high,o_low,write_high} = {     shift       ,1'b1};
-            `OP_XOR: {o_high,o_low,write_high} = {16'd0,s0^s1      ,1'b0};
-            `OP_AND: {o_high,o_low,write_high} = {16'd0,s0&s1      ,1'b0};
-            `OP_OR : {o_high,o_low,write_high} = {16'd0,s0|s1      ,1'b0};
-            `OP_NOT: {o_high,o_low,write_high} = {16'd0,~s0        ,1'b0};
-        endcase
-    end
-
+    // op2 + op1;
+    // {31'd0,less_signed};
+    // {31'd0,less_unsigned};
+    // op1 ^ op2;
+    // op1 | op2;
+    // op1 & op2;
+    // op1 << shamt;
+    // sign ?
+    // (op1 >>> shamt): 
+    // (op1 >> shamt);
 
 endmodule
