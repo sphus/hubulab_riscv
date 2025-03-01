@@ -1,0 +1,8 @@
+netlist/
+old/
+
+*.wlf
+*.mti
+transcript
+work/
+wlft*

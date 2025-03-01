@@ -1,0 +1,170 @@
+
+module riscv(
+        input   wire        clk         ,
+        input   wire        rstn        ,
+        input   wire [31:0] inst_rom    ,
+        output  wire [31:0] inst_addr_rom
+    );
+    // pc tp if
+    wire [31:0] pc_if;
+
+    // if to rom
+    // wire [31:0] inst_addr_rom;
+
+    // rom to if
+    // wire [31:0] inst_rom;
+
+    // if to if_id
+    wire [31:0] inst_if;
+    wire [31:0] inst_addr_if;
+
+    // if_id to id
+    wire [31:0] inst_if_id;
+    wire [31:0] inst_addr_if_id;
+
+    // id to register
+    wire [ 4:0] rs1_addr;
+    wire [ 4:0] rs2_addr;
+
+    // register to id
+    wire [31:0] rs1_data;
+    wire [31:0] rs2_data;
+
+    // id to id_ex
+    wire [31:0] inst_id;
+    wire [31:0] inst_addr_id;
+    wire [ 4:0] rd_addr_id;
+    wire [31:0] op1_id;
+    wire [31:0] op2_id;
+    wire        wen_id;
+
+    // id_ex to ex
+    wire [31:0] inst_id_ex;
+    wire [31:0] inst_addr_id_ex;
+    wire [ 4:0] rd_addr_id_ex;
+    wire [31:0] op1_id_ex;
+    wire [31:0] op2_id_ex;
+    wire        wen_id_ex;
+
+    // ex to register
+    wire [ 4:0] rd_addr_ex  ;
+    wire [31:0] rd_data_ex  ;
+    wire        wen_ex     ;
+
+    // ex to ctrl
+    wire  [31:0]  jump_addr_ex ;
+    wire          jump_en_ex   ;
+    wire          hold_flag_ex ;
+
+    // ctrl to pc
+    wire         jump_en_ctrl     ;
+    wire [31:0]  jump_addr_ctrl   ;
+
+    // ctrl to if_id,id_ex
+    wire         hold_flag_ctrl;
+
+
+    pc pc_inst(
+           .clk     (clk    ),
+           .rstn    (rstn   ),
+           .jump_en  (jump_en_ctrl  )   ,
+           .jump_addr(jump_addr_ctrl)   ,
+           .pc      (pc_if  )
+       );
+
+
+    ifetch ifetch_inst(
+               .pc_addr_i   (pc_if          ),
+               .rom_inst_i  (inst_rom       ),
+               .inst_addr_o (inst_addr_if   ),
+               .rom_addr_o  (inst_addr_rom  ),
+               .inst_o      (inst_if        )
+           );
+
+    // rom rom_inst(
+    //         .addr_i(inst_addr_rom   ),
+    //         .inst_o(inst_rom        )
+    //     );
+
+    if_id if_id_inst (
+              .clk          (clk            ),
+              .rstn         (rstn           ),
+              .inst_i       (inst_if        ),
+              .hold_flag_i  (hold_flag_ctrl ),
+              .addr_i       (inst_addr_if   ),
+              .inst_o       (inst_if_id     ),
+              .addr_o       (inst_addr_if_id)
+          );
+
+    id id_inst(
+           .inst_i      (inst_if_id     ),
+           .inst_addr_i (inst_addr_if_id),
+           .rs1_data_i  (rs1_data       ),
+           .rs2_data_i  (rs2_data       ),
+           .rs1_addr_o  (rs1_addr       ),
+           .rs2_addr_o  (rs2_addr       ),
+           .inst_o      (inst_id        ),
+           .inst_addr_o (inst_addr_id   ),
+           .op1_o       (op1_id         ),   // operands 1
+           .op2_o       (op2_id         ),   // operands 2
+           .rd_addr_o   (rd_addr_id     ),   // rd address
+           .reg_wen     (wen_id         )    // reg write enable
+       );
+
+    register register_inst(
+                 .clk         (clk      ),
+                 .rstn        (rstn     ),
+                 .rs1_raddr   (rs1_addr ),
+                 .rs2_raddr   (rs2_addr ),
+                 .rd_waddr    (rd_addr_ex ),
+                 .rd_wdata    (rd_data_ex ),
+                 .wen         (wen_ex   ),
+                 .rs1_rdata   (rs1_data ),
+                 .rs2_rdata   (rs2_data )
+             );
+    id_ex id_ex_inst(
+              .clk         (clk             ),
+              .rstn        (rstn            ),
+              .hold_flag_i (hold_flag_ctrl  ),
+              .inst_i      (inst_id         ),
+              .inst_addr_i (inst_addr_id    ),
+              .op1_i       (op1_id          ),   // operands 1
+              .op2_i       (op2_id          ),   // operands 2
+              .rd_addr_i   (rd_addr_id      ),   // rd address
+              .reg_wen_i   (wen_id          ),   // reg write enable
+              .inst_o      (inst_id_ex      ),
+              .inst_addr_o (inst_addr_id_ex ),
+              .op1_o       (op1_id_ex       ),   // operands 1
+              .op2_o       (op2_id_ex       ),   // operands 2
+              .rd_addr_o   (rd_addr_id_ex   ),   // rd address
+              .reg_wen_o   (wen_id_ex       )    // reg write enable
+          );
+
+
+    ex ex_inst(
+           .inst_i      (inst_id_ex     ),
+           .inst_addr_i (inst_addr_id_ex),
+           .op1         (op1_id_ex      ),   // operands 1
+           .op2         (op2_id_ex      ),   // operands 2
+           .rd_addr_i   (rd_addr_id_ex  ),
+           .reg_wen_i   (wen_id_ex      ),   // reg write enable
+           .rd_addr_o   (rd_addr_ex     ),
+           .rd_data_o   (rd_data_ex     ),
+           .reg_wen_o   (wen_ex         ),  // reg write enable
+           .jump_addr_o (jump_addr_ex),
+           .jump_en_o   (jump_en_ex),
+           .hold_flag_o (hold_flag_ex)
+       );
+
+    ctrl ctrl_inst(
+             .jump_addr_i 	(jump_addr_ex  ),
+             .jump_en_i   	(jump_en_ex    ),
+             .hold_flag_i 	(hold_flag_ex  ),
+             .jump_addr_o 	(jump_addr_ctrl  ),
+             .jump_en_o   	(jump_en_ctrl    ),
+             .hold_flag_o 	(hold_flag_ctrl  )
+         );
+
+
+endmodule
+
