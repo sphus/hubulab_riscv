@@ -18,8 +18,8 @@ module tb_riscv();
 
     // initial rom
     initial begin
-        // $readmemb("./inst_data_ADD.txt",tb_riscv.riscv_soc_uut.rom_inst.rom_mem);
-        $readmemh("./generated/rv32ui-p-add.txt",tb_riscv.riscv_soc_uut.rom_inst.rom_mem);
+        $readmemh("./generated/inst_data.txt",tb_riscv.riscv_soc_uut.rom_inst.rom_mem);
+        // $readmemh("./generated/rv32ui-p-add.txt",tb_riscv.riscv_soc_uut.rom_inst.rom_mem);
     end
 
 
@@ -91,7 +91,8 @@ module tb_riscv();
             $display("############################");
             $display("fail testnum = %2d", x[3]);
         end
-        $stop;
+        // $stop;
+        $finish;
     end
 
     always @(negedge clk) begin
