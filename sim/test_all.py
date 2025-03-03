@@ -1,25 +1,20 @@
 import os
 import subprocess
 import sys
+from compile_and_sim import list_binfiles
 
-def list_binfiles(path):
-    files = []
-    list_dir = os.walk(path)
-    for maindir, subdir, all_file in list_dir:
-        for filename in all_file:
-            apath = os.path.join(maindir, filename)
-            if apath.endswith('.bin'):
-                files.append(apath)
-
-    return files
+output_file = "output.txt"
 
 def main():
     # 获取上一级路径
     rtl_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    # 检查文件是否存在，存在则删除
+    if os.path.exists(output_file):
+        os.remove(output_file)
     # 获取路径下所有bin文件
     all_bin_files = list_binfiles(rtl_dir + r'/sim/generated/')
     # 遍历所有文件一个一个执行
-    print('there\'s error instruction:\n')
+    # print('there\'s error instruction:\n')
     for file_bin in all_bin_files:
         cmd = r'python compile_and_sim.py' + ' ' + file_bin
         f = os.popen(cmd)
@@ -29,12 +24,28 @@ def main():
         print_name = file_bin[index+3:-4]
 
         if (r.find('pass') == -1):
-            print(print_name)
+            # 检测fail testnum的值
+            start_index = r.find('fail testnum = ') + len('fail testnum = ')
+            end_index = r.find('\n', start_index)
+            testnum = r[start_index:end_index].strip()
+            message = print_name.ljust(10, ' ') + 'fail testnum = ' + testnum
+            print(message)
+            # 追加写入文件
+            with open(output_file, "a") as file:
+                file.write(message + '\n')
             
         # if (r.find('pass') != -1):
         #     print('指令  ' + print_name.ljust(10, ' ') + '    PASS')
         # else:
         #     print('指令  ' + print_name.ljust(10, ' ') + '    !!!FAIL!!!')
+
+            # start_index = r.find('fail testnum = ') + len('fail testnum = ')
+            # end_index = r.find('\n', start_index)
+            # testnum = r[start_index:end_index].strip()
+            # # 打印 testnum
+            # print('fail testnum = ' + testnum)
+
+            # print(r)
         f.close()
 
 if __name__ == '__main__':

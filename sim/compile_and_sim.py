@@ -1,8 +1,6 @@
 import os
 import subprocess
 import sys
-import test_one_inst
-
 
 def list_binfiles(path):
     files = []
@@ -49,47 +47,45 @@ def bin_to_mem(infile, outfile):
     binfile.close()
     datafile.close()
 
-# def compile():
-#     # 获取上一级目录
-#     rtl_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
-#     # iverilog 程序
-#     iverilog_cmd = ['iverilog']
-#     # 编译生成文件
-#     iverilog_cmd += ['-o', r'out.vvp']
-#     # 头文件(defines.v)路径
-#     iverilog_cmd += ['-I', rtl_dir + r'/rtl']
-#     # testbench 文件
-#     iverilog_cmd.append(rtl_dir + r'/tb/tb.v')
+def compile():
+    #获取上一级目录
+    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    # iverilog程序
+    iverilog_cmd = ['iverilog']
+    # 编译生成文件
+    iverilog_cmd += ['-o', r'out.vvp']
+    # 头文件(defines.v)路径
+    iverilog_cmd += ['-I', rtl_dir + r'/rtl']
 
-#     # 内核core
-#     iverilog_cmd.append(rtl_dir + r'/rtl/defines.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/pc.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/if_id.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/id.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/id_ex.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/ex.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/register.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/ctrl.v')
-#     # iverilog_cmd.append(rtl_dir + r'/rtl/ram.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/rom.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/ifetch.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/riscv.v')
-#     # iverilog_cmd.append(rtl_dir + r'/rtl/debug_button_debounce.v')
-#     # iverilog_cmd.append(rtl_dir + r'/rtl/uart_debug.v')
-#     iverilog_cmd.append(rtl_dir + r'/rtl/DFF.v')
-#     # 通用utils
-#     # iverilog_cmd.append(rtl_dir + r'/utils/dual_ram.v')
+    # testbench文件
+    iverilog_cmd.append(rtl_dir + r'/tb/tb_riscv.v')
 
-#     # 顶层soc
-#     iverilog_cmd.append(rtl_dir + r'/tb/riscv_soc.v')
+    # 内核core
+    iverilog_cmd.append(rtl_dir + r'/rtl/defines.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/pc.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/if_id.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/id.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/id_ex.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/ex.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/register.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/ctrl.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/rom.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/ifetch.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/riscv.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/DFF.v')
+    # 通用utils
+    # iverilog_cmd.append(rtl_dir + r'/utils/dual_ram.v')
 
-#     # 编译
-#     process = subprocess.Popen(iverilog_cmd)
-#     process.wait(timeout=5)
+    # 顶层soc
+    iverilog_cmd.append(rtl_dir + r'/tb/riscv_soc.v')
+
+    # 编译
+    process = subprocess.Popen(iverilog_cmd)
+    process.wait(timeout=5)
 
 def sim():
     # 1.编译rtl文件
-    test_one_inst.compile()
+    compile()
     # 2.运行
     vvp_cmd = [r'vvp']
     vvp_cmd.append(r'out.vvp')

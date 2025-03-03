@@ -6,3 +6,6 @@ old/
 transcript
 work/
 wlft*
+
+__pycache__/
+.pytest_cache/

@@ -4,6 +4,11 @@ module tb_riscv();
 
 `define CLK_PERIOD 20
 
+    // initial begin
+    //     $dumpfile("wave.vcd");
+    //     $dumpvars;
+    // end
+
     reg  clk ;
     reg  rstn;
 
