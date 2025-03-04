@@ -109,6 +109,13 @@ module tb_riscv();
             // $display("last:     %x jump to %x at %d", pc_ex,jump_addr,$time);
             $display("%x jump to %x at %d", pc_ex,jump_addr,$time);
         end
+        if ($time >= 500000)
+        begin
+            $display("############################");
+            $display("######  timeout  !!!########");
+            $display("############################");
+            $finish;            
+        end
 
         // if (jump_flag_end | jump_flag) begin
         //     if((pc_jump_before == pc_ex) && (pc_jump_last == jump_addr))

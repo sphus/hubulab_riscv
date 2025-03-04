@@ -110,6 +110,7 @@ module tb_riscv_questa();
             $display("%x jump to %x at %d", pc_ex,jump_addr,$time);
         end
 
+
         // if (jump_flag_end | jump_flag) begin
         //     if((pc_jump_before == pc_ex) && (pc_jump_last == jump_addr))
         //         $display("test true:%x jump to %x at %d", pc_ex,jump_addr,$time);

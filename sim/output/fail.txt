@@ -1,11 +1,11 @@
-fence_i   fail testnum = 2
+fence_i   timeout
 lb        fail testnum = 2
-lbu       fail testnum = 2
-lh        fail testnum = 2
+lbu       timeout
+lh        timeout
 lhu       fail testnum = 2
 lw        fail testnum = 2
 sb        fail testnum = 2
-sh        fail testnum = 2
+sh        timeout
 sw        fail testnum = 2
 div       fail testnum = 2
 divu      fail testnum = 2

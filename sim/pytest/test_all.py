@@ -39,6 +39,11 @@ def main():
         if (r.find('pass') != -1):
             with open(pass_file, "a") as file:
                 file.write(print_name.ljust(10, ' ') + 'PASS' + '\n')
+        elif(r.find('timeout') != -1):
+            message = print_name.ljust(10, ' ') + 'timeout'
+            print(message)
+            with open(fail_file, "a") as file:
+                file.write(message + '\n')
         else:
             # 检测fail testnum的值
             start_index = r.find('fail testnum = ') + len('fail testnum = ')

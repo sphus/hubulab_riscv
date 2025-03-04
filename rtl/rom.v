@@ -16,17 +16,17 @@ module rom #(
     );
 
     dual_ram #(
-                 .DW      	(32    ),
-                 .AW      	(32    ),
-                 .MEM_NUM 	(4096  ))
+                 .DW      	(DW    ),
+                 .AW      	(AW-2  ),
+                 .MEM_NUM 	(MEM_NUM))
              dual_ram_inst(
                  .clk    	(clk     ),
                  .rstn   	(rstn    ),
                  .wen    	(wen     ),
-                 .w_addr 	(w_addr  ),
+                 .w_addr 	(w_addr[31:2]),// addr/4,because DW/8(byte) = 4
                  .w_data 	(w_data  ),
                  .ren    	(ren     ),
-                 .r_addr 	({2'b0,r_addr[31:2]}  ),
+                 .r_addr 	(r_addr[31:2]),// addr/4,because DW/8(byte) = 4
                  .r_data 	(r_data  )
              );
 
