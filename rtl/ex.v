@@ -25,7 +25,7 @@ module ex (
     wire [6 :0] func7   = inst_i[31:25];
     wire [4 :0] rs2     = inst_i[24:20];
     wire [4 :0] rs1     = inst_i[19:15];
-    wire [4 :0] func3   = inst_i[14:12];
+    wire [2 :0] func3   = inst_i[14:12];
     wire [4 :0] rd      = inst_i[11: 7];
     wire [6 :0] opcode  = inst_i[ 6: 0];
     // 立即数
@@ -42,11 +42,14 @@ module ex (
     assign rd_addr_o = rd_addr_i;
     assign reg_wen_o = reg_wen_i;
 
+    wire signed [31:0] op1_s = op1;
+    wire signed [31:0] op2_s = op2;
+
     wire eq = (op1 == op2) ? 1'b1 : 1'b0;
-    wire less_signed    = ($signed(op1) < $signed(op2)) ? 1'b1 : 1'b0;
+    wire less_signed    = (op1_s < op2_s) ? 1'b1 : 1'b0;
     wire less_unsigned  = (op1 < op2) ? 1'b1 : 1'b0;
-    wire great_signed   = ($signed(op1) > $signed(op2)) ? 1'b1 : 1'b0;
-    wire great_unsigned = (op1 > op2) ? 1'b1 : 1'b0;
+    // wire great_signed   = (op1_s > op2_s) ? 1'b1 : 1'b0;
+    // wire great_unsigned = (op1 > op2) ? 1'b1 : 1'b0;
 
     wire [31:0] add_sub_val = op1 + (sub ? ~op2 + sub : op2);
     wire [31:0] xor_val     = op1 ^ op2;
@@ -54,9 +57,8 @@ module ex (
     wire [31:0] and_val     = op1 & op2;
     wire [31:0] sll_val     = op1 << shamt;
     wire [31:0] sr_val      = sign ?
-                            (op1 >>> shamt):
-                            (op1 >> shamt);
-
+                            (op1_s >>> shamt):
+                            (op1_s >> shamt);
     always @(*) begin
         case (opcode)
             `INST_TYPE_I: begin
@@ -99,9 +101,9 @@ module ex (
                     `INST_BNE   : jump_en_o   = ~eq;
                     `INST_BEQ   : jump_en_o   = eq;
                     `INST_BLT   : jump_en_o   = less_signed;
-                    `INST_BGE   : jump_en_o   = great_signed;
+                    `INST_BGE   : jump_en_o   = ~less_signed;
                     `INST_BLTU  : jump_en_o   = less_unsigned;
-                    `INST_BGEU  : jump_en_o   = great_unsigned;
+                    `INST_BGEU  : jump_en_o   = ~less_unsigned;
                     default     : jump_en_o   = 1'd0;
                 endcase
             end

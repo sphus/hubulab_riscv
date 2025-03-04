@@ -5,19 +5,6 @@ module riscv(
         input   wire [31:0] inst_rom    ,
         output  wire [31:0] inst_addr_rom
     );
-    // pc tp if
-    wire [31:0] pc_if;
-
-    // if to rom
-    // wire [31:0] inst_addr_rom;
-
-    // rom to if
-    // wire [31:0] inst_rom;
-
-    // if to if_id
-    wire [31:0] inst_if;
-    wire [31:0] inst_addr_if;
-
     // if_id to id
     wire [31:0] inst_if_id;
     wire [31:0] inst_addr_if_id;
@@ -69,17 +56,17 @@ module riscv(
            .rstn    (rstn   ),
            .jump_en  (jump_en_ctrl  )   ,
            .jump_addr(jump_addr_ctrl)   ,
-           .pc      (pc_if  )
+           .pc      (inst_addr_rom  )
        );
 
 
-    ifetch ifetch_inst(
-               .pc_addr_i   (pc_if          ),
-               .rom_inst_i  (inst_rom       ),
-               .inst_addr_o (inst_addr_if   ),
-               .rom_addr_o  (inst_addr_rom  ),
-               .inst_o      (inst_if        )
-           );
+    // ifetch ifetch_inst(
+    //            .pc_addr_i   (pc_if          ),
+    //            .rom_inst_i  (inst_rom       ),
+    //            .inst_addr_o (inst_addr_if   ),
+    //            .rom_addr_o  (inst_addr_rom  ),
+    //            .inst_o      (inst_if        )
+    //        );
 
     // rom rom_inst(
     //         .addr_i(inst_addr_rom   ),
@@ -89,9 +76,9 @@ module riscv(
     if_id if_id_inst (
               .clk          (clk            ),
               .rstn         (rstn           ),
-              .inst_i       (inst_if        ),
+              .inst_i       (inst_rom        ),
               .hold_flag_i  (hold_flag_ctrl ),
-              .addr_i       (inst_addr_if   ),
+              .addr_i       (inst_addr_rom   ),
               .inst_o       (inst_if_id     ),
               .addr_o       (inst_addr_if_id)
           );

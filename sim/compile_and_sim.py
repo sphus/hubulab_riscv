@@ -73,6 +73,7 @@ def compile():
     iverilog_cmd.append(rtl_dir + r'/rtl/ifetch.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/riscv.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/DFF.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/dual_ram.v')
     # 通用utils
     # iverilog_cmd.append(rtl_dir + r'/utils/dual_ram.v')
 
@@ -81,7 +82,7 @@ def compile():
 
     # 编译
     process = subprocess.Popen(iverilog_cmd)
-    process.wait(timeout=5)
+    process.wait(timeout=10)
 
 def sim():
     # 1.编译rtl文件
@@ -91,7 +92,7 @@ def sim():
     vvp_cmd.append(r'out.vvp')
     process = subprocess.Popen(vvp_cmd)
     try:
-        process.wait(timeout=10)
+        process.wait(timeout=3)
     except subprocess.TimeoutExpired:
         print('!!!Fail, vvp exec timeout!!!')
 

@@ -24,16 +24,18 @@ vsim -vopt work.tb_riscv -voptargs=+acc
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/rstn 
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/inst_rom 
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/inst_addr_rom 
-# # add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/pc_if 
-add wave tb_riscv/riscv_soc_uut/riscv_inst/pc_if 
-add wave tb_riscv/riscv_soc_uut/riscv_inst/register_inst/reg_mem
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/pc_if 
+
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/pc_if 
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/register_inst/reg_mem
+
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/inst_if 
-# # add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/inst_addr_if 
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/inst_addr_if 
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/inst_addr_if 
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/inst_if_id 
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/inst_addr_if_id 
-# # add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/rs1_addr 
-# # add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/rs2_addr 
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/rs1_addr 
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/rs2_addr 
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/rs1_addr 
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/rs2_addr 
 # add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/rs1_data 
@@ -52,7 +54,23 @@ add wave tb_riscv/riscv_soc_uut/riscv_inst/register_inst/reg_mem
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/wen_id_ex 
 # add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/rd_addr_ex 
 # add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/rd_data_ex 
+
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/inst_rom    
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/inst_addr_rom
+add wave -divider {ID} 
+add wave tb_riscv/riscv_soc_uut/riscv_inst/id_inst/*
+add wave -divider {EX} 
+add wave tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/*
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/func7 
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/rs2   
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/rs1   
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/func3 
+# add wave -radix unsigned tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/rd    
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/opcode
 # add wave tb_riscv/riscv_soc_uut/riscv_inst/wen_ex 
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/jump_addr_o
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/jump_en_o  
+# add wave tb_riscv/riscv_soc_uut/riscv_inst/ex_inst/hold_flag_o
 
 configure wave -signalnamewidth 1
 
@@ -60,7 +78,7 @@ configure wave -signalnamewidth 1
 # add wave tb_riscv/rstn
 
 ################################运行仿真#############################
-# run 200ns
+# run 2us
 run 20us
 # run -all
 # quit -sim
