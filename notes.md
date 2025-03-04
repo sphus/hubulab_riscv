@@ -1,21 +1,22 @@
 自动化测试使用方法:
-注意事项:
-[tb_riscv](tb/tb_riscv.v)中确认代码
-line 27 附近:`$readmemh("./generated/inst_data.txt" ... `
-line 100附近:`$finish;`
-打开Anaconda Prompt
+- 打开Anaconda Prompt
+  ```
+  # 进入当前文件夹 
+  D:
+  cd D:\work_file\FPGA\RISC_V\mine_rv\sim\pytest
 
-```
-# 进入当前文件夹 
-D:
-cd D:\work_file\FPGA\RISC_V\mine_rv\sim
-python test_one_inst.py auipc
+  # 单条指令测试:执行auipc指令测试
+  python test_one_inst.py auipc
+  # 全测试:执行generated/所有bin文件
+  python test_all.py
+  ```
+- 结果
+  - print到cmd上了
+  - 也可以打开[fail.txt](sim/output/fail.txt)和[pass.txt](sim/output/pass.txt)查看
 
-python test_all.py
-# 单条指令测试:执行auipc指令测试
-# 全测试:执行generated/所有bin文件
-```
 
+
+笔记:
 - 大小端模式:
   - 大端模式:高字节放在低地址,低字节放在高地址
     > 高对低,低对高

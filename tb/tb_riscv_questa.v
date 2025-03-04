@@ -1,6 +1,6 @@
 
 `timescale 1ns/1ns
-module tb_riscv();
+module tb_riscv_questa();
 
 `define CLK_PERIOD 20
 
@@ -23,19 +23,19 @@ module tb_riscv();
 
     // initial rom
     initial begin
-        // $readmemh("./generated/rv32ui-p-sra.txt",tb_riscv.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
-        $readmemh("../generated/inst_data.txt",tb_riscv.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
+        $readmemh("./generated/rv32ui-p-sra.txt",tb_riscv_questa.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
+        // $readmemh("../generated/inst_data.txt",tb_riscv_questa.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
     end
 
 
-    wire [31:0] pc_pc     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_rom;
-    wire [31:0] pc_id     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_if_id;
-    wire [31:0] pc_ex     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_id_ex;
-    wire        jump_flag = tb_riscv.riscv_soc_uut.riscv_inst.jump_en_ctrl;
-    wire [31:0] jump_addr = tb_riscv.riscv_soc_uut.riscv_inst.jump_addr_ctrl;
+    wire [31:0] pc_pc     = tb_riscv_questa.riscv_soc_uut.riscv_inst.inst_addr_rom;
+    wire [31:0] pc_id     = tb_riscv_questa.riscv_soc_uut.riscv_inst.inst_addr_if_id;
+    wire [31:0] pc_ex     = tb_riscv_questa.riscv_soc_uut.riscv_inst.inst_addr_id_ex;
+    wire        jump_flag = tb_riscv_questa.riscv_soc_uut.riscv_inst.jump_en_ctrl;
+    wire [31:0] jump_addr = tb_riscv_questa.riscv_soc_uut.riscv_inst.jump_addr_ctrl;
 
     wire [31:0] pc [2:0];
-    assign pc[0] = tb_riscv.riscv_soc_uut.inst_addr_rom;
+    assign pc[0] = tb_riscv_questa.riscv_soc_uut.inst_addr_rom;
     assign pc[1] = (pc[0] > 0) ? (pc[0] - 4) : 0;
     assign pc[2] = (pc[1] > 0) ? (pc[1] - 4) : 0;
 
@@ -71,7 +71,7 @@ module tb_riscv();
 
     generate
         for(i = 0 ; i < 31; i = i + 1) begin
-            assign x[i] = tb_riscv.riscv_soc_uut.riscv_inst.register_inst.reg_mem[i];
+            assign x[i] = tb_riscv_questa.riscv_soc_uut.riscv_inst.register_inst.reg_mem[i];
         end
     endgenerate
 
@@ -97,8 +97,8 @@ module tb_riscv();
             $display("############################");
             $display("fail testnum = %2d", x[3]);
         end
-        // $stop;
-        $finish;
+        $stop;
+        // $finish;
     end
 
     always @(negedge clk) begin

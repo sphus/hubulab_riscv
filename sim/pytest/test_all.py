@@ -3,12 +3,12 @@ import subprocess
 import sys
 from compile_and_sim import list_binfiles
 
-fail_file = "./output/fail.txt"
-pass_file = "./output/pass.txt"
+fail_file = "../output/fail.txt"
+pass_file = "../output/pass.txt"
 
 def main():
     # 获取上一级路径
-    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), "..",".."))
     # 检查文件是否存在，存在则删除
     if os.path.exists(fail_file):
         os.remove(fail_file)
@@ -17,7 +17,6 @@ def main():
     # 获取路径下所有bin文件
     all_bin_files = list_binfiles(rtl_dir + r'/sim/generated/')
     # 遍历所有文件一个一个执行
-    # print('there\'s error instruction:\n')
     for file_bin in all_bin_files:
         cmd = r'python compile_and_sim.py' + ' ' + file_bin
         f = os.popen(cmd)

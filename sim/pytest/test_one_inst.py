@@ -6,7 +6,7 @@ from compile_and_sim import compile,list_binfiles,bin_to_mem,list_binfiles,sim
 
 def main(name = 'addi'):
     # 获取上一级路径
-    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), "..",".."))
     
 
     all_bin_files = list_binfiles(rtl_dir + r'/sim/generated/')

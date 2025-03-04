@@ -49,7 +49,7 @@ def bin_to_mem(infile, outfile):
 
 def compile():
     #获取上一级目录
-    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), "..",".."))
     # iverilog程序
     iverilog_cmd = ['iverilog']
     # 编译生成文件
@@ -98,7 +98,7 @@ def sim():
 
 def run(test_binfile):
     # 获取上一级路径
-    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    rtl_dir = os.path.abspath(os.path.join(os.getcwd(), "..",".."))
     # 文件名字
     out_mem = rtl_dir + r'/sim/generated/inst_data.txt'
     # bin 转 mem
