@@ -18,7 +18,11 @@ def main():
     all_txt_files = list_txtfiles(rtl_dir + r'/sim/generated/')
     # 遍历所有文件一个一个执行
     # for file_txt in all_txt_files:
-    for file_txt in all_txt_files:
+    for i,file_txt in enumerate(all_txt_files):
+
+        if i == 0:
+            continue  # 跳过当前循环，处理下一个文件
+
         cmd = r'python compile_and_sim.py' + ' ' + file_txt
         f = os.popen(cmd)
         r = f.read()

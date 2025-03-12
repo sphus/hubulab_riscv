@@ -1,9 +1,6 @@
 # digital IDE的网表文件
 netlist/
 
-# 曾经写的代码备份
-old/
-
 # questa仿真文件
 *.wlf
 *.mti
@@ -12,6 +9,9 @@ work/
 wlft*
 
 # python测试中间文件
-out.vpp
-__pycache__/
-.pytest_cache/
+sim/pytest/__pycache__
+sim/pytest/out.vvp
+
+# python测试结果
+sim/output/fail.txt
+sim/output/pass.txt
