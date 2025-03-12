@@ -1,13 +1,13 @@
 自动化测试使用方法:
 - 打开Anaconda Prompt
   ```
-  # 进入当前文件夹 
-  D:
-  cd D:\work_file\FPGA\RISC_V\my_riscv\sim\pytest
+  :: 进入sim\pytest\文件夹
+  :: 其中$PATH为工程的绝对路径
+  cd $PATH\sim\pytest
 
-  # 单条指令测试:执行auipc指令测试
+  :: 单条指令测试:执行auipc指令测试
   python test_one_inst.py auipc
-  # 全测试:执行generated/所有bin文件
+  :: 全测试:执行generated/所有bin文件
   python test_all.py
   ```
 - 结果
