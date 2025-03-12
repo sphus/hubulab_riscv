@@ -1,4 +1,5 @@
 
+`include "defines.v" 
 module rom #(
         parameter DW = 32,
         parameter AW = 32,
@@ -8,11 +9,11 @@ module rom #(
         input   wire            clk   ,
         input   wire 			rstn  ,
         input   wire 			wen   ,
-        input   wire [32-1:0]	w_addr,
-        input   wire [32-1:0]   w_data,
+        input   wire `RegBus    w_addr,
+        input   wire `RegBus    w_data,
         input   wire 			ren   ,
-        input   wire [32-1:0]	r_addr,
-        output  wire [32-1:0]   r_data
+        input   wire `RegBus	r_addr,
+        output  wire `RegBus    r_data
     );
 
     dual_ram #(

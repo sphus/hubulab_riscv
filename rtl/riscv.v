@@ -1,4 +1,5 @@
 
+`include "defines.v" 
 module riscv(
         input   wire            clk         ,
         input   wire            rstn        ,

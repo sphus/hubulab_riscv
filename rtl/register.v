@@ -1,4 +1,5 @@
 
+`include "defines.v" 
 module register (
         input  wire clk ,
         input  wire rstn,

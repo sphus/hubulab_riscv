@@ -1,4 +1,5 @@
 
+`include "defines.v" 
 module ctrl(
         // from ex
         input wire  [`RegBus]   jump_addr_i ,

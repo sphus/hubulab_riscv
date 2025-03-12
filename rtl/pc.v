@@ -1,4 +1,6 @@
 
+
+`include "defines.v" 
 module pc (
         input  wire             clk         ,
         input  wire             rstn        ,
