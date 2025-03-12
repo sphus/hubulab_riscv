@@ -66,10 +66,6 @@ module riscv(
     // ctrl to if_id,id_ex
     wire         hold_flag_ctrl;
 
-
-
-
-
     pc pc_inst(
            .clk         (clk            ),
            .rstn        (rstn           ),
@@ -77,20 +73,6 @@ module riscv(
            .jump_addr   (jump_addr_ctrl ),
            .pc          (inst_addr_rom  )
        );
-
-
-    // ifetch ifetch_inst(
-    //            .pc_addr_i   (pc_if          ),
-    //            .rom_inst_i  (inst_rom       ),
-    //            .inst_addr_o (inst_addr_if   ),
-    //            .rom_addr_o  (inst_addr_rom  ),
-    //            .inst_o      (inst_if        )
-    //        );
-
-    // rom rom_inst(
-    //         .addr_i(inst_addr_rom   ),
-    //         .inst_o(inst_rom        )
-    //     );
 
     if_id if_id_inst (
               .clk          (clk            ),
@@ -181,24 +163,24 @@ module riscv(
             .AW      	(32    ),
             .MEM_NUM 	(2**20))
         ram_inst(
-            .clk    	(clk     ),
-            .rstn   	(rstn    ),
+            .clk    	(clk         ),
+            .rstn   	(rstn        ),
             .wen    	(ram_wen     ),
-            .w_addr 	(ram_w_addr-32'h1000  ),
+            .w_addr 	(ram_w_addr  ),
             .w_data 	(ram_w_data  ),
             .ren    	(ram_ren     ),
-            .r_addr 	(ram_r_addr-32'h1000  ),
+            .r_addr 	(ram_r_addr  ),
             .r_data 	(ram_r_data  )
         );
 
 
     ctrl ctrl_inst(
-             .jump_addr_i 	(jump_addr_ex  ),
-             .jump_en_i   	(jump_en_ex    ),
-             .hold_flag_i 	(hold_flag_ex  ),
-             .jump_addr_o 	(jump_addr_ctrl  ),
-             .jump_en_o   	(jump_en_ctrl    ),
-             .hold_flag_o 	(hold_flag_ctrl  )
+             .jump_addr_i 	(jump_addr_ex   ),
+             .jump_en_i   	(jump_en_ex     ),
+             .hold_flag_i 	(hold_flag_ex   ),
+             .jump_addr_o 	(jump_addr_ctrl ),
+             .jump_en_o   	(jump_en_ctrl   ),
+             .hold_flag_o 	(hold_flag_ctrl )
          );
 
 
