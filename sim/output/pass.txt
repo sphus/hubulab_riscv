@@ -26,5 +26,6 @@ srai      PASS
 srl       PASS
 srli      PASS
 sub       PASS
+sw        PASS
 xor       PASS
 xori      PASS

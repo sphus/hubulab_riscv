@@ -15,7 +15,7 @@ module riscv_soc (
     rom #(
             .DW      	(DW    ),
             .AW      	(AW    ),
-            .MEM_NUM 	(4096  ))
+            .MEM_NUM 	(2**12  ))
         rom_inst(
             .clk    	(clk            ),
             .rstn   	(rstn           ),

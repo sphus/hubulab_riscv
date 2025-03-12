@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-from compile_and_sim import list_binfiles
+from compile_and_sim import list_txtfiles
 
 fail_file = "../output/fail.txt"
 pass_file = "../output/pass.txt"
@@ -14,16 +14,17 @@ def main():
         os.remove(fail_file)
     if os.path.exists(pass_file):
         os.remove(pass_file)
-    # 获取路径下所有bin文件
-    all_bin_files = list_binfiles(rtl_dir + r'/sim/generated/')
+    # 获取路径下所有txt文件
+    all_txt_files = list_txtfiles(rtl_dir + r'/sim/generated/')
     # 遍历所有文件一个一个执行
-    for file_bin in all_bin_files:
-        cmd = r'python compile_and_sim.py' + ' ' + file_bin
+    # for file_txt in all_txt_files:
+    for file_txt in all_txt_files:
+        cmd = r'python compile_and_sim.py' + ' ' + file_txt
         f = os.popen(cmd)
         r = f.read()
 
-        index = file_bin.index('-p-')
-        print_name = file_bin[index+3:-4]
+        index = file_txt.index('-p-')
+        print_name = file_txt[index+3:-4]
 
         # if (r.find('pass') == -1):
         #     # 检测fail testnum的值
@@ -39,12 +40,7 @@ def main():
         if (r.find('pass') != -1):
             with open(pass_file, "a") as file:
                 file.write(print_name.ljust(10, ' ') + 'PASS' + '\n')
-        elif(r.find('timeout') != -1):
-            message = print_name.ljust(10, ' ') + 'timeout'
-            print(message)
-            with open(fail_file, "a") as file:
-                file.write(message + '\n')
-        else:
+        elif(r.find('fail') != -1):
             # 检测fail testnum的值
             start_index = r.find('fail testnum = ') + len('fail testnum = ')
             end_index = r.find('\n', start_index)
@@ -54,6 +50,14 @@ def main():
             # 追加写入文件
             with open(fail_file, "a") as file:
                 file.write(message + '\n')
+        elif(r.find('timeout') != -1):
+            message = print_name.ljust(10, ' ') + 'timeout'
+            print(message)
+            with open(fail_file, "a") as file:
+                file.write(message + '\n')
+        else:
+            print(print_name.ljust(10, ' ') + 'test error!')
+            # print('test error!')
 
         # if (r.find('pass') != -1):
             # print('指令  ' + print_name.ljust(10, ' ') + '    PASS')

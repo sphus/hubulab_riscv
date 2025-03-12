@@ -2,7 +2,7 @@
 module rom #(
         parameter DW = 32,
         parameter AW = 32,
-        parameter MEM_NUM = 4096
+        parameter MEM_NUM = 2**12
     )
     (
         input   wire            clk   ,
@@ -21,7 +21,8 @@ module rom #(
                  .MEM_NUM 	(MEM_NUM))
              dual_ram_inst(
                  .clk    	(clk     ),
-                 .rstn   	(rstn    ),
+                 .rstn   	(1'b1    ),
+                 .rstn_data ({DW{1'b0}}),
                  .wen    	(wen     ),
                  .w_addr 	(w_addr[31:2]),// addr/4,because DW/8(byte) = 4
                  .w_data 	(w_data  ),

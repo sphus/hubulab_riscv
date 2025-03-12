@@ -79,6 +79,14 @@ module id (
             end
 
             `INST_TYPE_R_M: begin
+                // `INST_ADD_SUB
+                // `INST_SLL   
+                // `INST_SLT   
+                // `INST_SLTU  
+                // `INST_XOR   
+                // `INST_SR    
+                // `INST_OR    
+                // `INST_AND
                 mem_ren     =  1'd0;    
                 mem_raddr   = 32'd0;    
                 base_addr   = 32'd0;
@@ -89,58 +97,24 @@ module id (
                 op1_o       = rs1_data_i;
                 op2_o       = rs2_data_i;
                 reg_wen     = 1'b1;
-                // case (func3)
-                //     `INST_ADD_SUB,
-                //     `INST_SLL   ,
-                //     `INST_SLT   ,
-                //     `INST_SLTU  ,
-                //     `INST_XOR   ,
-                //     `INST_SR    ,
-                //     `INST_OR    ,
-                //     `INST_AND
-                //     : begin
-
-                //     end
-                //     default: begin
-                //         rs1_addr_o  = 5'd0;
-                //         rs2_addr_o  = 5'd0;
-                //         rd_addr_o   = 5'd0;
-                //         op1_o       = 32'd0;
-                //         op2_o       = 32'd0;
-                //         reg_wen     = 1'b0;
-                //     end
-                // endcase
             end
             `INST_TYPE_B: begin
-                // case (func3)
-                //     `INST_BNE   ,
-                //     `INST_BEQ   ,
-                //     `INST_BLT   ,
-                //     `INST_BGE   ,
-                //     `INST_BLTU  ,
-                //     `INST_BGEU  : begin
-                        mem_ren     =  1'd0;
-                        mem_raddr   = 32'd0;
-                        rs1_addr_o  = rs1;
-                        rs2_addr_o  = rs2;
-                        rd_addr_o   = 5'd0;
-                        op1_o       = rs1_data_i;
-                        op2_o       = rs2_data_i;
-                        reg_wen     = 1'b0;
-                        base_addr   = inst_addr_i;
-                        offset_addr = immB;
-                //     end
-                //     default: begin
-                //         rs1_addr_o  = 5'd0;
-                //         rs2_addr_o  = 5'd0;
-                //         rd_addr_o   = 5'd0;
-                //         op1_o       = 32'd0;
-                //         op2_o       = 32'd0;
-                //         reg_wen     = 1'b0;
-                //         base_addr   = 32'd0;
-                //         offset_addr = 32'd0;
-                //     end
-                // endcase
+                // `INST_BNE   
+                // `INST_BEQ   
+                // `INST_BLT   
+                // `INST_BGE   
+                // `INST_BLTU  
+                // `INST_BGEU 
+                mem_ren     =  1'd0;
+                mem_raddr   = 32'd0;
+                rs1_addr_o  = rs1;
+                rs2_addr_o  = rs2;
+                rd_addr_o   = 5'd0;
+                op1_o       = rs1_data_i;
+                op2_o       = rs2_data_i;
+                reg_wen     = 1'b0;
+                base_addr   = inst_addr_i;
+                offset_addr = immB;
             end
             `INST_TYPE_L: begin
                 //     `INST_LB 
@@ -148,16 +122,16 @@ module id (
                 //     `INST_LW 
                 //     `INST_LBU
                 //     `INST_LHU
-                offset_addr = 32'd0;
-                base_addr   = 32'd0;
-                mem_ren     =  1'd1;
+                offset_addr = immI;
+                base_addr   = rs1_data_i;
+                mem_ren     = 1'd1;
                 mem_raddr   = rs1_data_i + immI;
                 rs1_addr_o  = rs1;
-                rs2_addr_o  =  5'd0;
-                rd_addr_o   =  5'd0;
+                rs2_addr_o  = 5'd0;
+                rd_addr_o   = rd;
                 op1_o       = 32'd0;
                 op2_o       = 32'd0;
-                reg_wen     = 1'b0;
+                reg_wen     = 1'b1;
             end
             `INST_TYPE_S:
             begin
@@ -166,13 +140,13 @@ module id (
                 // `INST_SW
                 offset_addr = immS;
                 base_addr   = rs1_data_i;
-                mem_ren     =  1'd0;
+                mem_ren     = 1'd0;
                 mem_raddr   = 32'd0;
                 rs1_addr_o  = rs1;
-                rs2_addr_o  =  5'd0;
-                rd_addr_o   =  5'd0;
+                rs2_addr_o  = rs2;
+                rd_addr_o   = 5'd0;
                 op1_o       = 32'd0;
-                op2_o       = 32'd0;
+                op2_o       = rs2_data_i;
                 reg_wen     = 1'b0;
             end
             `INST_JAL: begin
@@ -184,6 +158,8 @@ module id (
                 op1_o 	    = inst_addr_i;
                 op2_o       = 32'd4;
                 reg_wen     = 1'b1;
+                mem_ren     = 1'd0;
+                mem_raddr   = 32'd0;
             end
             `INST_JALR: begin
                 base_addr   = rs1_data_i;
@@ -194,6 +170,8 @@ module id (
                 op1_o       = inst_addr_i;
                 op2_o 	    = 32'd4;
                 reg_wen     = 1'b1;
+                mem_ren     = 1'd0;
+                mem_raddr   = 32'd0;
             end
             `INST_LUI: begin
                 base_addr   = 32'd0;
@@ -204,6 +182,8 @@ module id (
                 op1_o       = immU  ;
                 op2_o       = 32'd0 ;
                 reg_wen     = 1'b1  ;
+                mem_ren     = 1'd0;
+                mem_raddr   = 32'd0;
             end
             `INST_AUIPC: begin
                 base_addr   = 32'd0;
@@ -214,6 +194,8 @@ module id (
                 op1_o       = inst_addr_i;
                 op2_o       = immU  ;
                 reg_wen     = 1'b1  ;
+                mem_ren     = 1'd0;
+                mem_raddr   = 32'd0;
             end
             default: begin
                 base_addr   = 32'd0;
@@ -224,6 +206,8 @@ module id (
                 op1_o       = 32'd0;
                 op2_o       = 32'd0;
                 reg_wen     = 1'b0;
+                mem_ren     = 1'd0;
+                mem_raddr   = 32'd0;
             end
         endcase
     end

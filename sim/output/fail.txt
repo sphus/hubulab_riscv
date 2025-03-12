@@ -1,12 +1,11 @@
-fence_i   timeout
+fence_i   fail testnum = 2
 lb        fail testnum = 2
-lbu       timeout
-lh        timeout
+lbu       fail testnum = 2
+lh        fail testnum = 2
 lhu       fail testnum = 2
 lw        fail testnum = 2
-sb        fail testnum = 2
-sh        timeout
-sw        fail testnum = 2
+sb        fail testnum = 4
+sh        fail testnum = 4
 div       fail testnum = 2
 divu      fail testnum = 2
 mul       fail testnum = 32

@@ -26,7 +26,11 @@ module riscv(
     wire [31:0] op1_id;
     wire [31:0] op2_id;
     wire        wen_id;
-    
+
+    // id to ram
+    wire 		ram_ren   ;
+    wire [31:0]	ram_r_addr;
+
     // id_ex to ex
     wire [31:0] inst_id_ex;
     wire [31:0] inst_addr_id_ex;
@@ -36,6 +40,14 @@ module riscv(
     wire [31:0] op1_id_ex;
     wire [31:0] op2_id_ex;
     wire        wen_id_ex;
+
+    // ram to ex
+    wire [32-1:0]   ram_r_data;
+
+    // ex to ram
+    wire [3:0]		ram_wen   ;
+    wire [32-1:0]	ram_w_addr;
+    wire [32-1:0]   ram_w_data;
 
     // ex to register
     wire [ 4:0] rd_addr_ex  ;
@@ -53,6 +65,9 @@ module riscv(
 
     // ctrl to if_id,id_ex
     wire         hold_flag_ctrl;
+
+
+
 
 
     pc pc_inst(
@@ -96,14 +111,14 @@ module riscv(
            .rs2_addr_o  (rs2_addr       ),
            .inst_o      (inst_id        ),
            .inst_addr_o (inst_addr_id   ),
-           .base_addr   (base_addr_id   ) ,
-           .offset_addr (offset_addr_id ) ,
-           .op1_o       (op1_id         ),   // operands 1
-           .op2_o       (op2_id         ),   // operands 2
-           .rd_addr_o   (rd_addr_id     ),   // rd address
-           .reg_wen     (wen_id         )    // reg write enable
-        //    output reg          mem_ren     ,   // memory read enable
-        //    output reg  [31:0]  mem_raddr       // memory address
+           .base_addr   (base_addr_id   ),
+           .offset_addr (offset_addr_id ),
+           .op1_o       (op1_id         ),  // operands 1
+           .op2_o       (op2_id         ),  // operands 2
+           .rd_addr_o   (rd_addr_id     ),  // rd address
+           .reg_wen     (wen_id         ),  // reg write enable
+           .mem_ren     (ram_ren        ),  // memory read enable
+           .mem_raddr   (ram_r_addr     )   // memory address
        );
 
     register register_inst(
@@ -154,8 +169,28 @@ module riscv(
            .reg_wen_o   (wen_ex         ),  // reg write enable
            .jump_addr_o (jump_addr_ex   ),
            .jump_en_o   (jump_en_ex     ),
-           .hold_flag_o (hold_flag_ex   )
+           .hold_flag_o (hold_flag_ex   ),
+           .mem_rd_data (ram_r_data     ),
+           .mem_wr_addr (ram_w_addr     ),
+           .mem_wr_data (ram_w_data     ),
+           .mem_wen     (ram_wen        )
        );
+
+    ram #(
+            .DW      	(32    ),
+            .AW      	(32    ),
+            .MEM_NUM 	(2**20))
+        ram_inst(
+            .clk    	(clk     ),
+            .rstn   	(rstn    ),
+            .wen    	(ram_wen     ),
+            .w_addr 	(ram_w_addr-32'h1000  ),
+            .w_data 	(ram_w_data  ),
+            .ren    	(ram_ren     ),
+            .r_addr 	(ram_r_addr-32'h1000  ),
+            .r_data 	(ram_r_data  )
+        );
+
 
     ctrl ctrl_inst(
              .jump_addr_i 	(jump_addr_ex  ),

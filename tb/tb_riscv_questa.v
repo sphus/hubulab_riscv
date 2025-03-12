@@ -23,13 +23,11 @@ module tb_riscv_questa();
 
     // initial rom
     initial begin
-        $readmemh("./generated/rv32ui-p-sra.txt",tb_riscv_questa.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
+        $readmemh("./generated/rv32ui-p-addi.txt",tb_riscv_questa.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
         // $readmemh("../generated/inst_data.txt",tb_riscv_questa.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
     end
 
 
-    wire [31:0] pc_pc     = tb_riscv_questa.riscv_soc_uut.riscv_inst.inst_addr_rom;
-    wire [31:0] pc_id     = tb_riscv_questa.riscv_soc_uut.riscv_inst.inst_addr_if_id;
     wire [31:0] pc_ex     = tb_riscv_questa.riscv_soc_uut.riscv_inst.inst_addr_id_ex;
     wire        jump_flag = tb_riscv_questa.riscv_soc_uut.riscv_inst.jump_en_ctrl;
     wire [31:0] jump_addr = tb_riscv_questa.riscv_soc_uut.riscv_inst.jump_addr_ctrl;
@@ -99,6 +97,15 @@ module tb_riscv_questa();
         end
         $stop;
         // $finish;
+    end
+
+    always @(x[3]) begin
+        $display("\n");
+        $display("%d", $time);
+        for(r = 0;r < 31; r = r + 4) begin
+            // $display("x%2d register value is %d",r,x[r]);
+            $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
+        end
     end
 
     always @(negedge clk) begin

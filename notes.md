@@ -3,7 +3,7 @@
   ```
   # 进入当前文件夹 
   D:
-  cd D:\work_file\FPGA\RISC_V\mine_rv\sim\pytest
+  cd D:\work_file\FPGA\RISC_V\my_riscv\sim\pytest
 
   # 单条指令测试:执行auipc指令测试
   python test_one_inst.py auipc

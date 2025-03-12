@@ -28,41 +28,41 @@ module tb_riscv();
     end
 
 
-    wire [31:0] pc_pc     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_rom;
-    wire [31:0] pc_id     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_if_id;
+    // wire [31:0] pc_pc     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_rom;
+    // wire [31:0] pc_id     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_if_id;
     wire [31:0] pc_ex     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_id_ex;
     wire        jump_flag = tb_riscv.riscv_soc_uut.riscv_inst.jump_en_ctrl;
     wire [31:0] jump_addr = tb_riscv.riscv_soc_uut.riscv_inst.jump_addr_ctrl;
 
-    wire [31:0] pc [2:0];
-    assign pc[0] = tb_riscv.riscv_soc_uut.inst_addr_rom;
-    assign pc[1] = (pc[0] > 0) ? (pc[0] - 4) : 0;
-    assign pc[2] = (pc[1] > 0) ? (pc[1] - 4) : 0;
+    // wire [31:0] pc [2:0];
+    // assign pc[0] = tb_riscv.riscv_soc_uut.inst_addr_rom;
+    // assign pc[1] = (pc[0] > 0) ? (pc[0] - 4) : 0;
+    // assign pc[2] = (pc[1] > 0) ? (pc[1] - 4) : 0;
 
 
-    reg         jump_flag_end ;
-    reg [31:0]  pc_reg      ;
-    reg [31:0]  pc_jump_before ;
-    reg [31:0]  pc_jump_last ;
+    // reg         jump_flag_end ;
+    // reg [31:0]  pc_reg      ;
+    // reg [31:0]  pc_jump_before ;
+    // reg [31:0]  pc_jump_last ;
 
 
-    always @(posedge clk) begin
-        if(!rstn) begin
-            pc_reg <= 32'd0;
-            jump_flag_end <= 0;
-            pc_jump_before <= 32'd0;
-            pc_jump_last <= 32'd0;
-        end
+    // always @(posedge clk) begin
+    //     if(!rstn) begin
+    //         pc_reg <= 32'd0;
+    //         jump_flag_end <= 0;
+    //         pc_jump_before <= 32'd0;
+    //         pc_jump_last <= 32'd0;
+    //     end
 
-        pc_reg <= pc[0];
-        if((pc_reg != pc[0] - 4) && (pc_reg != 0) && (pc[0] != 0)) begin
-            jump_flag_end <= 1;
-            pc_jump_before <= pc_reg;
-            pc_jump_last <= pc[0];
-        end
-        if (jump_flag_end)
-            jump_flag_end <= 0;
-    end
+    //     pc_reg <= pc[0];
+    //     if((pc_reg != pc[0] - 4) && (pc_reg != 0) && (pc[0] != 0)) begin
+    //         jump_flag_end <= 1;
+    //         pc_jump_before <= pc_reg;
+    //         pc_jump_last <= pc[0];
+    //     end
+    //     if (jump_flag_end)
+    //         jump_flag_end <= 0;
+    // end
 
 
     wire [31:0] x [31:0];
@@ -88,10 +88,10 @@ module tb_riscv();
             $display("############################");
         end
         else begin
-            for(r = 0;r < 31; r = r + 4) begin
-                // $display("x%2d register value is %d",r,x[r]);
-                $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
-            end
+            // for(r = 0;r < 31; r = r + 4) begin
+            //     // $display("x%2d register value is %d",r,x[r]);
+            //     $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
+            // end
             $display("############################");
             $display("########  fail  !!!#########");
             $display("############################");
@@ -101,7 +101,15 @@ module tb_riscv();
         $finish;
     end
 
-    always @(negedge clk) begin
+    always @(x[3]) begin
+        $display("\n");
+        for(r = 0;r < 31; r = r + 4) begin
+            // $display("x%2d register value is %d",r,x[r]);
+            $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
+        end
+    end
+
+    always @(posedge clk) begin
         // if(jump_flag_end) begin
         //     $display("before:   %x jump to %x at %d", pc_jump_before,pc_jump_last,$time);
         // end
@@ -109,12 +117,13 @@ module tb_riscv();
             // $display("last:     %x jump to %x at %d", pc_ex,jump_addr,$time);
             $display("%x jump to %x at %d", pc_ex,jump_addr,$time);
         end
-        if ($time >= 500000)
-        begin
+
+
+        if ($time >= 500000) begin
             $display("############################");
             $display("######  timeout  !!!########");
             $display("############################");
-            $finish;            
+            $finish;
         end
 
         // if (jump_flag_end | jump_flag) begin
