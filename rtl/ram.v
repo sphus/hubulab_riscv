@@ -22,7 +22,6 @@ module ram #(
              ram_byte0(
                  .clk    	(clk    ),
                  .rstn   	(rstn   ),
-                 .rstn_data ({DW/4{1'b0}}),
                  .wen    	(wen[0] ),
                  .w_addr 	({2'b0,w_addr[AW-1:2]} ),// addr/4,because DW/8(byte) = 4
                  .w_data 	(w_data[0*8+7:0*8]),
@@ -38,7 +37,6 @@ module ram #(
              ram_byte1(
                  .clk    	(clk    ),
                  .rstn   	(rstn   ),
-                 .rstn_data ({DW/4{1'b0}}),
                  .wen    	(wen[1] ),
                  .w_addr 	({2'b0,w_addr[AW-1:2]} ),// addr/4,because DW/8(byte) = 4
                  .w_data 	(w_data[1*8+7:1*8] ),
@@ -54,7 +52,6 @@ module ram #(
              ram_byte2(
                  .clk    	(clk    ),
                  .rstn   	(rstn   ),
-                 .rstn_data ({DW/4{1'b0}}),
                  .wen    	(wen[2] ),
                  .w_addr 	({2'b0,w_addr[AW-1:2]} ),// addr/4,because DW/8(byte) = 4
                  .w_data 	(w_data[2*8+7:2*8] ),
@@ -70,7 +67,6 @@ module ram #(
              ram_byte3(
                  .clk    	(clk    ),
                  .rstn   	(rstn   ),
-                 .rstn_data ({DW/4{1'b0}}),
                  .wen    	(wen[3] ),
                  .w_addr 	({2'b0,w_addr[AW-1:2]} ),// addr/4,because DW/8(byte) = 4
                  .w_data 	(w_data[3*8+7:3*8] ),

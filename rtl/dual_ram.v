@@ -8,7 +8,6 @@ module dual_ram #(
     (
         input   wire            clk   ,
         input   wire 			rstn  ,
-        input   wire [DW-1:0]	rstn_data,
         input   wire 			wen   ,
         input   wire [AW-1:0]	w_addr,
         input   wire [DW-1:0]   w_data,
@@ -60,7 +59,6 @@ module dual_ram #(
                       (
                           .clk		(clk		),
                           .rstn		(rstn		),
-                          .rstn_data(rstn_data	),
                           .wen		(wen		),
                           .w_addr	(w_addr	    ),
                           .w_data	(w_data	    ),
@@ -80,7 +78,6 @@ module dual_ram_template #(
     (
         input wire 			clk   ,
         input wire 			rstn  ,
-        input wire[DW-1:0]  rstn_data,		
         input wire 			wen   ,
         input wire[AW-1:0]	w_addr,
         input wire[DW-1:0]  w_data,
