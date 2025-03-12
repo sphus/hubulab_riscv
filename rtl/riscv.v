@@ -1,70 +1,70 @@
 
 module riscv(
-        input   wire        clk         ,
-        input   wire        rstn        ,
-        input   wire [31:0] inst_rom    ,
-        output  wire [31:0] inst_addr_rom
+        input   wire            clk         ,
+        input   wire            rstn        ,
+        input   wire [`RegBus]  inst_rom    ,
+        output  wire [`RegBus]  inst_addr_rom
     );
     // if_id to id
-    wire [31:0] inst_if_id;
-    wire [31:0] inst_addr_if_id;
+    wire [`RegBus]      inst_if_id;
+    wire [`RegBus]      inst_addr_if_id;
 
     // id to register
-    wire [ 4:0] rs1_addr;
-    wire [ 4:0] rs2_addr;
+    wire [`RegAddrBus]  rs1_addr;
+    wire [`RegAddrBus]  rs2_addr;
 
     // register to id
-    wire [31:0] rs1_data;
-    wire [31:0] rs2_data;
+    wire [`RegBus]      rs1_data;
+    wire [`RegBus]      rs2_data;
 
     // id to id_ex
-    wire [31:0] inst_id;
-    wire [31:0] inst_addr_id;
-    wire [ 4:0] rd_addr_id;
-    wire [31:0] base_addr_id    ;
-    wire [31:0] offset_addr_id  ;
-    wire [31:0] op1_id;
-    wire [31:0] op2_id;
-    wire        wen_id;
+    wire [`RegBus]      inst_id;
+    wire [`RegBus]      inst_addr_id;
+    wire [`RegAddrBus]  rd_addr_id;
+    wire [`RegBus]      base_addr_id;
+    wire [`RegBus]      offset_addr_id;
+    wire [`RegBus]      op1_id;
+    wire [`RegBus]      op2_id;
+    wire                wen_id;
 
     // id to ram
-    wire 		ram_ren   ;
-    wire [31:0]	ram_r_addr;
+    wire 		        ram_ren;
+    wire [`RegBus]	    ram_r_addr;
 
     // id_ex to ex
-    wire [31:0] inst_id_ex;
-    wire [31:0] inst_addr_id_ex;
-    wire [ 4:0] rd_addr_id_ex;
-    wire [31:0] base_addr_ex    ;
-    wire [31:0] offset_addr_ex  ;
-    wire [31:0] op1_id_ex;
-    wire [31:0] op2_id_ex;
-    wire        wen_id_ex;
+    wire [`RegBus]      inst_id_ex;
+    wire [`RegBus]      inst_addr_id_ex;
+    wire [`RegAddrBus]  rd_addr_id_ex;
+    wire [`RegBus]      base_addr_ex;
+    wire [`RegBus]      offset_addr_ex;
+    wire [`RegBus]      op1_id_ex;
+    wire [`RegBus]      op2_id_ex;
+    wire                wen_id_ex;
 
     // ram to ex
-    wire [32-1:0]   ram_r_data;
+    wire [`RegBus]      ram_r_data;
 
     // ex to ram
-    wire [3:0]		ram_wen   ;
-    wire [32-1:0]	ram_w_addr;
-    wire [32-1:0]   ram_w_data;
+    wire [3:0]		    ram_wen;
+    wire [`RegBus]	    ram_w_addr;
+    wire [`RegBus]      ram_w_data;
 
     // ex to register
-    wire [ 4:0] rd_addr_ex  ;
-    wire [31:0] rd_data_ex  ;
-    wire        wen_ex     ;
+    wire [`RegAddrBus]  rd_addr_ex;
+    wire [`RegBus]      rd_data_ex;
+    wire                en_ex;
 
     // ex to ctrl
-    wire  [31:0]  jump_addr_ex ;
-    wire          jump_en_ex   ;
-    wire          hold_flag_ex ;
+    wire  [`RegBus]     jump_addr_ex;
+    wire                jump_en_ex;
+    wire                hold_flag_ex;
 
     // ctrl to pc
-    wire         jump_en_ctrl     ;
-    wire [31:0]  jump_addr_ctrl   ;
+    wire                jump_en_ctrl;
+    wire [`RegBus]      jump_addr_ctrl;
 
     // ctrl to if_id,id_ex
-    wire         hold_flag_ctrl;
+    wire                hold_flag_ctrl;
 
     pc pc_inst(
            .clk         (clk            ),

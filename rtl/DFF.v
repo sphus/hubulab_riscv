@@ -1,4 +1,5 @@
 
+`include "defines.v" 
 module DFF #(
         parameter WIDTH = 16
     ) (
@@ -12,7 +13,7 @@ module DFF #(
     reg [WIDTH-1:0] q_next;
 
     always @(*) begin
-        if (rstn == 1'b0 || hold_flag == 1'b1)
+        if (rstn == `RstnEnable || hold_flag == `Enable)
             q_next = set_data;
         else
             q_next = d;

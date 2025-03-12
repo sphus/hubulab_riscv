@@ -1,4 +1,15 @@
 
+`define ZeroWord 32'h0
+`define ZeroReg 5'h0
+
+`define RstnEnable 1'b0
+`define RstnDisable 1'b1
+`define Enable 1'b1
+`define Disable 1'b0
+
+`define RegAddrBus 4:0
+`define RegBus 31:0
+
 // I type inst
 `define INST_TYPE_I 7'b0010011
 `define INST_ADDI   3'b000
