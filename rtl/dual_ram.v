@@ -1,4 +1,3 @@
-
 //读写冲突 等于新值的 双端口ram
 module dual_ram #(
         parameter DW = 32,

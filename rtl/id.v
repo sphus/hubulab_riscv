@@ -1,4 +1,3 @@
-
 `include "defines.v"
 
 module id (
@@ -9,6 +8,9 @@ module id (
         // from reg
         input  wire [`RegBus]       rs1_data_i  ,
         input  wire [`RegBus]       rs2_data_i  ,
+
+        // from csr_reg
+        input  wire [`RegBus]       csr_data_i  ,
 
         // to reg
         output reg  [`RegAddrBus]   rs1_addr_o  ,
@@ -23,11 +25,15 @@ module id (
         output reg  [`RegBus]       op2_o       ,   // operands 2
         output reg  [`RegAddrBus]   rd_addr_o   ,   // rd address
         output reg                  reg_wen     ,   // reg write enable
+        output reg  [`RegBus]       csr_waddr_o ,   // csr address
+        output reg                  csr_wen     ,   // csr write enable
 
         // to mem read
         output reg                  mem_ren     ,   // memory read enable
-        output reg  [`RegBus]       mem_raddr       // memory address
+        output reg  [`RegBus]       mem_raddr   ,   // memory address
 
+        // to csr_reg
+        output reg  [`RegBus]       csr_raddr_o     // csr address
     );
 
     // 分线
@@ -58,6 +64,10 @@ module id (
         reg_wen     = `Disable;
         mem_ren     = `Disable;
         mem_raddr   = `ZeroWord;
+        csr_raddr_o = `ZeroWord;
+        csr_waddr_o = `ZeroWord;
+        csr_wen     = `Disable;
+
         case (opcode)
             `INST_TYPE_I: begin
                 rs1_addr_o  = rs1;
@@ -79,7 +89,6 @@ module id (
                     end
                 endcase
             end
-
             `INST_TYPE_R_M: begin
                 case (func3)
                     `INST_ADD_SUB,
@@ -145,6 +154,34 @@ module id (
                         op2_o       = rs2_data_i;
                     end
                 endcase
+            end
+            `INST_CSR: begin    
+                csr_raddr_o = {20'b0,inst_i[31:20]};
+                csr_waddr_o = {20'b0,inst_i[31:20]};
+                rd_addr_o   = rd;
+                if(rd == `ZeroReg) begin
+                    csr_wen = `Disable;
+                    reg_wen = `Disable;
+                end
+                else begin
+                    csr_wen = `Enable;
+                    reg_wen = `Enable;
+                    case (func3)
+                        `INST_CSRRW,
+                        `INST_CSRRS,
+                        `INST_CSRRC: begin
+                            rs1_addr_o  = rs1;
+                            op1_o = rs1_data_i;
+                            op2_o = csr_data_i;                    
+                        end
+                        `INST_CSRRWI,
+                        `INST_CSRRSI,
+                        `INST_CSRRCI: begin
+                            op1_o = {27'b0,inst_i[19:15]};
+                            op2_o = csr_data_i;
+                        end
+                    endcase                  
+                end
             end
             `INST_JAL: begin
                 base_addr   = inst_addr_i;

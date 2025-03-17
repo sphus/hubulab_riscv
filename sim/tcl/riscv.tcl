@@ -9,8 +9,8 @@ vlib work
 
 # 编译文件
 
-vlog "../rtl/*.v"
-vlog "../tb/*.v"
+vlog "../../rtl/*.v"
+vlog "../../tb/*.v"
 
 # 进行设计优化,但又保证所有信号可见,速度较快
 vsim -vopt work.tb_riscv_questa -voptargs=+acc
@@ -58,6 +58,8 @@ vsim -vopt work.tb_riscv_questa -voptargs=+acc
 # add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/inst_rom    
 # add wave -radix unsigned tb_riscv_questa/riscv_soc_uut/riscv_inst/inst_addr_rom
 
+add wave -divider {CSR_REG} 
+add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/csr_reg_inst/*
 add wave -divider {REGISTER} 
 add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/register_inst/reg_mem
 add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ex_inst/inst_i
@@ -68,18 +70,18 @@ add wave -divider {ID_EX}
 add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/id_ex_inst/*
 add wave -divider {EX} 
 add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ex_inst/*
-add wave -divider {RAM} 
-add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/*
-add wave -divider {RAM_BYTE0} 
-add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte0/*
-add wave -divider {RAM_BYTE0_TEMPLATE} 
-add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte0/dual_ram_template_inst/*
-add wave -divider {RAM_BYTE1} 
-add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte1/dual_ram_template_inst/*
-add wave -divider {RAM_BYTE2} 
-add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte2/dual_ram_template_inst/*
-add wave -divider {RAM_BYTE3} 
-add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte3/*
+# add wave -divider {RAM} 
+# add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/*
+# add wave -divider {RAM_BYTE0} 
+# add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte0/*
+# add wave -divider {RAM_BYTE0_TEMPLATE} 
+# add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte0/dual_ram_template_inst/*
+# add wave -divider {RAM_BYTE1} 
+# add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte1/dual_ram_template_inst/*
+# add wave -divider {RAM_BYTE2} 
+# add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte2/dual_ram_template_inst/*
+# add wave -divider {RAM_BYTE3} 
+# add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ram_inst/ram_byte3/*
 # add wave tb_riscv_questa/riscv_soc_uut/riscv_inst/ex_inst/func7 
 # add wave -radix unsigned tb_riscv_questa/riscv_soc_uut/riscv_inst/ex_inst/rs2   
 # add wave -radix unsigned tb_riscv_questa/riscv_soc_uut/riscv_inst/ex_inst/rs1   

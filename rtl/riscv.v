@@ -1,5 +1,5 @@
-
 `include "defines.v" 
+
 module riscv(
         input   wire            clk         ,
         input   wire            rstn        ,
@@ -14,9 +14,15 @@ module riscv(
     wire [`RegAddrBus]  rs1_addr;
     wire [`RegAddrBus]  rs2_addr;
 
+    // id to csr_register
+    wire [`RegBus]      csr_addr;
+
     // register to id
     wire [`RegBus]      rs1_data;
     wire [`RegBus]      rs2_data;
+
+    // csr_register to id
+    wire [`RegBus]      csr_data;
 
     // id to id_ex
     wire [`RegBus]      inst_id;
@@ -27,6 +33,8 @@ module riscv(
     wire [`RegBus]      op1_id;
     wire [`RegBus]      op2_id;
     wire                wen_id;
+    wire [`RegBus]      csr_addr_id;
+    wire                csr_wen_id;    
 
     // id to ram
     wire 		        ram_ren;
@@ -41,6 +49,8 @@ module riscv(
     wire [`RegBus]      op1_id_ex;
     wire [`RegBus]      op2_id_ex;
     wire                wen_id_ex;
+    wire [`RegBus]      csr_addr_id_ex;
+    wire                csr_wen_id_ex; 
 
     // ram to ex
     wire [`RegBus]      ram_r_data;
@@ -54,6 +64,11 @@ module riscv(
     wire [`RegAddrBus]  rd_addr_ex;
     wire [`RegBus]      rd_data_ex;
     wire                en_ex;
+
+    // ex to csr_register
+    wire [`RegBus]      csr_addr_ex;c
+    wire [`RegBus]      csr_data_ex;
+    wire                csr_wen_ex;
 
     // ex to ctrl
     wire  [`RegBus]     jump_addr_ex;
@@ -101,7 +116,11 @@ module riscv(
            .rd_addr_o   (rd_addr_id     ),  // rd address
            .reg_wen     (wen_id         ),  // reg write enable
            .mem_ren     (ram_ren        ),  // memory read enable
-           .mem_raddr   (ram_r_addr     )   // memory address
+           .mem_raddr   (ram_r_addr     ),  // memory address
+           .csr_waddr_o (csr_addr_id    ),
+           .csr_wen     (csr_wen_id     ),
+           .csr_data_i  (csr_data       ),
+           .csr_raddr_o (csr_addr       )
        );
 
     register register_inst(
@@ -115,6 +134,17 @@ module riscv(
                  .rs1_rdata   (rs1_data     ),
                  .rs2_rdata   (rs2_data     )
              );
+
+    csr_reg csr_reg_inst(
+                 .clk           (clk          ),
+                 .rstn          (rstn         ),
+                 .csr_waddr_i   (csr_addr_ex  ),
+                 .csr_wdata_i   (csr_data_ex  ),
+                 .csr_wen_i     (csr_wen_ex  ),
+                 .csr_raddr_i   (csr_addr     ),
+                 .csr_rdata_o   (csr_data     )
+             );
+
     id_ex id_ex_inst(
               .clk          (clk            ),
               .rstn         (rstn           ),
@@ -129,14 +159,17 @@ module riscv(
               .reg_wen_i    (wen_id         ),   // reg write enable
               .inst_o       (inst_id_ex     ),
               .inst_addr_o  (inst_addr_id_ex),
-              .base_addr_o  (base_addr_ex   ) ,
+              .base_addr_o  (base_addr_ex   ),
               .offset_addr_o(offset_addr_ex ),
               .op1_o        (op1_id_ex      ),   // operands 1
               .op2_o        (op2_id_ex      ),   // operands 2
               .rd_addr_o    (rd_addr_id_ex  ),   // rd address
-              .reg_wen_o    (wen_id_ex      )    // reg write enable
-          );
-
+              .reg_wen_o    (wen_id_ex      ),    // reg write enable
+              .csr_waddr_i  (csr_addr_id    ),
+              .csr_waddr_o  (csr_addr_id_ex ),
+              .csr_wen_i    (csr_wen_id     ),
+              .csr_wen_o    (csr_wen_id_ex  )          
+              );
 
     ex ex_inst(
            .inst_i      (inst_id_ex     ),
@@ -156,7 +189,12 @@ module riscv(
            .mem_rd_data (ram_r_data     ),
            .mem_wr_addr (ram_w_addr     ),
            .mem_wr_data (ram_w_data     ),
-           .mem_wen     (ram_wen        )
+           .mem_wen     (ram_wen ),
+           .csr_addr_i  (csr_addr_id_ex ),
+           .csr_wen_i   (csr_wen_id_ex  ),
+           .csr_addr_o  (csr_addr_ex    ),
+           .csr_wr_data (csr_data_ex    ),
+           .csr_wen_o   (csr_wen_ex     )
        );
 
     ram #(

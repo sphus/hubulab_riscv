@@ -11,11 +11,18 @@ module ex (
         input  wire [`RegBus]       offset_addr ,
         input  wire [`RegAddrBus]   rd_addr_i   ,
         input  wire                 reg_wen_i   ,   // reg write enable
+        input  wire [`RegBus]       csr_addr_i  ,   // csr address
+        input  wire                 csr_wen_i   ,   // csr write enable
 
         // to reg
         output wire [`RegAddrBus]   rd_addr_o   ,
         output reg  [`RegBus]       rd_data_o   ,
         output wire                 reg_wen_o   ,   // reg write enable
+
+        // to csr                        
+        output wire [`RegBus]       csr_addr_o  ,
+        output reg  [`RegBus]       csr_wr_data ,
+        output wire                 csr_wen_o   ,   
 
         // to ctrl
         output wire [`RegBus]       jump_addr_o ,
@@ -24,11 +31,12 @@ module ex (
 
         // from mem
         input  wire [`RegBus]       mem_rd_data ,
+
         // to mem
         output reg  [`RegBus]       mem_wr_addr ,
         output reg  [`RegBus]       mem_wr_data ,
-        output reg  [ 3:0]          mem_wen
-
+        output reg  [ 3:0]          mem_wen     
+                        
     );
 
     // 分线
@@ -40,12 +48,16 @@ module ex (
     wire [6:0] opcode  = inst_i[ 6: 0];
 
     // 信号输出
-    assign rd_addr_o = rd_addr_i;
-    assign reg_wen_o = reg_wen_i;
+    assign rd_addr_o  = rd_addr_i;
+    assign reg_wen_o  = reg_wen_i;
+    assign csr_addr_o = csr_addr_i;
+    assign csr_wen_o  = csr_wen_i;
 
     // 辅助运算信号
     wire    [4:0]   shamt   = op2[4:0];
+    // 减法标志
     wire            sub     = (opcode == `INST_TYPE_R_M) ? func7[5] : `Disable;
+    // 算术右移标志
     wire            sign    = func7[5];
     wire signed [`RegBus]   op1_s   = op1;
     wire signed [`RegBus]   op2_s   = op2;
@@ -63,9 +75,7 @@ module ex (
     wire [`RegBus] or_val      = op1 | op2;
     wire [`RegBus] and_val     = op1 & op2;
     wire [`RegBus] sll_val     = op1 << shamt;
-    wire [`RegBus] sr_val      = sign ?
-         (op1_s >>> shamt):
-         (op1_s >> shamt);
+    wire [`RegBus] sr_val      = sign ? (op1_s >>> shamt) : (op1_s >> shamt);
 
     wire [ 1:0] store_index =  jump_addr_o[1:0];
     wire [ 1:0] load_index  =  jump_addr_o[1:0];
@@ -74,11 +84,12 @@ module ex (
         mem_wr_addr = `ZeroWord;
         mem_wr_data = `ZeroWord;
         mem_wen     = 4'b0000;
+        csr_wr_data = `ZeroWord;
         rd_data_o   = `ZeroWord;
         jump_en_o   = `Disable;
         hold_flag_o = `Disable;
         case (opcode)
-            `INST_TYPE_I: begin
+            `INST_TYPE_I: begin     //
                 case (func3)
                     `INST_ADDI  :rd_data_o = add_sub_val;
                     `INST_SLTI  :rd_data_o = {31'd0,less_signed};
@@ -206,6 +217,29 @@ module ex (
                         mem_wen = 4'b0000;
                         mem_wr_data = `ZeroWord;
                     end
+                endcase
+            end
+            `INST_CSR: begin
+                case(func3)
+                    `INST_CSRRW,
+                    `INST_CSRRWI: begin
+                        rd_data_o = op2;
+                        csr_wr_data = op1;
+                    end
+                    `INST_CSRRS,
+                    `INST_CSRRSI: begin
+                        rd_data_o = op2;
+                        csr_wr_data = or_val;
+                    end
+                    `INST_CSRRC,
+                    `INST_CSRRCI: begin
+                        rd_data_o = op2;
+                        csr_wr_data = ~op1 & op2;
+                    end
+                    default: begin
+                        rd_data_o = `ZeroWord;
+                        csr_wr_data = `ZeroWord;
+                    end                
                 endcase
             end
             `INST_JAL,`INST_JALR: begin

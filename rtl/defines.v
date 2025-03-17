@@ -6,9 +6,11 @@
 `define RstnDisable 1'b1
 `define Enable 1'b1
 `define Disable 1'b0
+`define ZeroWord 32'h0
 
 `define RegAddrBus 4:0
 `define RegBus 31:0
+`define DoubleRegBus 63:0
 
 // I type inst
 `define INST_TYPE_I 7'b0010011
@@ -80,3 +82,21 @@
 `define INST_BLTU   3'b110
 `define INST_BGEU   3'b111
 
+// CSR inst
+`define INST_CSR    7'b1110011
+`define INST_CSRRW  3'b001
+`define INST_CSRRS  3'b010
+`define INST_CSRRC  3'b011
+`define INST_CSRRWI 3'b101
+`define INST_CSRRSI 3'b110
+`define INST_CSRRCI 3'b111
+
+// CSR reg addr
+`define CSR_CYCLE   12'hc00
+`define CSR_CYCLEH  12'hc80
+`define CSR_MTVEC   12'h305
+`define CSR_MCAUSE  12'h342
+`define CSR_MEPC    12'h341
+`define CSR_MIE     12'h304
+`define CSR_MSTATUS 12'h300
+`define CSR_MSCRATCH 12'h340
