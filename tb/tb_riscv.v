@@ -27,7 +27,6 @@ module tb_riscv();
         $readmemh("../generated/inst_data.txt",tb_riscv.riscv_soc_uut.rom_inst.dual_ram_inst.dual_ram_template_inst.memory);
     end
 
-
     // wire [31:0] pc_pc     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_rom;
     // wire [31:0] pc_id     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_if_id;
     wire [31:0] pc_ex     = tb_riscv.riscv_soc_uut.riscv_inst.inst_addr_id_ex;

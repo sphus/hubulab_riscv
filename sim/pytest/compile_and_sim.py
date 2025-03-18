@@ -103,6 +103,7 @@ def compile():
     iverilog_cmd.append(rtl_dir + r'/rtl/register.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/riscv.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/rom.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/csr_reg.v')
     # 通用utils
     # iverilog_cmd.append(rtl_dir + r'/utils/dual_ram.v')
 
