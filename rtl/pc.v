@@ -1,13 +1,12 @@
 
-
-`include "defines.v" 
+`include "./defines.v"
 module pc (
         input  wire             clk         ,
         input  wire             rstn        ,
         input  wire             jump_en     ,
         input  wire [`RegBus]   jump_addr   ,
 
-        output reg  [`RegBus]   pc
+        output reg  [`RegBus]           pc
     );
 
     reg [`RegBus] npc;

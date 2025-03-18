@@ -27,12 +27,11 @@ module riscv_soc (
             .r_data 	(inst_rom       )
         );
 
-
-
     riscv riscv_inst(
               .clk          (clk            ),
               .rstn         (rstn           ),
               .inst_rom     (inst_rom       ),
               .inst_addr_rom(inst_addr_rom  )
           );
+          
 endmodule

@@ -66,7 +66,7 @@ module riscv(
     wire                en_ex;
 
     // ex to csr_register
-    wire [`RegBus]      csr_addr_ex;c
+    wire [`RegBus]      csr_addr_ex;
     wire [`RegBus]      csr_data_ex;
     wire                csr_wen_ex;
 

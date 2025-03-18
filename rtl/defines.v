@@ -8,9 +8,16 @@
 `define Disable 1'b0
 `define ZeroWord 32'h0
 
+`define Hold_Flag_Bus 2:0
 `define RegAddrBus 4:0
 `define RegBus 31:0
 `define DoubleRegBus 63:0
+
+// pipeline paused
+`define Hold_None 3'b000
+`define Hold_Pc   3'b001
+`define Hold_If   3'b010
+`define Hold_Id   3'b011
 
 // I type inst
 `define INST_TYPE_I 7'b0010011
