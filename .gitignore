@@ -15,3 +15,8 @@ sim/pytest/out.vvp
 # python测试结果
 sim/output/fail.txt
 sim/output/pass.txt
+
+# 测试文件
+tools/
+# 测试工具链
+tests/
