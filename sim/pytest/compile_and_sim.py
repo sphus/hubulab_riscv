@@ -84,31 +84,33 @@ def compile():
     # 编译生成文件
     iverilog_cmd += ['-o', r'out.vvp']
     # 头文件(defines.v)路径
-    iverilog_cmd += ['-I', rtl_dir + r'/rtl']
+    iverilog_cmd += ['-I', rtl_dir + r'/rtl/core']
 
     # testbench文件
     iverilog_cmd.append(rtl_dir + r'/tb/tb_riscv.v')
 
     # 内核core
-    iverilog_cmd.append(rtl_dir + r'/rtl/ctrl.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/defines.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/DFF.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/dual_ram.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/ex.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/id_ex.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/id.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/if_id.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/pc.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/ram.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/register.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/riscv.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/rom.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/csr_reg.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/csr_reg.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/ctrl.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/defines.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/ex.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/id_ex.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/id.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/if_id.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/pc.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/register.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/riscv.v')
+
+    # 外设periph
+    iverilog_cmd.append(rtl_dir + r'/rtl/periph/ram.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/periph/rom.v')
+    
     # 通用utils
-    # iverilog_cmd.append(rtl_dir + r'/utils/dual_ram.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/utils/DFF.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/utils/dual_ram.v')
 
     # 顶层soc
-    iverilog_cmd.append(rtl_dir + r'/tb/riscv_soc.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/soc/riscv_soc.v')
 
     # 编译
     process = subprocess.Popen(iverilog_cmd)

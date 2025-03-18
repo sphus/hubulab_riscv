@@ -1,5 +1,5 @@
 
-`include "defines.v" 
+`include "../core/defines.v" 
 module rom #(
         parameter DW = 32,
         parameter AW = 32,

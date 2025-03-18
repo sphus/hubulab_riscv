@@ -1,5 +1,5 @@
+`include "../core/defines.v" 
 
-`include "defines.v" 
 module DFF #(
         parameter WIDTH = 16
     ) (
