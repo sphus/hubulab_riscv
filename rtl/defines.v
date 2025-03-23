@@ -1,5 +1,5 @@
 
-`define ZeroWord 32'h0
+`define pc_rstn 32'h0
 `define ZeroReg 5'h0
 
 `define RstnEnable 1'b0
@@ -7,17 +7,54 @@
 `define Enable 1'b1
 `define Disable 1'b0
 `define ZeroWord 32'h0
-
-`define Hold_Flag_Bus 2:0
-`define RegAddrBus 4:0
-`define RegBus 31:0
+// Bus
+`define Hold_Flag_num 3
+`define Hold_Flag_Bus (`Hold_Flag_num-1):0
+`define RegAddrnum 5
+`define RegAddrBus (`RegAddrnum-1):0
+`define Regnum 32
+`define RegBus (`Regnum - 1):0
 `define DoubleRegBus 63:0
 
-// pipeline paused
-`define Hold_None 3'b000
-`define Hold_Pc   3'b001
-`define Hold_If   3'b010
-`define Hold_Id   3'b011
+// forward
+`define Fwdnum 2
+`define FwdBus (`Fwdnum-1):0
+`define Fwd_WB   2'b01
+`define Fwd_MEM  2'b10
+`define Fwd_NONE 2'b00
+
+
+// ALU Switch
+`define ALU_ctrl_num  3
+`define ALU_ctrl_bus  (`ALU_ctrl_num - 1):0
+`define INST_ADD    3'b000
+`define INST_SLL    3'b001
+`define INST_SLT    3'b010
+`define INST_SLTU   3'b011
+`define INST_XOR    3'b100
+`define INST_SR     3'b101
+`define INST_OR     3'b110
+`define INST_AND    3'b111
+
+// Immdiate Switch
+`define sw_imm_num  3
+`define sw_imm_bus  (`sw_imm_num-1):0
+`define sw_immI     3'b000
+`define sw_immIu    3'b001
+`define sw_immU     3'b010
+`define sw_immS     3'b011
+`define sw_immB     3'b100
+`define sw_immBu    3'b101
+`define sw_immJ     3'b110
+
+
+`define mem_type_num 2
+`define mem_type_bus (`mem_type_num-1):0
+`define LS_B        2'b00
+`define LS_H        2'b01
+`define LS_W        2'b10
+`define LS_signed   1'b0
+`define LS_unsigned 1'b1
 
 // I type inst
 `define INST_TYPE_I 7'b0010011
@@ -88,6 +125,8 @@
 `define INST_BGE    3'b101
 `define INST_BLTU   3'b110
 `define INST_BGEU   3'b111
+
+// J type inst
 
 // CSR inst
 `define INST_CSR    7'b1110011

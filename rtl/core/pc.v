@@ -1,30 +1,29 @@
 
-`include "./defines.v"
+`include "../defines.v"
 module pc (
         input  wire             clk         ,
         input  wire             rstn        ,
-        input  wire             jump_en     ,
+        input  wire             nop         ,
+        input  wire             jump        ,
         input  wire [`RegBus]   jump_addr   ,
 
-        output reg  [`RegBus]           pc
+        output reg  [`RegBus]   pc
     );
 
     reg [`RegBus] npc;
 
     always @(*) 
     begin
-        case ({rstn, jump_en})
-            // 2'b00: npc = `ZeroWord; 
-            // 2'b01: npc = `ZeroWord; 
-            2'b11: npc = jump_addr; 
-            2'b10: npc = pc + 3'd4; 
-            default: npc = `ZeroWord; 
+        case ({rstn,jump,nop})
+            3'b101 : npc = pc;          // nop
+            3'b110 : npc = jump_addr;   // 跳转
+            3'b100 : npc = pc + 3'd4;   // 自增
+            default: npc = `pc_rstn; 
         endcase
     end
 
     always @(posedge clk) 
         pc <= npc;
-
 
 endmodule
 

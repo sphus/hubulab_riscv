@@ -1,7 +1,7 @@
-`include "../core/defines.v" 
+`include "../defines.v" 
 
 module DFF #(
-        parameter WIDTH = 16
+        parameter WIDTH = 1
     ) (
         input  wire             clk     ,
         input  wire             rstn    ,

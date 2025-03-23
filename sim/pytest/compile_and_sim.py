@@ -84,24 +84,37 @@ def compile():
     # 编译生成文件
     iverilog_cmd += ['-o', r'out.vvp']
     # 头文件(defines.v)路径
+    iverilog_cmd += ['-I', rtl_dir + r'/rtl']
     iverilog_cmd += ['-I', rtl_dir + r'/rtl/core']
+    iverilog_cmd += ['-I', rtl_dir + r'/rtl/periph']
+    iverilog_cmd += ['-I', rtl_dir + r'/rtl/soc']
+    iverilog_cmd += ['-I', rtl_dir + r'/rtl/utils']
 
     # testbench文件
     iverilog_cmd.append(rtl_dir + r'/tb/tb_riscv.v')
 
+
     # 内核core
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/ALU.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/control.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/csr_reg.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/ctrl.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/defines.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/ex_mem.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/ex.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/forward_unit.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/hazard_detection.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/id_ex.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/id.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/id_unit.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/if_id.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/imm_gen.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/mem_wb.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/pc.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/register.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/riscv.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/core/wb.v')
 
     # 外设periph
+    iverilog_cmd.append(rtl_dir + r'/rtl/periph/ram_interface.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/periph/ram.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/periph/rom.v')
     
