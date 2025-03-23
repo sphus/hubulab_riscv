@@ -11,7 +11,7 @@ module tb_riscv();
     `define READ_FILE "../generated/inst_data.txt"
 `else
 // `define READ_FILE "./generated/inst_data.txt"
-    `define READ_FILE "./generated/rv32ui-p-jal.txt"
+    `define READ_FILE "./generated/rv32ui-p-sh.txt"
 `endif
 
 
@@ -34,7 +34,7 @@ module tb_riscv();
         rstn = 1'b1;
     end
 
-    parameter DEPTH = 2**12;  // 总地址 1M
+    parameter DEPTH = 2**13;  // 总地址 1M
     parameter RAM_DEPTH = DEPTH / 4;  // 每块 RAM 的大小 2^18
 
     reg [31:0] temp_mem [0:RAM_DEPTH-1]; // 读取 32-bit 数据
@@ -123,7 +123,7 @@ module tb_riscv();
             $display("%x jump to %x at %d", inst_addr,jump_addr,$time);
         end
 
-        if ($time >= 500000)
+        if ($time >= 50000)
         begin
             for(r = 0;r < 31; r = r + 4)
                 $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);

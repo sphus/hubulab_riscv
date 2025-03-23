@@ -25,9 +25,10 @@ module ex (
         input  wire                 EX_jmp          ,    // Jump
         input  wire                 EX_jcc          ,    // Jump on Condition
         input  wire [`ALU_ctrl_bus] EX_alu_ctrl     ,    // ALU Control
-        input  wire                 EX_lui          ,    // LUI Instruction
         input  wire                 EX_jal          ,    // JAL  Instruction
         input  wire                 EX_jalr         ,    // JALR Instruction
+        input  wire                 EX_lui          ,    // LUI Instruction
+        input  wire                 EX_auipc        ,    // AUIPC Instruction
         input  wire                 EX_inst_R       ,    // INST TYPE R
 
         // input  wire [`mem_type_bus] EX_mem_type  ,    // load/store data type
@@ -74,16 +75,16 @@ module ex (
     end
 
     // jump_addr
-    wire [`RegBus]  basic_addr   = (EX_jmp | EX_jcc) ? EX_inst_addr : EX_FD_rs1_data;
+    wire [`RegBus]  basic_addr   = (EX_jal | EX_jcc) ? EX_inst_addr : EX_FD_rs1_data;
     wire [`RegBus]  offset_addr  = EX_imm;
     assign EX_jump_addr = basic_addr + offset_addr;
 
-    // ALU 
+    // ALU
     wire mem    = EX_rmem | EX_wmem;
 
     wire [`RegBus] op1 = EX_lui ?`ZeroWord :
-         EX_jmp ? EX_inst_addr : EX_FD_rs1_data;
-// PC = inst_addr + 4, rd = PC + 4 = inst_addr + 8
+         (EX_jmp|EX_auipc) ? EX_inst_addr : EX_FD_rs1_data;
+
     wire [`RegBus] op2 = EX_jmp ? 32'd4 :
          (EX_inst_R|EX_jcc) ? EX_FD_rs2_data : EX_imm;
 

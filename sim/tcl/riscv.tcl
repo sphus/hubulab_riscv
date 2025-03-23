@@ -19,6 +19,8 @@ vlog +incdir+"../rtl/" "../tb/tb_riscv.v"
 # 进行设计优化,但又保证所有信号可见,速度较快
 vsim -vopt work.tb_riscv -voptargs=+acc
 
+add wave -divider {PC} 
+add wave tb_riscv/riscv_soc_inst/riscv_inst/pc_inst/*
 add wave -divider {REGISTER} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/register_inst/reg_mem
 add wave -divider {IMM_GEN} 
@@ -33,23 +35,25 @@ add wave -divider {RISCV}
 add wave tb_riscv/riscv_soc_inst/riscv_inst/*
 
 
-# add wave -divider {RAM} 
-# add wave tb_riscv/riscv_soc_inst/ram_inst/*
-# add wave -divider {RAM_BYTE0} 
-# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/*
-# add wave -divider {RAM_BYTE0_TEMPLATE} 
-# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/dual_ram_template_inst/*
-# add wave -divider {RAM_BYTE1} 
-# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte1/dual_ram_template_inst/*
-# add wave -divider {RAM_BYTE2} 
-# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte2/dual_ram_template_inst/*
-# add wave -divider {RAM_BYTE3} 
-# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte3/*
+add wave -divider {RAM_INTERFACE} 
+add wave tb_riscv/riscv_soc_inst/ram_interface_inst/*
+add wave -divider {RAM} 
+add wave tb_riscv/riscv_soc_inst/ram_inst/*
+add wave -divider {RAM_BYTE0} 
+add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/*
+add wave -divider {RAM_BYTE0_TEMPLATE} 
+add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/dual_ram_template_inst/*
+add wave -divider {RAM_BYTE1} 
+add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte1/dual_ram_template_inst/*
+add wave -divider {RAM_BYTE2} 
+add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte2/dual_ram_template_inst/*
+add wave -divider {RAM_BYTE3} 
+add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte3/*
 
 configure wave -signalnamewidth 1
 
 ################################运行仿真#############################
-# run 2us
+# run 40ns
 run 20us
 # run -all
 # quit -sim

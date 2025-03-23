@@ -49,10 +49,9 @@ module ALU (
             `INST_BEQ : JC = eq;
             `INST_BNE : JC = ~eq;
             `INST_BLT : JC = less_signed;
-            `INST_BGE : JC = less_unsigned;
-            `INST_BLTU: JC = xor_val;
-            `INST_BGEU: JC = sr_val;
-            `INST_OR  : JC = or_val;
+            `INST_BGE : JC = ~less_signed;
+            `INST_BLTU: JC = less_unsigned;
+            `INST_BGEU: JC = ~less_unsigned;
             default:    JC = `Disable;
         endcase
     end

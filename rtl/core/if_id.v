@@ -17,7 +17,7 @@ module if_id (
     // jump或nop都会hold
     always @(posedge clk)
     begin
-        if(!rstn | hold)
+        if(!rstn | jump)
             rom_flag <= `Disable;
         else
             rom_flag <= `Enable;
@@ -25,6 +25,6 @@ module if_id (
 
     assign inst_o = rom_flag ? inst_i : `INST_NOP;
 
-    DFF #(32) addr_dff(clk,rstn,hold,`ZeroWord,addr_i,addr_o);
+    DFF #(32) addr_dff(clk,rstn,jump,`ZeroWord,nop ? addr_o : addr_i,addr_o);
 
 endmodule

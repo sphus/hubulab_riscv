@@ -17,9 +17,10 @@ module id_unit (
         output wire                 jmp         ,   // Jump
         output wire                 jcc         ,   // Jump on Condition
         output wire [`ALU_ctrl_bus] alu_ctrl    ,   // ALU Control
-        output wire                 lui         ,   // LUI Instruction
         output wire                 jal         ,   // JAL  Instruction
         output wire                 jalr        ,   // JALR Instruction
+        output wire                 lui         ,   // LUI Instruction
+        output wire                 auipc       ,   // AUIPC Instruction
         output wire                 inst_R      ,   // INST TYPE R
         output wire [`mem_type_bus] mem_type    ,   // load/store data type
         output wire                 mem_sign    ,   // load/store data sign
@@ -52,9 +53,10 @@ module id_unit (
                 .jmp        (jmp        ),
                 .jcc        (jcc        ),
                 .alu_ctrl   (alu_ctrl   ),
-                .lui        (lui        ),
                 .jal        (jal        ),
                 .jalr       (jalr       ),
+                .lui        (lui        ),
+                .auipc      (auipc      ),
                 .inst_R     (inst_R     ),
                 .mem_type   (mem_type   ),
                 .mem_sign   (mem_sign   ),

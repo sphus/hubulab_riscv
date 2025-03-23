@@ -60,31 +60,37 @@ module riscv_soc (
 
 
     ram_interface ram_interface_inst(
-                      .mem_rdata (mem_rdata ),
-                      .mem_wdata (mem_wdata ),
-                      .mem_addr  (mem_addr  ),
-                      .mem_type  (mem_type  ),
-                      .mem_sign  (mem_sign  ),
-                      .rmem      (rmem      ),
-                      .wmem      (wmem      ),
-                      .r_data    (r_data    ),
-                      .w_data    (w_data    ),
-                      .addr      (addr      ),
-                      .wen       (wen       ),
-                      .ren       (ren       )
+                      .clk      (clk        ),
+                      .rstn     (rstn       ),
+                      .mem_rdata(mem_rdata  ),
+                      .mem_wdata(mem_wdata  ),
+                      .mem_addr (mem_addr   ),
+                      .mem_type (mem_type   ),
+                      .mem_sign (mem_sign   ),
+                      .rmem     (rmem       ),
+                      .wmem     (wmem       ),
+                      .r_data   (r_data     ),
+                      .w_data   (w_data     ),
+                      .addr     (addr       ),
+                      .wen      (wen        ),
+                      .ren      (ren        )
                   );
 
 
-    ram ram_inst(
-            .clk    (clk    ),
-            .rstn   (rstn   ),
-            .wen    (wen    ),
-            .w_addr (addr   ),
-            .w_data (w_data ),
-            .ren    (ren    ),
-            .r_addr (addr   ),
-            .r_data (r_data )
-        );
+    ram  #(
+             .DW      	(DW    ),
+             .AW      	(AW    ),
+             .MEM_NUM 	(2**13  ))
+         ram_inst(
+             .clk    (clk    ),
+             .rstn   (rstn   ),
+             .wen    (wen    ),
+             .w_addr (addr   ),
+             .w_data (w_data ),
+             .ren    (ren    ),
+             .r_addr (addr   ),
+             .r_data (r_data )
+         );
 
 
 

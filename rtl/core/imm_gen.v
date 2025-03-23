@@ -10,11 +10,9 @@ module imm_gen (
     begin
         case (imm_ctrl)
             `sw_immI : imm = {{20{inst[31]}}, inst[31:20]};
-            `sw_immIu: imm = {20'b0, inst[31:20]};
             `sw_immU : imm = {inst[31:12], 12'b0};
             `sw_immS : imm = {{20{inst[31]}}, inst[31:25], inst[11:7]};
             `sw_immB : imm = {{20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0};
-            `sw_immBu: imm = {{20'b0}, inst[7], inst[30:25], inst[11:8], 1'b0};
             `sw_immJ : imm = {{12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0};
             default  : imm = `ZeroWord;
         endcase

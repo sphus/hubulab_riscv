@@ -25,9 +25,10 @@ module id_ex (
         input  wire                  ID_jmp      ,    // Jump
         input  wire                  ID_jcc      ,    // Jump on Condition
         input  wire [`ALU_ctrl_bus]  ID_alu_ctrl ,    // ALU Control
-        input  wire                  ID_lui      ,    // LUI Instruction
         input  wire                  ID_jal      ,    // JAL  Instruction
         input  wire                  ID_jalr     ,    // JALR Instruction
+        input  wire                  ID_lui      ,    // LUI Instruction
+        input  wire                  ID_auipc       ,    // AUIPC Instruction
         input  wire                  ID_inst_R   ,    // INST TYPE R
         input  wire [`mem_type_bus]  ID_mem_type ,    // load/store data type
         input  wire                  ID_mem_sign ,    // load/store data sign
@@ -49,9 +50,10 @@ module id_ex (
         output wire                  EX_jmp      ,    // Jump
         output wire                  EX_jcc      ,    // Jump on Condition
         output wire [`ALU_ctrl_bus]  EX_alu_ctrl ,    // ALU Control
-        output wire                  EX_lui      ,    // LUI Instruction
         output wire                  EX_jal      ,    // JAL  Instruction
         output wire                  EX_jalr     ,    // JALR Instruction
+        output wire                  EX_lui      ,    // LUI Instruction
+        output wire                  EX_auipc       ,    // AUIPC Instruction
         output wire                  EX_inst_R   ,    // INST TYPE R
         output wire [`mem_type_bus]  EX_mem_type ,    // load/store data type
         output wire                  EX_mem_sign ,    // load/store data sign
@@ -77,12 +79,13 @@ module id_ex (
     DFF #(1             ) wen_dff       (clk,rstn,hold,`Disable ,ID_wen         ,EX_wen         );
     DFF #(1             ) jmp_dff       (clk,rstn,hold,`Disable ,ID_jmp         ,EX_jmp         );
     DFF #(1             ) jcc_dff       (clk,rstn,hold,`Disable ,ID_jcc         ,EX_jcc         );
-    DFF #(`ALU_ctrl_num ) alu_ctrl_dff  (clk,rstn,hold,{`ALU_ctrl_num{`Disable}},ID_alu_ctrl,EX_alu_ctrl);
-    DFF #(1             ) lui_dff       (clk,rstn,hold,`Disable ,ID_lui         ,EX_lui         );
+    DFF #(`ALU_ctrl_num ) alu_ctrl_dff  (clk,rstn,hold,`INST_ADD,ID_alu_ctrl    ,EX_alu_ctrl    );
     DFF #(1             ) jal_dff       (clk,rstn,hold,`Disable ,ID_jal         ,EX_jal         );
     DFF #(1             ) jalr_dff      (clk,rstn,hold,`Disable ,ID_jalr        ,EX_jalr        );
+    DFF #(1             ) lui_dff       (clk,rstn,hold,`Disable ,ID_lui         ,EX_lui         );
+    DFF #(1             ) auipc_dff     (clk,rstn,hold,`Disable ,ID_auipc       ,EX_auipc       );
     DFF #(1             ) inst_R_dff    (clk,rstn,hold,`Disable ,ID_inst_R      ,EX_inst_R      );
-    DFF #(`mem_type_num ) mem_type_dff  (clk,rstn,hold,{`mem_type_num{`Disable}},ID_mem_type,EX_mem_type);
+    DFF #(`mem_type_num ) mem_type_dff  (clk,rstn,hold,`LS_B    ,ID_mem_type,EX_mem_type);
     DFF #(1             ) mem_sign_dff  (clk,rstn,hold,`Disable ,ID_mem_sign    ,EX_mem_sign    );
     DFF #(1             ) sign_dff      (clk,rstn,hold,`Disable ,ID_sign        ,EX_sign        );
     DFF #(1             ) sub_dff       (clk,rstn,hold,`Disable ,ID_sub         ,EX_sub         );

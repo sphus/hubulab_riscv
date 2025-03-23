@@ -1,6 +1,9 @@
 `include "../defines.v"
 
 module ram_interface (
+        input  wire                 clk         ,
+        input  wire                 rstn        ,
+
         output reg  [`RegBus]       mem_rdata   ,
         input  wire [`RegBus]       mem_wdata   ,
         input  wire [`RegBus]       mem_addr    ,
@@ -19,12 +22,28 @@ module ram_interface (
     assign addr =  mem_addr;
     assign ren  = rmem;
 
+    reg [`mem_type_bus] type_reg;
+    reg [`RegBus] addr_reg;
+    reg sign_reg;
+
+
+    
+    always @(posedge clk) begin
+        type_reg <= rstn ? mem_type : `LS_B;
+    end
+
+    always @(posedge clk) begin
+        addr_reg <= rstn ? mem_addr : `ZeroWord;
+    end
+
+    always @(posedge clk) begin
+        sign_reg <= rstn ? mem_sign : `Disable;
+    end
 
     always @(*)
     begin
         if (wmem)
         begin
-
             case (mem_type)
                 `LS_B:
                 case (mem_addr[1:0])
@@ -60,29 +79,29 @@ module ram_interface (
 
     always @( *)
     begin
-        case (mem_type)
+        case (type_reg)
             `LS_B    :
             begin
-                case (mem_addr[1:0])
+                case (addr_reg[1:0])
                     2'd0:
-                        mem_rdata = {{24{r_data[ 7]& ~mem_sign}},r_data[ 7: 0]};
+                        mem_rdata = {{24{r_data[ 7]& ~sign_reg}},r_data[ 7: 0]};
                     2'd1:
-                        mem_rdata = {{24{r_data[15]& ~mem_sign}},r_data[15: 8]};
+                        mem_rdata = {{24{r_data[15]& ~sign_reg}},r_data[15: 8]};
                     2'd2:
-                        mem_rdata = {{24{r_data[23]& ~mem_sign}},r_data[23:16]};
+                        mem_rdata = {{24{r_data[23]& ~sign_reg}},r_data[23:16]};
                     2'd3:
-                        mem_rdata = {{24{r_data[31]& ~mem_sign}},r_data[31:24]};
+                        mem_rdata = {{24{r_data[31]& ~sign_reg}},r_data[31:24]};
                     default:
                         mem_rdata = `ZeroWord;
                 endcase
             end
             `LS_H    :
             begin
-                case (mem_addr[1])
+                case (addr_reg[1])
                     1'b0:
-                        mem_rdata = {{16{r_data[15]& ~mem_sign}},r_data[15: 0]};
+                        mem_rdata = {{16{r_data[15]& ~sign_reg}},r_data[15: 0]};
                     1'b1:
-                        mem_rdata = {{16{r_data[31]& ~mem_sign}},r_data[31:16]};
+                        mem_rdata = {{16{r_data[31]& ~sign_reg}},r_data[31:16]};
                     default:
                         mem_rdata = `ZeroWord;
                 endcase
