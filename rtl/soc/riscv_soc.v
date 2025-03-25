@@ -1,7 +1,8 @@
 `include "../defines.v"
 module riscv_soc (
         input  wire clk ,
-        input  wire rstn
+        input  wire rstn,
+        output wire start
     );
 
     parameter DW = 32;
@@ -10,21 +11,22 @@ module riscv_soc (
     wire [31:0] inst_addr_rom   ;
     wire [31:0] inst_rom        ;
 
+    assign start = (inst_addr_rom != `ZeroWord);
     wire [`RegBus]          mem_rdata   ;
     wire [`RegBus]          mem_wdata   ;
     wire [`RegBus]          mem_addr    ;
-    wire [`mem_type_bus]    mem_type   ;
-    wire                    mem_sign   ;
-    wire                    rmem       ;
-    wire                    wmem       ;
+    wire [`mem_type_bus]    mem_type    ;
+    wire                    mem_sign    ;
+    wire                    rmem        ;
+    wire                    wmem        ;
     wire [`RegBus]          addr        ;
 
-    wire [3:0]		        wen     ;
-    wire [AW-1:0]	        w_addr  ;
-    wire [DW-1:0]           w_data  ;
-    wire 			        ren     ;
-    wire [AW-1:0]	        r_addr  ;
-    wire [DW-1:0]           r_data  ;
+    wire [3:0]		        wen         ;
+    wire [AW-1:0]	        w_addr      ;
+    wire [DW-1:0]           w_data      ;
+    wire 			        ren         ;
+    wire [AW-1:0]	        r_addr      ;
+    wire [DW-1:0]           r_data      ;
 
 
 

@@ -115,10 +115,9 @@ module riscv(
            .nop       (nop          ),
            .jump      (jump         ),
            .jump_addr (MEM_jump_addr),
-           .pc        (pc           )
+           .pc        (inst_addr_rom)
        );
 
-       assign inst_addr_rom = nop ? pc - 32'd4 : pc;
 
     if_id if_id_inst(
               .clk    (clk             ),

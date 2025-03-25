@@ -3,7 +3,7 @@
 module tb_riscv();
 
 
-    `define PYTHON
+    // `define PYTHON
 
 `define CLK_PERIOD 20
 

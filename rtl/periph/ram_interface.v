@@ -23,7 +23,7 @@ module ram_interface (
     assign ren  = rmem;
 
     reg [`mem_type_bus] type_reg;
-    reg [`RegBus] addr_reg;
+    reg [1:0] addr_reg;
     reg sign_reg;
 
 
@@ -33,7 +33,7 @@ module ram_interface (
     end
 
     always @(posedge clk) begin
-        addr_reg <= rstn ? mem_addr : `ZeroWord;
+        addr_reg <= rstn ? mem_addr[1:0] : `ZeroWord;
     end
 
     always @(posedge clk) begin

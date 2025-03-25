@@ -11,6 +11,7 @@ wlft*
 # python测试中间文件
 sim/pytest/__pycache__
 sim/pytest/out.vvp
+sim/generated/inst_data.txt
 
 # python测试结果
 sim/output/fail.txt
@@ -20,3 +21,6 @@ sim/output/pass.txt
 tools/
 # 测试工具链
 tests/
+
+# vivado工程
+prj

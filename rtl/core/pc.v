@@ -7,23 +7,33 @@ module pc (
         input  wire             jump        ,
         input  wire [`RegBus]   jump_addr   ,
 
-        output reg  [`RegBus]   pc
+        output wire [`RegBus]   pc
     );
 
     reg [`RegBus] npc;
+    reg [`RegBus] pc_reg;
 
     always @(*) 
     begin
         case ({rstn,jump,nop})
-            3'b101 : npc = pc;          // nop
-            3'b110 : npc = jump_addr;   // 跳转
-            3'b100 : npc = pc + 3'd4;   // 自增
+            3'b101 : npc = pc_reg;          // nop
+            3'b110 : npc = jump_addr;       // 跳转
+            3'b100 : npc = pc_reg + 32'd4;   // 自增
             default: npc = `pc_rstn; 
         endcase
     end
 
+
+    
+
+
+    assign pc = nop ? pc_reg - 32'd4 : pc_reg;
+
     always @(posedge clk) 
-        pc <= npc;
+        pc_reg <= npc;
+
+
+    
 
 endmodule
 
