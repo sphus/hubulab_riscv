@@ -4,7 +4,7 @@ module tb_riscv_questa();
 
 `define CLK_PERIOD 20
 // `define READ_FILE "../generated/inst_data.txt"
-`define READ_FILE "./generated/rv32ui-p-lh.txt"
+ `define READ_FILE "../generated/rv32ui-p-add.txt"
 
     // initial begin
     //     $dumpfile("wave.vcd");
@@ -13,6 +13,13 @@ module tb_riscv_questa();
 
     reg  clk ;
     reg  rstn;
+    reg   jtag_TCK;
+    reg   jtag_TMS;
+    reg   jtag_TDI;
+    wire  jtag_TDO;
+    wire  over;
+    wire  pass;
+    wire  jtag_halt_led;
 
     always #(`CLK_PERIOD / 2) clk = ~clk;
 
@@ -20,6 +27,9 @@ module tb_riscv_questa();
     begin
         clk  = 1'b1;
         rstn = 1'b0;
+        jtag_TCK = 1'b0;
+        jtag_TMS = 1'b0;
+        jtag_TDI = 1'b0;
         #(`CLK_PERIOD * 1.5);
         rstn = 1'b1;
     end
@@ -150,11 +160,16 @@ module tb_riscv_questa();
         end
     end
 
-
-
     riscv_soc riscv_soc_inst(
-                  .clk  (clk    ),
-                  .rstn (rstn   )
+                    .clk           (clk    ),
+                    .rstn          (rstn   ),
+                    .jtag_TCK      (jtag_TCK),
+                    .jtag_TMS      (jtag_TMS),
+                    .jtag_TDI      (jtag_TDI),
+                    .jtag_TDO      (jtag_TDO),
+                    .over          (over),
+                    .pass          (pass),
+                    .jtag_halt_led (jtag_halt_led)
               );
 
 endmodule

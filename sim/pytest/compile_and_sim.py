@@ -105,9 +105,16 @@ def compile():
     iverilog_cmd.append(rtl_dir + r'/rtl/periph/ram.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/periph/rom.v')
     
+    # 下载调试debug
+    iverilog_cmd.append(rtl_dir + r'/rtl/debug/jtag_dm.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/debug/jtag_driver.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/debug/jtag_top.v')
+
     # 通用utils
     iverilog_cmd.append(rtl_dir + r'/rtl/utils/DFF.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/utils/dual_ram.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/utils/full_handshake_rx.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/utils/full_handshake_tx.v')
 
     # 顶层soc
     iverilog_cmd.append(rtl_dir + r'/rtl/soc/riscv_soc.v')

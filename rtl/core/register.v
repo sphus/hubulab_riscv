@@ -1,5 +1,5 @@
-
 `include "defines.v" 
+
 module register (
         input  wire clk ,
         input  wire rstn,
@@ -51,4 +51,5 @@ module register (
         else if(wen && (rd_waddr != `ZeroReg))
             reg_mem[rd_waddr] <= rd_wdata;
     end
+
 endmodule

@@ -1,5 +1,5 @@
-
 `include "defines.v"
+
 module if_id (
     input  wire             clk         ,
     input  wire             rstn        ,

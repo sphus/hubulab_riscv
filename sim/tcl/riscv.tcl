@@ -9,11 +9,12 @@ vlib work
 
 # 编译文件
 
-vlog "../rtl/core/*.v"
-vlog "../rtl/periph/*.v"
-vlog "../rtl/soc/*.v"
-vlog "../rtl/utils/*.v"
-vlog "../tb/*.v"
+vlog "../../rtl/core/*.v"
+vlog "../../rtl/periph/*.v"
+vlog "../../rtl/soc/*.v"
+vlog "../../rtl/utils/*.v"
+vlog "../../rtl/debug/*.v"
+vlog "../../tb/*.v"
 
 # 进行设计优化,但又保证所有信号可见,速度较快
 vsim -vopt work.tb_riscv_questa -voptargs=+acc
@@ -61,8 +62,18 @@ vsim -vopt work.tb_riscv_questa -voptargs=+acc
 # add wave tb_riscv_questa/riscv_soc_inst/riscv_inst/inst_rom    
 # add wave -radix unsigned tb_riscv_questa/riscv_soc_inst/riscv_inst/inst_addr_rom
 
-add wave -divider {CSR_REG} 
+# add wave -divider {CSR_REG} 
 # add wave tb_riscv_questa/riscv_soc_inst/riscv_inst/csr_reg_inst/*
+add wave -divider {SOC} 
+add wave tb_riscv_questa/riscv_soc_inst/*
+add wave -divider {RV} 
+add wave tb_riscv_questa/riscv_soc_inst/riscv_inst/*
+add wave -divider {PC} 
+add wave tb_riscv_questa/riscv_soc_inst/riscv_inst/pc_inst/*
+add wave -divider {CTRL} 
+add wave tb_riscv_questa/riscv_soc_inst/riscv_inst/ctrl_inst/*
+add wave -divider {ROM} 
+add wave tb_riscv_questa/riscv_soc_inst/rom_inst/*
 add wave -divider {REGISTER} 
 add wave tb_riscv_questa/riscv_soc_inst/riscv_inst/register_inst/reg_mem
 add wave tb_riscv_questa/riscv_soc_inst/riscv_inst/ex_inst/inst_i
@@ -102,7 +113,7 @@ configure wave -signalnamewidth 1
 # add wave tb_riscv_questa/rstn
 
 ################################运行仿真#############################
-# run 2us
+ run 10us
 # run 20us
-run -all
+# run -all
 # quit -sim

@@ -22,10 +22,7 @@ module dual_ram #(
 
     wire rd_eq_wr = wen && ren && (w_addr == r_addr);
 
-
     assign r_data = (rd_eq_wr_reg) ? w_data_reg : r_data_wire;
-
-
 
     always @(posedge clk) begin
         if(!rstn)

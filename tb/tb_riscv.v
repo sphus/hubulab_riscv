@@ -10,8 +10,12 @@ module tb_riscv();
     //     $dumpvars;
     // end
 
-    reg  clk ;
-    reg  rstn;
+    reg   clk ;
+    reg   rstn;
+    reg   jtag_TCK;
+    reg   jtag_TMS;
+    reg   jtag_TDI;
+    wire  jtag_TDO;
 
     always #(`CLK_PERIOD / 2) clk = ~clk;
 
@@ -19,6 +23,9 @@ module tb_riscv();
     begin
         clk  = 1'b1;
         rstn = 1'b0;
+        jtag_TCK = 1'b0;
+        jtag_TMS = 1'b0;
+        jtag_TDI = 1'b0;
         #(`CLK_PERIOD * 1.5);
         rstn = 1'b1;
     end
@@ -97,14 +104,13 @@ module tb_riscv();
         end
     endgenerate
 
-
     integer r;
 
     initial
     begin
 
         wait(x[26] == 32'b1);
-        #(`CLK_PERIOD*3);
+        #(`CLK_PERIOD*50);
         if(x[27] == 32'b1)
         begin
             $display("############################");
@@ -126,24 +132,24 @@ module tb_riscv();
 
     always @(x[3])
     begin
-        $display("\n");
-        for(r = 0;r < 31; r = r + 4)
-            $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
+        // for(r = 0;r < 31; r = r + 4)
+        //     $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
+        // $display("\n");
+        // $display("%d",jtag_flag);
     end
 
     always @(posedge clk)
-    begin
-
+    begin    
         if(jump_flag)
         begin
             $display("%x jump to %x at %d", pc_ex,jump_addr,$time);
         end
 
-
         if ($time >= 50000)
         begin
             for(r = 0;r < 31; r = r + 4)
                 $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
+            $display("\n");
             $display("############################");
             $display("######  timeout  !!!########");
             $display("############################");
@@ -151,11 +157,13 @@ module tb_riscv();
         end
     end
 
-
-
     riscv_soc riscv_soc_inst(
-                  .clk  (clk    ),
-                  .rstn (rstn   )
+                  .clk      (clk    ),
+                  .rstn     (rstn   ),
+                  .jtag_TCK (jtag_TCK),
+                  .jtag_TMS (jtag_TMS),
+                  .jtag_TDI (jtag_TDI),
+                  .jtag_TDO (jtag_TDO)
               );
 
 endmodule

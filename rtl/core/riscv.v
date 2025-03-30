@@ -1,11 +1,16 @@
 `include "defines.v" 
 
 module riscv(
-        input   wire            clk         ,
-        input   wire            rstn        ,
-        input   wire [`RegBus]  inst_rom    ,
-        output  wire [`RegBus]  inst_addr_rom
+        input   wire            clk          ,
+        input   wire            rstn         ,
+        // rom
+        input   wire [`RegBus]  inst_rom     ,
+        output  wire [`RegBus]  inst_addr_rom,
+        // jtag
+        input   wire            jtag_halt    , // ctrl
+        input   wire            jtag_reset     // pc
     );
+
     // if_id to id
     wire [`RegBus]      inst_if_id;
     wire [`RegBus]      inst_addr_if_id;
@@ -87,8 +92,9 @@ module riscv(
            .rstn        (rstn           ),
            .jump_en     (jump_en_ctrl   ),
            .jump_addr   (jump_addr_ctrl ),
+           .jtag_reset  (jtag_reset    ),
            .pc          (inst_addr_rom  )
-       );
+        );
 
     if_id if_id_inst (
               .clk          (clk            ),
@@ -98,7 +104,7 @@ module riscv(
               .addr_i       (inst_addr_rom  ),
               .inst_o       (inst_if_id     ),
               .addr_o       (inst_addr_if_id)
-          );
+        );
 
     id id_inst(
            .inst_i      (inst_if_id     ),
@@ -121,7 +127,7 @@ module riscv(
            .csr_wen     (csr_wen_id     ),
            .csr_data_i  (csr_data       ),
            .csr_raddr_o (csr_addr       )
-       );
+        );
 
     register register_inst(
                  .clk         (clk          ),
@@ -200,7 +206,7 @@ module riscv(
     ram #(
             .DW      	(32    ),
             .AW      	(32    ),
-            .MEM_NUM 	(2**20))
+            .MEM_NUM 	(2**12))
         ram_inst(
             .clk    	(clk         ),
             .rstn   	(rstn        ),
@@ -217,6 +223,7 @@ module riscv(
              .jump_addr_i 	(jump_addr_ex   ),
              .jump_en_i   	(jump_en_ex     ),
              .hold_flag_i 	(hold_flag_ex   ),
+             .jtag_halt     (jtag_halt      ),
              .jump_addr_o 	(jump_addr_ctrl ),
              .jump_en_o   	(jump_en_ctrl   ),
              .hold_flag_o 	(hold_flag_ctrl )
