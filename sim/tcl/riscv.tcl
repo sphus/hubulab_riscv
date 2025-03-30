@@ -14,6 +14,7 @@ vlog +incdir+"../rtl/" "../rtl/core/*.v"
 vlog +incdir+"../rtl/" "../rtl/periph/*.v"
 vlog +incdir+"../rtl/" "../rtl/soc/*.v"
 vlog +incdir+"../rtl/" "../rtl/utils/*.v"
+vlog +incdir+"../rtl/" "../rtl/debug/*.v"
 vlog +incdir+"../rtl/" "../tb/tb_riscv.v"
 
 # 进行设计优化,但又保证所有信号可见,速度较快
