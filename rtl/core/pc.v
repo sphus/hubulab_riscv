@@ -13,6 +13,7 @@ module pc (
     reg [`RegBus] npc;
     reg [`RegBus] pc_reg;
     reg [`RegBus] pc_buff;
+    reg [`RegBus] pc_buff;
 
     always @(*) 
     begin

@@ -123,7 +123,7 @@ module tb_riscv();
             $display("%x jump to %x at %d", inst_addr,jump_addr,$time);
         end
 
-        if ($time >= 50000)
+        if ($time >= 20000)
         begin
             for(r = 0;r < 31; r = r + 4)
                 $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);
@@ -143,8 +143,12 @@ module tb_riscv();
 
 
     riscv_soc riscv_soc_inst(
-                  .clk  (clk    ),
-                  .rstn (rstn   )
+                  .clk          (clk    ),
+                  .rstn         (rstn   ),
+                  .jtag_pin_TCK (1'b0   ),
+                  .jtag_pin_TMS (1'b0   ),
+                  .jtag_pin_TDI (1'b0   ),
+                  .jtag_pin_TDO (       )
               );
 
 endmodule
