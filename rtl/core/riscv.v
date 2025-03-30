@@ -13,7 +13,11 @@ module riscv(
         output wire [`mem_type_bus] mem_type        ,
         output wire                 mem_sign        ,
         output wire                 rmem            ,
-        output wire                 wmem
+        output wire                 wmem			,
+
+		// jtag
+		input  wire					halt_req_i		,
+		input  wire					reset_req_i		
     );
 
     // ------------------- HAZARD DETECTION ------------------- //
@@ -110,19 +114,19 @@ module riscv(
     // -------------------------- WB -------------------------- //
 
     pc pc_inst(
-           .clk       (clk          ),
-           .rstn      (rstn         ),
-           .nop       (nop          ),
-           .jump      (jump         ),
-           .jump_addr (MEM_jump_addr),
-           .pc        (inst_addr_rom)
+           .clk       (clk           ),
+           .rstn      (rstn|reset_req_i),
+           .nop       (nop|halt_req_i),
+           .jump      (jump          ),
+           .jump_addr (MEM_jump_addr ),
+           .pc        (inst_addr_rom )
        );
 
 
     if_id if_id_inst(
               .clk    (clk             ),
               .rstn   (rstn            ),
-              .nop    (nop             ),
+              .nop    (nop|halt_req_i  ),
               .jump   (jump            ),
               .inst_i (inst_rom        ),
               .addr_i (inst_addr_rom   ),
@@ -168,7 +172,7 @@ module riscv(
     id_ex id_ex_inst(
               .clk          (clk          ),
               .rstn         (rstn         ),
-              .nop          (nop          ),
+              .nop          (nop|halt_req_i),
               .jump         (jump         ),
               .ID_inst_addr (ID_inst_addr ),
               .ID_rs1_addr  (ID_rs1_addr  ),
