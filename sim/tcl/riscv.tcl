@@ -41,12 +41,10 @@ add wave -divider {RAM}
 add wave tb_riscv/riscv_soc_inst/ram_inst/*
 add wave -divider {RAM_BYTE0} 
 add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/*
-add wave -divider {RAM_BYTE0_TEMPLATE} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/dual_ram_template_inst/*
 add wave -divider {RAM_BYTE1} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte1/dual_ram_template_inst/*
+add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte1/*
 add wave -divider {RAM_BYTE2} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte2/dual_ram_template_inst/*
+add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte2/*
 add wave -divider {RAM_BYTE3} 
 add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte3/*
 

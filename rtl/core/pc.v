@@ -12,6 +12,7 @@ module pc (
 
     reg [`RegBus] npc;
     reg [`RegBus] pc_reg;
+    reg [`RegBus] pc_buff;
 
     always @(*) 
     begin
@@ -24,13 +25,14 @@ module pc (
     end
 
 
-    
-
-
-    assign pc = nop ? pc_reg - 32'd4 : pc_reg;
+    // assign pc = nop ? pc_reg - 32'd4 : pc_reg;
+    assign pc = nop ? pc_buff : pc_reg;
 
     always @(posedge clk) 
         pc_reg <= npc;
+
+    always @(posedge clk) 
+        pc_buff <= pc_reg;
 
 
     

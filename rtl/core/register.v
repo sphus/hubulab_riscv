@@ -17,6 +17,7 @@ module register (
 
     reg [`RegBus] reg_mem [`RegBus];
 
+    // read register 1
     always @(*)
     begin
         if (!rstn)
@@ -29,6 +30,7 @@ module register (
             rs1_rdata = reg_mem[rs1_raddr];
     end
 
+    // read register 2
     always @(*)
     begin
         if (!rstn)
@@ -43,6 +45,7 @@ module register (
 
     integer i;
 
+    // write register 1
     always @(posedge clk)
     begin
         if (!rstn)
@@ -51,4 +54,5 @@ module register (
         else if(wen && (rd_waddr != `ZeroReg))
             reg_mem[rd_waddr] <= rd_wdata;
     end
+    
 endmodule

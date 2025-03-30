@@ -28,7 +28,7 @@ module riscv(
 
     // -------------------------- ID -------------------------- //
     // data
-    wire [`RegBus]          pc              ;
+    // wire [`RegBus]          pc              ;
     wire [`RegBus]          ID_inst         ;
     wire [`RegBus]          ID_inst_addr    ;
     wire [`RegAddrBus]      ID_rs1_addr     ;

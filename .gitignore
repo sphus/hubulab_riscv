@@ -24,3 +24,6 @@ tests/
 
 # vivado工程
 prj
+
+# visio暂存文件
+~$$pipe_5.~vsdx
