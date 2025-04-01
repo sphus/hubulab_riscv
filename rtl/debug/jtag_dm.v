@@ -199,7 +199,6 @@ module jtag_dm #(
                             end
                         endcase
                     end
-
                     `DTM_OP_WRITE: begin
                         // 读数据复位为0
                         read_data <= {(DMI_DATA_BITS){1'b0}};

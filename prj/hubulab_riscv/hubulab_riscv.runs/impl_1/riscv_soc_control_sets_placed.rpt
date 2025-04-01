@@ -1,0 +1,107 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date         : Tue Apr  1 11:39:30 2025
+| Host         : LAPTOP-9AF77KG4 running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file riscv_soc_control_sets_placed.rpt
+| Design       : riscv_soc
+| Device       : xc7a35t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    29 |
+|    Minimum number of control sets                        |    29 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    37 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    29 |
+| >= 0 to < 4        |     1 |
+| >= 4 to < 6        |     2 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     0 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     1 |
+| >= 16              |    25 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               4 |            2 |
+| No           | No                    | Yes                    |              53 |           16 |
+| No           | Yes                   | No                     |            1366 |          566 |
+| Yes          | No                    | No                     |               0 |            0 |
+| Yes          | No                    | Yes                    |             503 |          134 |
+| Yes          | Yes                   | No                     |             237 |           80 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++---------------------+------------------------------------------------------------+-------------------------------------------+------------------+----------------+--------------+
+|     Clock Signal    |                        Enable Signal                       |              Set/Reset Signal             | Slice Load Count | Bel Load Count | Bels / Slice |
++---------------------+------------------------------------------------------------+-------------------------------------------+------------------+----------------+--------------+
+| ~jtag_TCK_IBUF_BUFG |                                                            | u_jtag_top/u_jtag_driver/jtag_TDO_i_1_n_0 |                1 |              1 |         1.00 |
+|  clk_IBUF_BUFG      |                                                            |                                           |                2 |              4 |         2.00 |
+| ~jtag_TCK_IBUF_BUFG | u_jtag_top/u_jtag_driver/FSM_onehot_jtag_state_reg_n_0_[9] | u_jtag_top/u_jtag_driver/ir_reg           |                2 |              5 |         2.50 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/recv_data_reg[1]_1                 | riscv_inst/register_inst/SR[0]            |                2 |             14 |         7.00 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/sbcs_reg[15][0]                    | riscv_inst/register_inst/SR[0]            |               11 |             30 |         2.73 |
+|  jtag_TCK_IBUF_BUFG |                                                            | riscv_inst/register_inst/SR[0]            |                7 |             31 |         4.43 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/sbcs_reg[16][0]                    | riscv_inst/register_inst/SR[0]            |               11 |             31 |         2.82 |
+|  clk_IBUF_BUFG      |                                                            | u_jtag_top/u_jtag_dm/dm_reset_req_reg_0   |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/dmcontrol                          | riscv_inst/register_inst/SR[0]            |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/E[0]                               | riscv_inst/register_inst/SR[0]            |               16 |             32 |         2.00 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/recv_data_reg[1]_2[0]              | riscv_inst/register_inst/SR[0]            |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/recv_data_reg[0]_1[0]              | riscv_inst/register_inst/SR[0]            |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/recv_data_reg[36]_0[0]             | riscv_inst/register_inst/SR[0]            |                6 |             32 |         5.33 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/recv_rdy_reg_2[0]                  | riscv_inst/register_inst/SR[0]            |               18 |             32 |         1.78 |
+|  clk_IBUF_BUFG      | riscv_inst/id_ex_inst/csr_waddr_dff/E[0]                   | riscv_inst/register_inst/SR[0]            |               12 |             32 |         2.67 |
+|  clk_IBUF_BUFG      | riscv_inst/id_ex_inst/csr_waddr_dff/q_reg[2]_0[0]          | riscv_inst/register_inst/SR[0]            |               11 |             32 |         2.91 |
+|  clk_IBUF_BUFG      | riscv_inst/id_ex_inst/csr_waddr_dff/q_reg[0]_0[0]          | riscv_inst/register_inst/SR[0]            |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG      | riscv_inst/id_ex_inst/csr_waddr_dff/q_reg[4]_0[0]          | riscv_inst/register_inst/SR[0]            |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG      | riscv_inst/id_ex_inst/csr_waddr_dff/q_reg[4]_2[0]          | riscv_inst/register_inst/SR[0]            |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG      | riscv_inst/id_ex_inst/csr_waddr_dff/q_reg[4]_1[0]          | riscv_inst/register_inst/SR[0]            |               13 |             32 |         2.46 |
+|  jtag_TCK_IBUF_BUFG | u_jtag_top/u_jtag_driver/rx/E[0]                           | riscv_inst/register_inst/SR[0]            |                6 |             38 |         6.33 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/tx/req_data                           | riscv_inst/register_inst/SR[0]            |                7 |             38 |         5.43 |
+|  jtag_TCK_IBUF_BUFG | u_jtag_top/u_jtag_driver/rx/recv_rdy                       | riscv_inst/register_inst/SR[0]            |                7 |             39 |         5.57 |
+|  jtag_TCK_IBUF_BUFG | u_jtag_top/u_jtag_driver/shift_reg                         | u_jtag_top/u_jtag_driver/shift_reg0       |               13 |             40 |         3.08 |
+|  jtag_TCK_IBUF_BUFG | u_jtag_top/u_jtag_driver/tx/E[0]                           | riscv_inst/register_inst/SR[0]            |                8 |             40 |         5.00 |
+|  jtag_TCK_IBUF_BUFG | u_jtag_top/u_jtag_driver/tx/req_data__0                    | riscv_inst/register_inst/SR[0]            |                6 |             40 |         6.67 |
+|  clk_IBUF_BUFG      | u_jtag_top/u_jtag_dm/rx/recv_data                          | riscv_inst/register_inst/SR[0]            |                7 |             41 |         5.86 |
+|  clk_IBUF_BUFG      |                                                            | riscv_inst/id_ex_inst/inst_dff/q_reg[4]_8 |               70 |            176 |         2.51 |
+|  clk_IBUF_BUFG      |                                                            | riscv_inst/register_inst/SR[0]            |              495 |           1179 |         2.38 |
++---------------------+------------------------------------------------------------+-------------------------------------------+------------------+----------------+--------------+
+
+

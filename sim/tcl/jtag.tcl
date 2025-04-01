@@ -70,8 +70,6 @@ add wave -divider {ROM}
 add wave tb_jtag/riscv_soc_inst/rom_inst/*
 add wave -divider {dual_ram} 
 add wave tb_jtag/riscv_soc_inst/rom_inst/dual_ram_inst/*
-add wave -divider {ROM_mux} 
-add wave tb_jtag/riscv_soc_inst/rom_mux_inst/*
 add wave -divider {JTAG} 
 add wave tb_jtag/riscv_soc_inst/u_jtag_top/*
 add wave -divider {DERIVER} 

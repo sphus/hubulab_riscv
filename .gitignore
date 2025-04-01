@@ -20,3 +20,7 @@ sim/output/pass.txt
 tools/
 # 测试工具链
 tests/
+# 工程文件
+prj/
+# 约束文件
+constrs/

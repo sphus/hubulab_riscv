@@ -1,14 +1,19 @@
 `include "defines.v" 
 
 module riscv(
-        input   wire            clk          ,
-        input   wire            rstn         ,
+        input   wire                clk          ,
+        input   wire                rstn         ,
+        // register     
+        input   wire                reg_wen      ,
+        input   wire [`RegAddrBus]  reg_addr     ,
+        input   wire [`RegBus]      reg_w_data   ,
+        output  wire [`RegBus]      reg_r_data   ,
         // rom
-        input   wire [`RegBus]  inst_rom     ,
-        output  wire [`RegBus]  inst_addr_rom,
-        // jtag
-        input   wire            jtag_halt    , // ctrl
-        input   wire            jtag_reset     // pc
+        input   wire [`RegBus]      inst_rom     ,
+        output  wire [`RegBus]      inst_addr_rom,
+        // jtag 
+        input   wire                jtag_halt    , // ctrl
+        input   wire                jtag_reset     // pc
     );
 
     // if_id to id
@@ -138,8 +143,13 @@ module riscv(
                  .rd_wdata    (rd_data_ex   ),
                  .wen         (wen_ex       ),
                  .rs1_rdata   (rs1_data     ),
-                 .rs2_rdata   (rs2_data     )
-             );
+                 .rs2_rdata   (rs2_data     ),
+                 // jtag
+                 .jtag_wen    (reg_wen      ),
+                 .jtag_addr   (reg_addr     ),
+                 .jtag_wdata  (reg_w_data   ),
+                 .jtag_rdata  (reg_r_data   )
+            );
 
     csr_reg csr_reg_inst(
                  .clk           (clk          ),

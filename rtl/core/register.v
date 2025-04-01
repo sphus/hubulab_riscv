@@ -12,7 +12,12 @@ module register (
         input  wire                 wen       ,
         // to id
         output reg  [`RegBus]       rs1_rdata ,
-        output reg  [`RegBus]       rs2_rdata
+        output reg  [`RegBus]       rs2_rdata ,
+        // from jtag
+        input  wire                 jtag_wen  ,
+        input  wire [`RegAddrBus]   jtag_addr ,
+        input  wire [`RegBus]       jtag_wdata,
+        output wire [`RegBus]       jtag_rdata
     );
 
     reg [`RegBus] reg_mem [`RegBus];
@@ -50,6 +55,11 @@ module register (
                 reg_mem[i] <= `ZeroWord;
         else if(wen && (rd_waddr != `ZeroReg))
             reg_mem[rd_waddr] <= rd_wdata;
+        else if(jtag_wen && (jtag_addr != `ZeroReg))
+            reg_mem[jtag_addr] <= jtag_wdata;
     end
+
+    // jtag_read
+    assign jtag_rdata = (jtag_addr == `ZeroReg) ? `ZeroWord : reg_mem[jtag_addr]; 
 
 endmodule

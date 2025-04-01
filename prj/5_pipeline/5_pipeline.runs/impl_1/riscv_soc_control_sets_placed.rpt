@@ -1,0 +1,231 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date         : Mon Mar 31 13:07:42 2025
+| Host         : LAPTOP-9AF77KG4 running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file riscv_soc_control_sets_placed.rpt
+| Design       : riscv_soc
+| Device       : xc7a35t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |   153 |
+|    Minimum number of control sets                        |   153 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    46 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |   153 |
+| >= 0 to < 4        |     1 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     0 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     3 |
+| >= 14 to < 16      |     0 |
+| >= 16              |   148 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             339 |          135 |
+| No           | No                    | Yes                    |              52 |           16 |
+| No           | Yes                   | No                     |             273 |          130 |
+| Yes          | No                    | No                     |              64 |           39 |
+| Yes          | No                    | Yes                    |             421 |           94 |
+| Yes          | Yes                   | No                     |            1069 |          169 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-------------------------+---------------------------------------------------------------+----------------------------------------------+------------------+----------------+--------------+
+|       Clock Signal      |                         Enable Signal                         |               Set/Reset Signal               | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------------+---------------------------------------------------------------+----------------------------------------------+------------------+----------------+--------------+
+| ~jtag_pin_TCK_IBUF_BUFG |                                                               | jtag_top_inst/u_jtag_driver/jtag_TDO_i_1_n_0 |                1 |              1 |         1.00 |
+| ~jtag_pin_TCK_IBUF_BUFG | jtag_top_inst/u_jtag_driver/FSM_onehot_jtag_state_reg_n_0_[9] | jtag_top_inst/u_jtag_driver/ir_reg           |                1 |              5 |         5.00 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/recv_rdy_reg_1[0]                  | riscv_inst/register_inst/SR[0]               |                4 |             12 |         3.00 |
+|  clk_IBUF_BUFG          |                                                               | rom_inst/rom_flag_reg_1                      |                4 |             12 |         3.00 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/recv_data_reg[0]_1[0]              | riscv_inst/register_inst/SR[0]               |                3 |             13 |         4.33 |
+|  jtag_pin_TCK_IBUF_BUFG |                                                               | riscv_inst/register_inst/SR[0]               |               10 |             31 |         3.10 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_2                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep_1             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep_4             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep_5             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/recv_data_reg[0]_0[0]              | riscv_inst/register_inst/SR[0]               |                7 |             32 |         4.57 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/recv_data_reg[1]_1[0]              | riscv_inst/register_inst/SR[0]               |                7 |             32 |         4.57 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/recv_data_reg[38]_0[0]             | riscv_inst/register_inst/SR[0]               |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/E[0]                               | riscv_inst/register_inst/SR[0]               |               17 |             32 |         1.88 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/dmcontrol                          | riscv_inst/register_inst/SR[0]               |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_17                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_14                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_18                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_20                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_22                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_6                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_3                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_16                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_15                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_14                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_4                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_3                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_9                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_12                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_5                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_17                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_2                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_21                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_7                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_4                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_0                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_1                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_10                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_5                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_6                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_7                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_9                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_13                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_19                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_12                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_16                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_23                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_8                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_11                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[14]_15                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_11         |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_12         |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_13         |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_14         |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_15         |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_16         |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_10         |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_8          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_6          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_4          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_9          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_2          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_5          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_7          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_0                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_10                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_3          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_11                |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[13]_1                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__1_1          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_1             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_4             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__1_6          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_2          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_6          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_7          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_8          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_0                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_1                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_4                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_6                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_7                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_1             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_5          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_3          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_1          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_5                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_3          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_5          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_2             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_4             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_4          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_8             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_3             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_2             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_6             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_2                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_7                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_2                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_3             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_7             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__1_3          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__0_6          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_6             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_2          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_3                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_6                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_7             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_7          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_5             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_4                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_0                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_6          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_1                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_8          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep_5             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__1_1          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__1_4          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__1_2          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__1_5          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_3                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_5                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep_8             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[12]_rep__0_1          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/jump_dff/q_reg[0]_4[0]                 |                                              |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/rmem_dff/E[0]                          |                                              |               30 |             32 |         1.07 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep_6             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_5                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_3                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_2                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_0                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep_3             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[11]_rep__0_4          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__0_1          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__0_2          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__0_3          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__0_4          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep_2             |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_rep__0_5          |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_1                 |                                              |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG          | riscv_inst/ex_mem_inst/result_dff/q_reg[10]_4                 |                                              |                8 |             32 |         4.00 |
+|  jtag_pin_TCK_IBUF_BUFG | jtag_top_inst/u_jtag_driver/rx/E[0]                           | riscv_inst/register_inst/SR[0]               |                7 |             38 |         5.43 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/tx/req_data                           | riscv_inst/register_inst/SR[0]               |                6 |             38 |         6.33 |
+|  jtag_pin_TCK_IBUF_BUFG | jtag_top_inst/u_jtag_driver/rx/recv_rdy                       | riscv_inst/register_inst/SR[0]               |                6 |             39 |         6.50 |
+|  jtag_pin_TCK_IBUF_BUFG | jtag_top_inst/u_jtag_driver/tx/req_data__0                    | riscv_inst/register_inst/SR[0]               |                6 |             40 |         6.67 |
+|  jtag_pin_TCK_IBUF_BUFG | jtag_top_inst/u_jtag_driver/tx/E[0]                           | riscv_inst/register_inst/SR[0]               |                6 |             40 |         6.67 |
+|  jtag_pin_TCK_IBUF_BUFG | jtag_top_inst/u_jtag_driver/shift_reg                         | jtag_top_inst/u_jtag_driver/shift_reg0       |               13 |             40 |         3.08 |
+|  clk_IBUF_BUFG          | jtag_top_inst/u_jtag_dm/rx/recv_rdy                           | riscv_inst/register_inst/SR[0]               |                7 |             41 |         5.86 |
+|  clk_IBUF_BUFG          |                                                               | riscv_inst/register_inst/SR[0]               |               30 |             62 |         2.07 |
+|  clk_IBUF_BUFG          |                                                               | riscv_inst/ex_mem_inst/jump_dff/q_reg[0]_3   |               28 |             76 |         2.71 |
+|  clk_IBUF_BUFG          |                                                               | riscv_inst/ex_mem_inst/jump_dff/q_reg[0]_1   |               73 |            143 |         1.96 |
+|  clk_IBUF_BUFG          |                                                               |                                              |              135 |            339 |         2.51 |
+|  clk_IBUF_BUFG          | riscv_inst/mem_wb_inst/rd_addr_dff/q_reg[0]_41[0]             | riscv_inst/register_inst/SR[0]               |              155 |           1024 |         6.61 |
++-------------------------+---------------------------------------------------------------+----------------------------------------------+------------------+----------------+--------------+
+
+

@@ -70,6 +70,7 @@ module jtag_top #(
     wire dm_halt_req_o;
     wire dm_reset_req_o;
 
+    // jtag的状态机
     jtag_driver #(
         .DMI_ADDR_BITS(DMI_ADDR_BITS),
         .DMI_DATA_BITS(DMI_DATA_BITS),
@@ -88,6 +89,7 @@ module jtag_top #(
         .dtm_req_data_o(dtm_req_data_o)
     );
 
+    // jtag的数据传输
     jtag_dm #(
         .DMI_ADDR_BITS(DMI_ADDR_BITS),
         .DMI_DATA_BITS(DMI_DATA_BITS),
