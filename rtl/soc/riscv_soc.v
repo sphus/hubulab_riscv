@@ -6,7 +6,9 @@ module riscv_soc (
 		input  wire jtag_pin_TCK,
 		input  wire jtag_pin_TMS,
 		input  wire jtag_pin_TDI,
-		output wire jtag_pin_TDO
+		output wire jtag_pin_TDO,
+		output wire over        ,
+		output wire pass
     );
 
     parameter DW = 32;
@@ -31,12 +33,15 @@ module riscv_soc (
     wire [AW-1:0]	        r_addr        ;
     wire [DW-1:0]           r_data        ;
 
-// jtag_signal
+    // jtag_signal
     wire 			        jtag_wen      ;
     wire [AW-1:0]	        jtag_waddr    ;
     wire [DW-1:0]           jtag_wdata    ;
     wire 			        jtag_halt_req ;
     wire 			        jtag_reset_req;
+
+    assign over = riscv_inst.register_inst.reg_mem[26];
+    assign pass = riscv_inst.register_inst.reg_mem[27];
 
 
     riscv riscv_inst(

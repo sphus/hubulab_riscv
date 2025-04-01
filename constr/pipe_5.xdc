@@ -10,17 +10,17 @@ set_property PACKAGE_PIN R4 [get_ports clk]
 set_property IOSTANDARD LVCMOS33 [get_ports rstn]
 set_property PACKAGE_PIN U2 [get_ports rstn]
 
-# # 程序执行完毕指示引脚
+# 程序执行完毕指示引脚
 set_property IOSTANDARD LVCMOS33 [get_ports over]
 set_property PACKAGE_PIN R2 [get_ports over]
 
-# # 程序执行成功指示引脚
+# 程序执行成功指示引脚
 set_property IOSTANDARD LVCMOS33 [get_ports pass]
 set_property PACKAGE_PIN R3 [get_ports pass]
 
 # # 测试引脚
-set_property IOSTANDARD LVCMOS33 [get_ports test_in]
-set_property PACKAGE_PIN V2 [get_ports test_in]
+# set_property IOSTANDARD LVCMOS33 [get_ports test_in]
+# set_property PACKAGE_PIN V2 [get_ports test_in]
 
 # # CPU停住指示引脚
 # set_property IOSTANDARD LVCMOS33 [get_ports halted_ind]

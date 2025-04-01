@@ -47,10 +47,10 @@ module tb_riscv();
         $readmemh(`READ_FILE, temp_mem); // 读取 32-bit 数据
         for (i = 0; i < RAM_DEPTH; i = i + 1)
         begin
-            tb_riscv.riscv_soc_inst.ram_inst.ram_byte0.memory[i] = temp_mem[i][7:0];   // 低 8 位
-            tb_riscv.riscv_soc_inst.ram_inst.ram_byte1.memory[i] = temp_mem[i][15:8];  // 次低 8 位
-            tb_riscv.riscv_soc_inst.ram_inst.ram_byte2.memory[i] = temp_mem[i][23:16]; // 次高 8 位
-            tb_riscv.riscv_soc_inst.ram_inst.ram_byte3.memory[i] = temp_mem[i][31:24]; // 高 8 位
+            tb_riscv.riscv_soc_inst.ram_inst.ram_byte0.dual_ram_template_inst.memory[i] = temp_mem[i][7:0];   // 低 8 位
+            tb_riscv.riscv_soc_inst.ram_inst.ram_byte1.dual_ram_template_inst.memory[i] = temp_mem[i][15:8];  // 次低 8 位
+            tb_riscv.riscv_soc_inst.ram_inst.ram_byte2.dual_ram_template_inst.memory[i] = temp_mem[i][23:16]; // 次高 8 位
+            tb_riscv.riscv_soc_inst.ram_inst.ram_byte3.dual_ram_template_inst.memory[i] = temp_mem[i][31:24]; // 高 8 位
         end
     end
 

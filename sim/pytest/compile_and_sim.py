@@ -98,7 +98,7 @@ def compile():
     iverilog_cmd.append(rtl_dir + r'/rtl/core/ALU.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/control.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/csr_reg.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/ctrl.v')
+    # iverilog_cmd.append(rtl_dir + r'/rtl/core/ctrl.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/ex_mem.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/ex.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/core/forward_unit.v')
