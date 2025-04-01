@@ -46,24 +46,24 @@ set_property PACKAGE_PIN R3 [get_ports pass]
 # set_property IOSTANDARD LVCMOS33 [get_ports {gpio[1]}]
 # set_property PACKAGE_PIN T3 [get_ports {gpio[1]}]
 
-# # JTAG TCK引脚
-# set_property IOSTANDARD LVCMOS33 [get_ports jtag_TCK]
-# set_property PACKAGE_PIN G21 [get_ports jtag_TCK]
-# set_property CLOCK_DEDICATED_ROUTE FALSE [get_ports jtag_TCK]
-# set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets jtag_TCK_IBUF]
-# # create_clock -name jtag_clk_pin -period 300 [get_ports {jtag_TCK}];
+# JTAG TCK引脚
+set_property IOSTANDARD LVCMOS33 [get_ports jtag_pin_TCK]
+set_property PACKAGE_PIN G21 [get_ports jtag_pin_TCK]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_ports jtag_pin_TCK]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets jtag_pin_TCK_IBUF]
+# create_clock -name jtag_clk_pin -period 300 [get_ports {jtag_pin_TCK}];
 
-# # JTAG TMS引脚
-# set_property IOSTANDARD LVCMOS33 [get_ports jtag_TMS]
-# set_property PACKAGE_PIN H22 [get_ports jtag_TMS]
+# JTAG TMS引脚
+set_property IOSTANDARD LVCMOS33 [get_ports jtag_pin_TMS]
+set_property PACKAGE_PIN H22 [get_ports jtag_pin_TMS]
 
-# # JTAG TDI引脚
-# set_property IOSTANDARD LVCMOS33 [get_ports jtag_TDI]
-# set_property PACKAGE_PIN E19 [get_ports jtag_TDI]
+# JTAG TDI引脚
+set_property IOSTANDARD LVCMOS33 [get_ports jtag_pin_TDI]
+set_property PACKAGE_PIN E19 [get_ports jtag_pin_TDI]
 
-# # JTAG TDO引脚
-# set_property IOSTANDARD LVCMOS33 [get_ports jtag_TDO]
-# set_property PACKAGE_PIN G22 [get_ports jtag_TDO]
+# JTAG TDO引脚
+set_property IOSTANDARD LVCMOS33 [get_ports jtag_pin_TDO]
+set_property PACKAGE_PIN G22 [get_ports jtag_pin_TDO]
 
 # # SPI MISO引脚
 # set_property IOSTANDARD LVCMOS33 [get_ports spi_miso]
