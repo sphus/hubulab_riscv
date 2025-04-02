@@ -53,8 +53,10 @@ module riscv_soc (
             .w_addr 	(jtag_mem_w_addr ),
             .w_data 	(jtag_mem_w_data ),
             .ren    	(1'b1            ),
-            .r_addr 	(inst_addr_rom   ),
-            .r_data 	(inst_rom        )
+            // .r_addr 	(inst_addr_rom   ),
+            // .r_data 	(inst_rom        )
+            .r_addr 	(jtag_mem_w_addr   ),
+            .r_data 	(jtag_mem_r_data        )
         );
 
     riscv riscv_inst(

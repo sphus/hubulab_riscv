@@ -8,7 +8,7 @@
   **** SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
   **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
   **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
-  **** Start of session at: Tue Apr  1 11:35:59 2025
+  **** Start of session at: Tue Apr  1 21:40:17 2025
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
     ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 
@@ -25,9 +25,9 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 17892
+INFO: [Synth 8-7075] Helper process launched with PID 23996
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 1029.023 ; gain = 469.242
+Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:04 . Memory (MB): peak = 1029.391 ; gain = 468.562
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-11241] undeclared symbol 'tx_idle', assumed default net type 'wire' [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:335]
 WARNING: [Synth 8-11065] parameter 'DM_RESP_BITS' becomes localparam in 'jtag_dm' with formal parameter declaration list [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:60]
@@ -138,7 +138,7 @@ INFO: [Synth 8-6155] done synthesizing module 'ram' (0#1) [E:/project/RISC-V/wor
 INFO: [Synth 8-6157] synthesizing module 'ctrl' [E:/project/RISC-V/work/hubulab_riscv/rtl/core/ctrl.v:3]
 INFO: [Synth 8-6155] done synthesizing module 'ctrl' (0#1) [E:/project/RISC-V/work/hubulab_riscv/rtl/core/ctrl.v:3]
 INFO: [Synth 8-6155] done synthesizing module 'riscv' (0#1) [E:/project/RISC-V/work/hubulab_riscv/rtl/core/riscv.v:3]
-WARNING: [Synth 8-689] width (32) of port connection 'reg_addr' does not match port width (5) of module 'riscv' [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:65]
+WARNING: [Synth 8-689] width (32) of port connection 'reg_addr' does not match port width (5) of module 'riscv' [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:67]
 INFO: [Synth 8-6157] synthesizing module 'jtag_top' [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_top.v:20]
 	Parameter DMI_ADDR_BITS bound to: 6 - type: integer 
 	Parameter DMI_DATA_BITS bound to: 32 - type: integer 
@@ -161,17 +161,18 @@ INFO: [Synth 8-6157] synthesizing module 'jtag_dm' [E:/project/RISC-V/work/hubul
 	Parameter DMI_ADDR_BITS bound to: 6 - type: integer 
 	Parameter DMI_DATA_BITS bound to: 32 - type: integer 
 	Parameter DMI_OP_BITS bound to: 2 - type: integer 
-INFO: [Synth 8-155] case statement is not full and has no default [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:205]
-INFO: [Synth 8-155] case statement is not full and has no default [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:162]
+INFO: [Synth 8-155] case statement is not full and has no default [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:214]
+INFO: [Synth 8-155] case statement is not full and has no default [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:176]
 INFO: [Synth 8-6155] done synthesizing module 'jtag_dm' (0#1) [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:27]
 INFO: [Synth 8-6155] done synthesizing module 'jtag_top' (0#1) [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_top.v:20]
-WARNING: [Synth 8-689] width (32) of port connection 'reg_addr_o' does not match port width (5) of module 'jtag_top' [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:89]
-WARNING: [Synth 8-7071] port 'op_req_o' of module 'jtag_top' is unconnected for instance 'u_jtag_top' [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:80]
-WARNING: [Synth 8-7023] instance 'u_jtag_top' of module 'jtag_top' has 17 connections declared, but only 16 given [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:80]
+WARNING: [Synth 8-689] width (32) of port connection 'reg_addr_o' does not match port width (5) of module 'jtag_top' [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:91]
+WARNING: [Synth 8-7071] port 'op_req_o' of module 'jtag_top' is unconnected for instance 'u_jtag_top' [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:82]
+WARNING: [Synth 8-7023] instance 'u_jtag_top' of module 'jtag_top' has 17 connections declared, but only 16 given [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:82]
 INFO: [Synth 8-6155] done synthesizing module 'riscv_soc' (0#1) [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:1]
-WARNING: [Synth 8-6014] Unused sequential element sbdata0_reg was removed.  [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:150]
-WARNING: [Synth 8-6014] Unused sequential element command_reg was removed.  [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:151]
-WARNING: [Synth 8-3848] Net jtag_mem_r_data in module/entity riscv_soc does not have driver. [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:34]
+WARNING: [Synth 8-6014] Unused sequential element sbdata0_reg was removed.  [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:154]
+WARNING: [Synth 8-6014] Unused sequential element command_reg was removed.  [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:155]
+WARNING: [Synth 8-7137] Register sbwait_flag_reg in module jtag_dm has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [E:/project/RISC-V/work/hubulab_riscv/rtl/debug/jtag_dm.v:163]
+WARNING: [Synth 8-3848] Net inst_rom in module/entity riscv_soc does not have driver. [E:/project/RISC-V/work/hubulab_riscv/rtl/soc/riscv_soc.v:22]
 WARNING: [Synth 8-7129] Port rstn in module dual_ram_template__parameterized0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port w_addr[31] in module dual_ram_template__parameterized0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port w_addr[30] in module dual_ram_template__parameterized0 is either unconnected or has no load
@@ -274,18 +275,18 @@ WARNING: [Synth 8-7129] Port csr_waddr_i[31] in module csr_reg is either unconne
 WARNING: [Synth 8-7129] Port csr_waddr_i[30] in module csr_reg is either unconnected or has no load
 INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:11 . Memory (MB): peak = 1155.824 ; gain = 596.043
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:06 . Memory (MB): peak = 1156.473 ; gain = 595.645
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:11 . Memory (MB): peak = 1155.824 ; gain = 596.043
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:06 . Memory (MB): peak = 1156.473 ; gain = 595.645
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:11 . Memory (MB): peak = 1155.824 ; gain = 596.043
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:06 . Memory (MB): peak = 1156.473 ; gain = 595.645
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.129 . Memory (MB): peak = 1155.824 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.067 . Memory (MB): peak = 1156.473 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -301,28 +302,28 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/riscv_soc_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1240.570 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1247.316 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.030 . Memory (MB): peak = 1240.570 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.013 . Memory (MB): peak = 1247.316 ; gain = 0.000
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:27 . Memory (MB): peak = 1240.570 ; gain = 680.789
+Finished Constraint Validation : Time (s): cpu = 00:00:04 ; elapsed = 00:00:12 . Memory (MB): peak = 1247.316 ; gain = 686.488
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tfgg484-2
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:27 . Memory (MB): peak = 1240.570 ; gain = 680.789
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:04 ; elapsed = 00:00:12 . Memory (MB): peak = 1247.316 ; gain = 686.488
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:27 . Memory (MB): peak = 1240.570 ; gain = 680.789
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:04 ; elapsed = 00:00:13 . Memory (MB): peak = 1247.316 ; gain = 686.488
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'full_handshake_tx'
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'full_handshake_rx'
@@ -366,7 +367,7 @@ INFO: [Synth 8-3898] No Re-encoding of one hot register 'state_reg' in module 'f
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'jtag_state_reg' using encoding 'one-hot' in module 'jtag_driver'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:14 ; elapsed = 00:00:31 . Memory (MB): peak = 1240.570 ; gain = 680.789
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:14 . Memory (MB): peak = 1247.316 ; gain = 686.488
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -379,10 +380,10 @@ Detailed RTL Component Info :
 	   2 Input     32 Bit         XORs := 1     
 +---Registers : 
 	               40 Bit    Registers := 7     
-	               32 Bit    Registers := 60    
+	               32 Bit    Registers := 59    
 	                8 Bit    Registers := 8     
 	                5 Bit    Registers := 3     
-	                1 Bit    Registers := 34    
+	                1 Bit    Registers := 35    
 +---RAMs : 
 	             128K Bit	(4096 X 32 bit)          RAMs := 1     
 	              32K Bit	(4096 X 8 bit)          RAMs := 4     
@@ -390,9 +391,9 @@ Detailed RTL Component Info :
 	   4 Input   40 Bit        Muxes := 3     
 	   3 Input   40 Bit        Muxes := 2     
 	   2 Input   40 Bit        Muxes := 1     
-	   2 Input   32 Bit        Muxes := 118   
+	   2 Input   32 Bit        Muxes := 121   
 	   3 Input   32 Bit        Muxes := 3     
-	   4 Input   32 Bit        Muxes := 9     
+	   4 Input   32 Bit        Muxes := 7     
 	   7 Input   32 Bit        Muxes := 1     
 	   2 Input   16 Bit        Muxes := 17    
 	  16 Input   16 Bit        Muxes := 1     
@@ -405,10 +406,11 @@ Detailed RTL Component Info :
 	   2 Input    3 Bit        Muxes := 4     
 	   2 Input    2 Bit        Muxes := 6     
 	   3 Input    2 Bit        Muxes := 2     
-	   2 Input    1 Bit        Muxes := 24    
-	   4 Input    1 Bit        Muxes := 26    
+	   2 Input    1 Bit        Muxes := 29    
+	   4 Input    1 Bit        Muxes := 27    
 	   3 Input    1 Bit        Muxes := 10    
 	   7 Input    1 Bit        Muxes := 1     
+	   8 Input    1 Bit        Muxes := 1     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -426,22 +428,18 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:37 ; elapsed = 00:01:16 . Memory (MB): peak = 1386.816 ; gain = 827.035
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:21 . Memory (MB): peak = 1258.758 ; gain = 697.930
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
 Block RAM: Preliminary Mapping Report (see note below)
-+------------+-----------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
-|Module Name | RTL Object                                                      | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
-+------------+-----------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
-|riscv_soc   | rom_inst/dual_ram_inst/dual_ram_template_inst/memory_reg        | 4 K x 32(READ_FIRST)   | W |   | 4 K x 32(WRITE_FIRST)  |   | R | Port A and B     | 0      | 4      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte0/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte1/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte2/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte3/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-+------------+-----------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
++------------+----------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object                                               | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+----------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|riscv_soc   | rom_inst/dual_ram_inst/dual_ram_template_inst/memory_reg | 4 K x 32(READ_FIRST)   | W | R |                        |   |   | Port A           | 0      | 4      | 
++------------+----------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 
 Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
 ---------------------------------------------------------------------------------
@@ -451,28 +449,24 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:42 ; elapsed = 00:01:27 . Memory (MB): peak = 1386.816 ; gain = 827.035
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:26 . Memory (MB): peak = 1352.621 ; gain = 791.793
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:51 ; elapsed = 00:01:46 . Memory (MB): peak = 1620.855 ; gain = 1061.074
+Finished Timing Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:26 . Memory (MB): peak = 1383.070 ; gain = 822.242
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
 Block RAM: Final Mapping Report
-+------------+-----------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
-|Module Name | RTL Object                                                      | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
-+------------+-----------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
-|riscv_soc   | rom_inst/dual_ram_inst/dual_ram_template_inst/memory_reg        | 4 K x 32(READ_FIRST)   | W |   | 4 K x 32(WRITE_FIRST)  |   | R | Port A and B     | 0      | 4      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte0/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte1/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte2/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-|riscv_soc   | riscv_inst/ram_inst/ram_byte3/dual_ram_template_inst/memory_reg | 4 K x 8(READ_FIRST)    | W |   | 4 K x 8(WRITE_FIRST)   |   | R | Port A and B     | 0      | 1      | 
-+------------+-----------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
++------------+----------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object                                               | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+----------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|riscv_soc   | rom_inst/dual_ram_inst/dual_ram_template_inst/memory_reg | 4 K x 32(READ_FIRST)   | W | R |                        |   |   | Port A           | 0      | 4      | 
++------------+----------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 
 ---------------------------------------------------------------------------------
 Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
@@ -484,12 +478,8 @@ INFO: [Synth 8-7052] The timing for the instance rom_inst/dual_ram_inst/dual_ram
 INFO: [Synth 8-7052] The timing for the instance rom_inst/dual_ram_inst/dual_ram_template_inst/memory_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance rom_inst/dual_ram_inst/dual_ram_template_inst/memory_reg_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance rom_inst/dual_ram_inst/dual_ram_template_inst/memory_reg_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
-INFO: [Synth 8-7052] The timing for the instance riscv_inst/ram_inst/ram_byte0/dual_ram_template_inst/memory_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
-INFO: [Synth 8-7052] The timing for the instance riscv_inst/ram_inst/ram_byte1/dual_ram_template_inst/memory_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
-INFO: [Synth 8-7052] The timing for the instance riscv_inst/ram_inst/ram_byte2/dual_ram_template_inst/memory_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
-INFO: [Synth 8-7052] The timing for the instance riscv_inst/ram_inst/ram_byte3/dual_ram_template_inst/memory_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:54 ; elapsed = 00:01:52 . Memory (MB): peak = 1620.855 ; gain = 1061.074
+Finished Technology Mapping : Time (s): cpu = 00:00:10 ; elapsed = 00:00:27 . Memory (MB): peak = 1395.801 ; gain = 834.973
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -507,37 +497,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:58 ; elapsed = 00:02:00 . Memory (MB): peak = 1628.121 ; gain = 1068.340
+Finished IO Insertion : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1585.395 ; gain = 1024.566
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:58 ; elapsed = 00:02:00 . Memory (MB): peak = 1628.121 ; gain = 1068.340
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1585.395 ; gain = 1024.566
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:58 ; elapsed = 00:02:01 . Memory (MB): peak = 1628.121 ; gain = 1068.340
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1585.395 ; gain = 1024.566
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:58 ; elapsed = 00:02:01 . Memory (MB): peak = 1628.121 ; gain = 1068.340
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1585.395 ; gain = 1024.566
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:58 ; elapsed = 00:02:02 . Memory (MB): peak = 1639.105 ; gain = 1079.324
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1589.352 ; gain = 1028.523
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:58 ; elapsed = 00:02:02 . Memory (MB): peak = 1639.105 ; gain = 1079.324
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1589.352 ; gain = 1028.523
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -554,46 +544,46 @@ Report Cell Usage:
 |      |Cell     |Count |
 +------+---------+------+
 |1     |BUFG     |     2|
-|2     |CARRY4   |    74|
-|3     |LUT1     |     7|
-|4     |LUT2     |   387|
-|5     |LUT3     |   198|
-|6     |LUT4     |   220|
-|7     |LUT5     |   688|
-|8     |LUT6     |  2629|
-|9     |MUXF7    |   384|
-|10    |MUXF8    |   154|
-|11    |RAMB36E1 |     8|
-|12    |FDCE     |   545|
+|2     |CARRY4   |     8|
+|3     |LUT1     |     5|
+|4     |LUT2     |   258|
+|5     |LUT3     |    40|
+|6     |LUT4     |    36|
+|7     |LUT5     |   202|
+|8     |LUT6     |   650|
+|9     |MUXF7    |   128|
+|10    |MUXF8    |    64|
+|11    |RAMB36E1 |     4|
+|12    |FDCE     |   505|
 |13    |FDPE     |    11|
-|14    |FDRE     |  1605|
+|14    |FDRE     |  1102|
 |15    |FDSE     |     2|
 |16    |IBUF     |     5|
 |17    |OBUF     |     4|
 +------+---------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:58 ; elapsed = 00:02:02 . Memory (MB): peak = 1639.105 ; gain = 1079.324
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1589.352 ; gain = 1028.523
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 54 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:52 ; elapsed = 00:01:58 . Memory (MB): peak = 1639.105 ; gain = 994.578
-Synthesis Optimization Complete : Time (s): cpu = 00:00:59 ; elapsed = 00:02:02 . Memory (MB): peak = 1639.105 ; gain = 1079.324
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:09 ; elapsed = 00:00:28 . Memory (MB): peak = 1589.352 ; gain = 937.680
+Synthesis Optimization Complete : Time (s): cpu = 00:00:11 ; elapsed = 00:00:30 . Memory (MB): peak = 1589.352 ; gain = 1028.523
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.161 . Memory (MB): peak = 1648.535 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 620 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.039 . Memory (MB): peak = 1598.562 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 204 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1652.848 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1602.223 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete | Checksum: e1b704aa
+Synth Design complete | Checksum: 4b57884e
 INFO: [Common 17-83] Releasing license: Synthesis
-107 Infos, 142 Warnings, 2 Critical Warnings and 0 Errors encountered.
+103 Infos, 143 Warnings, 2 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:02 ; elapsed = 00:02:11 . Memory (MB): peak = 1652.848 ; gain = 1282.754
+synth_design: Time (s): cpu = 00:00:13 ; elapsed = 00:00:35 . Memory (MB): peak = 1602.223 ; gain = 1232.512
 INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.017 . Memory (MB): peak = 1652.848 ; gain = 0.000
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1602.223 ; gain = 0.000
 INFO: [Common 17-1381] The checkpoint 'E:/project/RISC-V/work/hubulab_riscv/prj/hubulab_riscv/hubulab_riscv.runs/synth_1/riscv_soc.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file riscv_soc_utilization_synth.rpt -pb riscv_soc_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Tue Apr  1 11:38:15 2025...
+INFO: [Common 17-206] Exiting Vivado at Tue Apr  1 21:40:58 2025...
