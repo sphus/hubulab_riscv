@@ -115,6 +115,7 @@ module riscv(
     wire [`InstAddrBus] int_addr;  
     wire int_assert;
     wire [3:0] irq_out;
+    wire [4:0] int_type;
 
     pc pc_inst(
            .clk         (clk            ),
@@ -181,7 +182,16 @@ module riscv(
                  .jtag_rdata  (reg_r_data   )
             );
 
-    csr_reg csr_reg_inst(
+    csr_reg  #(
+                .NUM   (5),
+                .ECALL (32'h000002c4),
+                .EBREAK(32'h000002c4),
+                .TIMER (32'h000002C0),
+                .DEBUG (32'h000002C0),
+                .SWI   (32'h000002C0),
+                .PLIC  (32'h000002C0)                
+            )
+    csr_reg_inst (
                 .clk                (clk             ),
                 .rstn               (rstn            ),
                 .ex_waddr_i         (csr_addr_ex     ),
@@ -194,6 +204,7 @@ module riscv(
                 .commit_wen_i       (commit_wen_i    ),
                 .commit_raddr_i     (commit_raddr_i  ),
                 .commit_rdata_o     (  ),
+                .int_type           (int_type        ),
                 .csr_mtvec          (csr_mtvec       ),
                 .csr_mepc           (csr_mepc        ),
                 .csr_mstatus        (csr_mstatus     ),
@@ -303,6 +314,7 @@ module riscv(
             .waddr_o            (commit_waddr_i   ),
             .raddr_o            (commit_raddr_i   ),
             .data_o             (commit_wdata_i   ),
+            .int_type           (int_type         ),
             // to ex
             // 做为jump_addr
             .int_addr_o         (int_addr         ),

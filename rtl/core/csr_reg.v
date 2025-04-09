@@ -1,6 +1,15 @@
 `include "defines.v"
 
-module csr_reg (
+module csr_reg #(
+    parameter NUM    = 5,
+    parameter ECALL  = 32'h000002c4,
+    parameter EBREAK = 32'h000002c4,
+    parameter TIMER  = 32'h000002C0,
+    parameter DEBUG  = 32'h000002C0,
+    parameter SWI    = 32'h000002C0,
+    parameter PLIC   = 32'h000002C0
+)
+(
     input wire clk,
     input wire rstn,
 
@@ -17,8 +26,9 @@ module csr_reg (
     input  wire [`RegBus] commit_wdata_i,
     input  wire [`RegBus] commit_waddr_i,
     input  wire [`RegBus] commit_raddr_i,
+    input  wire [NUM-1:0] int_type,
     output reg  [`RegBus] commit_rdata_o,
-    output wire [`RegBus] csr_mtvec,
+    output reg  [`RegBus] csr_mtvec,
     output wire [`RegBus] csr_mepc,
     output wire [`RegBus] csr_mstatus,
     output wire global_int_en_o
@@ -35,9 +45,21 @@ module csr_reg (
 
 
     assign global_int_en_o = (mstatus[3] == 1'b1) ? 1'b1 : 1'b0;     //全局异常使能
-    assign csr_mtvec = mtvec;
+    // assign csr_mtvec = mtvec;
     assign csr_mepc = mepc;
     assign csr_mstatus = mstatus;
+
+    always @(*) begin
+        case (int_type)
+            5'b00010: csr_mtvec = ECALL;
+            5'b00100: csr_mtvec = EBREAK;
+            5'b00011: csr_mtvec = SWI;
+            5'b00101: csr_mtvec = TIMER;
+            5'b01001: csr_mtvec = PLIC;
+            5'b10001: csr_mtvec = DEBUG;
+            default: csr_mtvec =  mtvec;
+        endcase 
+    end
 
     //cycle counter
     always @(posedge clk) begin
@@ -53,12 +75,10 @@ module csr_reg (
     // 优先响应ex的写操作
     always @(posedge clk) begin
         if (!rstn) begin
-            // mtvec     <= `ZeroWord; 
             mtvec     <= 32'h000002c4;
             mcause    <= `ZeroWord;  
             mepc      <= `ZeroWord;    
             mie       <= `ZeroWord;     
-            // mstatus   <= `ZeroWord; 
             mstatus   <= 32'h00000088; 
             mscratch  <= `ZeroWord;
         end

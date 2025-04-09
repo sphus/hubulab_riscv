@@ -42,7 +42,8 @@ module commit(
     output reg we_o,                            
     output reg[`RegBus] waddr_o,                
     output reg[`RegBus] raddr_o,                
-    output reg[`RegBus] data_o,                 
+    output reg[`RegBus] data_o, 
+    output reg[4:0]     int_type,                
 
     // to ex
     output reg[`InstAddrBus] int_addr_o,        
@@ -73,21 +74,36 @@ module commit(
     always @ (*) begin                          // 优先级：同步中断 > 异步中断 > MRET（中断返回）
         if (rstn == `RstnEnable) begin          
             int_state = S_INT_IDLE;
+            int_type = 5'b0;
         end 
         else begin
             // ECALL，EBREAK是系统调用
             if (inst_i == `INST_ECALL || inst_i == `INST_EBREAK) begin  
-                int_state = S_INT_SYNC_ASSERT;          
+                int_state = S_INT_SYNC_ASSERT;
+                int_type[0] = 1'b0;
+                case(inst_i)
+                    `INST_ECALL: int_type[1] = 1'b1;
+                    `INST_EBREAK: int_type[2] = 1'b1;
+                endcase
             end
             // irq_i中断输入信号、global_int_en_i全局中断使能,来自mstatus[3]
             else if (irq_i != 4'b0 && global_int_en_i == `Enable) begin 
-                int_state = S_INT_ASYNC_ASSERT;        
+                int_state = S_INT_ASYNC_ASSERT;
+                int_type[0] = 1'b1;
+                case(irq_i)
+                    4'b0001: int_type[1] = 1'b1;
+                    4'b0010: int_type[2] = 1'b1;
+                    4'b0100: int_type[3] = 1'b1;
+                    4'b1000: int_type[4] = 1'b1;
+                endcase        
             end 
             else if (inst_i == `INST_MRET) begin        
                 int_state = S_INT_MRET;
+                int_type = 5'b0;
             end
             else begin
                 int_state = S_INT_IDLE;
+                int_type = int_type;
             end
         end
     end

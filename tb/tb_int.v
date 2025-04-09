@@ -8,7 +8,7 @@ module tb_int();
 
 // `define DEBUG  1
 // `define SWI  1
-// `define PLIC  1
+`define PLIC  1
 // `define TIMER  1
 
     reg  clk ;
