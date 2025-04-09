@@ -94,6 +94,7 @@ module riscv(
 
     // -------------------------- MEM-------------------------- //
     wire [`RegBus]          MEM_jump_addr   ;
+    wire [`RegBus]          MEM_mem_rdata   ;
     wire [`RegBus]          MEM_result      ;
     wire [`RegBus]          MEM_FD_rs2_data ;
     wire [`RegAddrBus]      MEM_rd_addr     ;
@@ -283,22 +284,24 @@ module riscv(
     assign mem_sign   = MEM_mem_sign;
     assign rmem       = MEM_rmem;
     assign wmem       = MEM_wmem;
+    assign MEM_mem_rdata = mem_rdata;
 
 
     mem_wb mem_wb_inst(
-               .clk           (clk           ),
-               .rstn          (rstn          ),
-               .MEM_result    (MEM_result    ),
-               .MEM_rd_addr   (MEM_rd_addr   ),
-               .MEM_rmem      (MEM_rmem      ),
-               .MEM_wen       (MEM_wen       ),
-               .WB_result     (WB_result     ),
-               .WB_rd_addr    (WB_rd_addr    ),
-               .WB_rmem       (WB_rmem       ),
-               .WB_wen        (WB_wen        )
+               .clk             (clk            ),
+               .rstn            (rstn           ),
+               .MEM_mem_rdata   (MEM_mem_rdata  ),
+               .MEM_result      (MEM_result     ),
+               .MEM_rd_addr     (MEM_rd_addr    ),
+               .MEM_rmem        (MEM_rmem       ),
+               .MEM_wen         (MEM_wen        ),
+               .WB_mem_rdata    (WB_mem_rdata   ),
+               .WB_result       (WB_result      ),
+               .WB_rd_addr      (WB_rd_addr     ),
+               .WB_rmem         (WB_rmem        ),
+               .WB_wen          (WB_wen         )
            );
 
-    assign WB_mem_rdata = mem_rdata;
 
     wb wb_inst(
            .WB_mem_rdata (WB_mem_rdata ),
