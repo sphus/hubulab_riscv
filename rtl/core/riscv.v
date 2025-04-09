@@ -3,7 +3,7 @@
 module riscv(
         input  wire                 clk             ,
         input  wire                 rstn            ,
-
+        input  wire                 busy            ,
         input  wire [`RegBus]       inst_rom        ,
         output wire [`RegBus]       inst_addr_rom   ,
 
@@ -15,31 +15,32 @@ module riscv(
         output wire                 rmem            ,
         output wire                 wmem			,
 
-		// jtag
-		input  wire					halt_req_i		,
-		input  wire					reset_req_i		
+        // jtag
+        input  wire					halt_req_i		,
+        input  wire					reset_req_i
     );
 
     // ------------------- HAZARD DETECTION ------------------- //
-    wire nop;
-    wire jump;
+    wire [`Hold_Bus     ]   hold;
+    wire                    jump;
+    wire        [`Flush_Bus] flush;
     // ------------------- HAZARD DETECTION ------------------- //
 
     // ----------------------- FORWAED ------------------------ //
-    wire [`FwdBus    ]      fwd_rs1         ;
-    wire [`FwdBus    ]      fwd_rs2         ;
+    wire [`FwdBus       ]   fwd_rs1         ;
+    wire [`FwdBus       ]   fwd_rs2         ;
     // ----------------------- FORWAED ------------------------ //
 
     // -------------------------- ID -------------------------- //
     // data
     // wire [`RegBus]          pc              ;
-    wire [`RegBus]          ID_inst         ;
-    wire [`RegBus]          ID_inst_addr    ;
-    wire [`RegAddrBus]      ID_rs1_addr     ;
-    wire [`RegAddrBus]      ID_rs2_addr     ;
-    wire [`RegAddrBus]      ID_rd_addr      ;
-    wire [`RegBus]          ID_rs1_data     ;
-    wire [`RegBus]          ID_rs2_data     ;
+    wire [`RegBus       ]   ID_inst         ;
+    wire [`RegBus       ]   ID_inst_addr    ;
+    wire [`RegAddrBus   ]   ID_rs1_addr     ;
+    wire [`RegAddrBus   ]   ID_rs2_addr     ;
+    wire [`RegAddrBus   ]   ID_rd_addr      ;
+    wire [`RegBus       ]   ID_rs1_data     ;
+    wire [`RegBus       ]   ID_rs2_data     ;
 
     // control
     wire                    ID_rmem         ;    // memory   read  enable
@@ -47,31 +48,31 @@ module riscv(
     wire                    ID_wen          ;    // register write enable
     wire                    ID_jmp          ;    // Jump
     wire                    ID_jcc          ;    // Jump on Condition
-    wire [`ALU_ctrl_bus]    ID_alu_ctrl     ;    // ALU Control
+    wire [`ALU_ctrl_bus ]   ID_alu_ctrl     ;    // ALU Control
     wire                    ID_jal          ;    // JAL  Instruction
     wire                    ID_jalr         ;    // JALR Instruction
     wire                    ID_lui          ;    // LUI Instruction
     wire                    ID_auipc        ;    // AUIPC Instruction
     wire                    ID_inst_R       ;   // INST TYPE R
 
-    wire [`mem_type_bus]    ID_mem_type     ;    // load/store data type
+    wire [`mem_type_bus ]   ID_mem_type     ;    // load/store data type
     wire                    ID_mem_sign     ;    // load/store data sign
     wire                    ID_sign         ;    // ALU SIGN
     wire                    ID_sub          ;    // ALU SUB
-    wire [`RegBus]          ID_imm          ;    // immediate
+    wire [`RegBus       ]   ID_imm          ;    // immediate
     // -------------------------- ID -------------------------- //
 
     // -------------------------- EX -------------------------- //
     // data
-    wire [`RegBus]          EX_inst_addr    ;
-    wire [`RegAddrBus]      EX_rs1_addr     ;
-    wire [`RegAddrBus]      EX_rs2_addr     ;
-    wire [`RegAddrBus]      EX_rd_addr      ;
-    wire [`RegBus]          EX_result       ;
-    wire [`RegBus]          EX_FD_rs2_data  ;
-    wire [`RegBus]          EX_rs1_data     ;
-    wire [`RegBus]          EX_rs2_data     ;
-    wire [`RegBus]          EX_jump_addr    ;
+    wire [`RegBus       ]   EX_inst_addr    ;
+    wire [`RegAddrBus   ]   EX_rs1_addr     ;
+    wire [`RegAddrBus   ]   EX_rs2_addr     ;
+    wire [`RegAddrBus   ]   EX_rd_addr      ;
+    wire [`RegBus       ]   EX_result       ;
+    wire [`RegBus       ]   EX_FD_rs2_data  ;
+    wire [`RegBus       ]   EX_rs1_data     ;
+    wire [`RegBus       ]   EX_rs2_data     ;
+    wire [`RegBus       ]   EX_jump_addr    ;
     // control
     wire                    EX_rmem         ;    // memory   read  enable
     wire                    EX_wmem         ;    // memory   write enable
@@ -115,24 +116,24 @@ module riscv(
     // -------------------------- WB -------------------------- //
 
     pc pc_inst(
-           .clk       (clk           ),
-           .rstn      (rstn|reset_req_i),
-           .nop       (nop|halt_req_i),
-           .jump      (jump          ),
-           .jump_addr (MEM_jump_addr ),
-           .pc        (inst_addr_rom )
+           .clk         (clk                ),
+           .rstn        (rstn|reset_req_i   ),
+           .hold        (hold|halt_req_i    ),
+           .jump        (jump               ),
+           .jump_addr   (MEM_jump_addr      ),
+           .pc          (inst_addr_rom      )
        );
 
 
     if_id if_id_inst(
-              .clk    (clk             ),
-              .rstn   (rstn            ),
-              .nop    (nop|halt_req_i  ),
-              .jump   (jump            ),
-              .inst_i (inst_rom        ),
-              .addr_i (inst_addr_rom   ),
-              .inst_o (ID_inst         ),
-              .addr_o (ID_inst_addr    )
+              .clk      (clk            ),
+              .rstn     (rstn           ),
+              .hold     (hold|halt_req_i),
+              .flush    (flush          ),
+              .inst_i   (inst_rom       ),
+              .addr_i   (inst_addr_rom  ),
+              .inst_o   (ID_inst        ),
+              .addr_o   (ID_inst_addr   )
           );
 
     id_unit id_unit_inst(
@@ -171,54 +172,54 @@ module riscv(
              );
 
     id_ex id_ex_inst(
-              .clk          (clk          ),
-              .rstn         (rstn         ),
-              .nop          (nop|halt_req_i),
-              .jump         (jump         ),
-              .ID_inst_addr (ID_inst_addr ),
-              .ID_rs1_addr  (ID_rs1_addr  ),
-              .ID_rs2_addr  (ID_rs2_addr  ),
-              .ID_rd_addr   (ID_rd_addr   ),
-              .ID_rs1_data  (ID_rs1_data  ),
-              .ID_rs2_data  (ID_rs2_data  ),
-              .ID_rmem      (ID_rmem      ),
-              .ID_wmem      (ID_wmem      ),
-              .ID_wen       (ID_wen       ),
-              .ID_jmp       (ID_jmp       ),
-              .ID_jcc       (ID_jcc       ),
-              .ID_alu_ctrl  (ID_alu_ctrl  ),
-              .ID_jalr      (ID_jalr      ),
-              .ID_jal       (ID_jal       ),
-              .ID_lui       (ID_lui       ),
+              .clk          (clk            ),
+              .rstn         (rstn           ),
+              .hold         (hold|halt_req_i),
+              .flush        (flush          ),
+              .ID_inst_addr (ID_inst_addr   ),
+              .ID_rs1_addr  (ID_rs1_addr    ),
+              .ID_rs2_addr  (ID_rs2_addr    ),
+              .ID_rd_addr   (ID_rd_addr     ),
+              .ID_rs1_data  (ID_rs1_data    ),
+              .ID_rs2_data  (ID_rs2_data    ),
+              .ID_rmem      (ID_rmem        ),
+              .ID_wmem      (ID_wmem        ),
+              .ID_wen       (ID_wen         ),
+              .ID_jmp       (ID_jmp         ),
+              .ID_jcc       (ID_jcc         ),
+              .ID_alu_ctrl  (ID_alu_ctrl    ),
+              .ID_jalr      (ID_jalr        ),
+              .ID_jal       (ID_jal         ),
+              .ID_lui       (ID_lui         ),
               .ID_auipc     (ID_auipc       ),
-              .ID_inst_R    (ID_inst_R    ),
-              .ID_mem_type  (ID_mem_type  ),
-              .ID_mem_sign  (ID_mem_sign  ),
-              .ID_sign      (ID_sign      ),
-              .ID_sub       (ID_sub       ),
-              .ID_imm       (ID_imm       ),
-              .EX_inst_addr (EX_inst_addr ),
-              .EX_rs1_addr  (EX_rs1_addr  ),
-              .EX_rs2_addr  (EX_rs2_addr  ),
-              .EX_rd_addr   (EX_rd_addr   ),
-              .EX_rs1_data  (EX_rs1_data  ),
-              .EX_rs2_data  (EX_rs2_data  ),
-              .EX_rmem      (EX_rmem      ),
-              .EX_wmem      (EX_wmem      ),
-              .EX_wen       (EX_wen       ),
-              .EX_jmp       (EX_jmp       ),
-              .EX_jcc       (EX_jcc       ),
-              .EX_alu_ctrl  (EX_alu_ctrl  ),
-              .EX_jal       (EX_jal       ),
-              .EX_jalr      (EX_jalr      ),
-              .EX_lui       (EX_lui       ),
+              .ID_inst_R    (ID_inst_R      ),
+              .ID_mem_type  (ID_mem_type    ),
+              .ID_mem_sign  (ID_mem_sign    ),
+              .ID_sign      (ID_sign        ),
+              .ID_sub       (ID_sub         ),
+              .ID_imm       (ID_imm         ),
+              .EX_inst_addr (EX_inst_addr   ),
+              .EX_rs1_addr  (EX_rs1_addr    ),
+              .EX_rs2_addr  (EX_rs2_addr    ),
+              .EX_rd_addr   (EX_rd_addr     ),
+              .EX_rs1_data  (EX_rs1_data    ),
+              .EX_rs2_data  (EX_rs2_data    ),
+              .EX_rmem      (EX_rmem        ),
+              .EX_wmem      (EX_wmem        ),
+              .EX_wen       (EX_wen         ),
+              .EX_jmp       (EX_jmp         ),
+              .EX_jcc       (EX_jcc         ),
+              .EX_alu_ctrl  (EX_alu_ctrl    ),
+              .EX_jal       (EX_jal         ),
+              .EX_jalr      (EX_jalr        ),
+              .EX_lui       (EX_lui         ),
               .EX_auipc     (EX_auipc       ),
-              .EX_inst_R    (EX_inst_R    ),
-              .EX_mem_type  (EX_mem_type  ),
-              .EX_mem_sign  (EX_mem_sign  ),
-              .EX_sign      (EX_sign      ),
-              .EX_sub       (EX_sub       ),
-              .EX_imm       (EX_imm       )
+              .EX_inst_R    (EX_inst_R      ),
+              .EX_mem_type  (EX_mem_type    ),
+              .EX_mem_sign  (EX_mem_sign    ),
+              .EX_sign      (EX_sign        ),
+              .EX_sub       (EX_sub         ),
+              .EX_imm       (EX_imm         )
           );
 
     ex ex_inst(
@@ -253,7 +254,8 @@ module riscv(
     ex_mem ex_mem_inst(
                .clk             (clk            ),
                .rstn            (rstn           ),
-               .jump            (jump           ),
+               .flush           (flush          ),
+               .hold            (hold           ),
                .EX_jump_addr    (EX_jump_addr   ),
                .EX_result       (EX_result      ),
                .EX_FD_rs2_data  (EX_FD_rs2_data ),
@@ -286,21 +288,36 @@ module riscv(
     assign wmem       = MEM_wmem;
     assign MEM_mem_rdata = mem_rdata;
 
+mem_wb mem_wb_inst(
+    .clk           (clk           ),
+    .rstn          (rstn          ),
+    .hold          (2'b0          ),
+    .MEM_result    (MEM_result    ),
+    .MEM_mem_rdata (MEM_mem_rdata ),
+    .MEM_rd_addr   (MEM_rd_addr   ),
+    .MEM_rmem      (MEM_rmem      ),
+    .MEM_wen       (MEM_wen       ),
+    .WB_result     (WB_result     ),
+    .WB_mem_rdata  (WB_mem_rdata  ),
+    .WB_rd_addr    (WB_rd_addr    ),
+    .WB_rmem       (WB_rmem       ),
+    .WB_wen        (WB_wen        )
+);
 
-    mem_wb mem_wb_inst(
-               .clk             (clk            ),
-               .rstn            (rstn           ),
-               .MEM_mem_rdata   (MEM_mem_rdata  ),
-               .MEM_result      (MEM_result     ),
-               .MEM_rd_addr     (MEM_rd_addr    ),
-               .MEM_rmem        (MEM_rmem       ),
-               .MEM_wen         (MEM_wen        ),
-               .WB_mem_rdata    (WB_mem_rdata   ),
-               .WB_result       (WB_result      ),
-               .WB_rd_addr      (WB_rd_addr     ),
-               .WB_rmem         (WB_rmem        ),
-               .WB_wen          (WB_wen         )
-           );
+    // mem_wb mem_wb_inst(
+    //            .clk             (clk            ),
+    //            .rstn            (rstn           ),
+    //            .MEM_mem_rdata   (MEM_mem_rdata  ),
+    //            .MEM_result      (MEM_result     ),
+    //            .MEM_rd_addr     (MEM_rd_addr    ),
+    //            .MEM_rmem        (MEM_rmem       ),
+    //            .MEM_wen         (MEM_wen        ),
+    //            .WB_result       (WB_result      ),
+    //            .WB_mem_rdata    (WB_mem_rdata   ),
+    //            .WB_rd_addr      (WB_rd_addr     ),
+    //            .WB_rmem         (WB_rmem        ),
+    //            .WB_wen          (WB_wen         )
+    //        );
 
 
     wb wb_inst(
@@ -313,23 +330,37 @@ module riscv(
 
 
     forward forward_inst(
-                .EX_MEM_wen (MEM_wen),
-                .EX_MEM_rd  (MEM_rd_addr ),
-                .MEM_WB_wen (WB_wen ),
-                .MEM_WB_rd  (WB_rd_addr  ),
-                .ID_EX_rs1  (EX_rs1_addr ),
-                .ID_EX_rs2  (EX_rs2_addr ),
-                .fwd_rs1    (fwd_rs1),
-                .fwd_rs2    (fwd_rs2)
+                .EX_MEM_wen (MEM_wen        ),
+                .EX_MEM_rd  (MEM_rd_addr    ),
+                .MEM_WB_wen (WB_wen         ),
+                .MEM_WB_rd  (WB_rd_addr     ),
+                .ID_EX_rs1  (EX_rs1_addr    ),
+                .ID_EX_rs2  (EX_rs2_addr    ),
+                .fwd_rs1    (fwd_rs1        ),
+                .fwd_rs2    (fwd_rs2        )
             );
 
     hazard_detection hazard_detection_inst(
-                         .ID_rs1    (ID_rs1_addr   ),
-                         .ID_rs2    (ID_rs2_addr   ),
-                         .EX_rd     (EX_rd_addr    ),
-                         .EX_rmem   (EX_rmem       ),
-                         .nop       (nop           )
+                         .clk     (clk           ),
+                         .rstn    (rstn          ),
+                         .jump    (jump          ),
+                         .ID_rs1  (ID_rs1_addr   ),
+                         .ID_rs2  (ID_rs2_addr   ),
+                         .EX_rd   (EX_rd_addr    ),
+                         .EX_rmem (EX_rmem       ),
+                         .busy    (busy          ),
+                         .hold    (hold          ),
+                         .flush   (flush         )
                      );
+
+
+    // hazard_detection hazard_detection_inst(
+    //                      .ID_rs1    (ID_rs1_addr),
+    //                      .ID_rs2    (ID_rs2_addr),
+    //                      .EX_rd     (EX_rd_addr ),
+    //                      .EX_rmem   (EX_rmem    ),
+    //                      .hold      (hold       )
+    //                  );
 
 endmodule
 

@@ -17,28 +17,29 @@ module riscv_soc (
     wire [31:0] inst_addr_rom   ;
     wire [31:0] inst_rom        ;
 
-    wire [`RegBus]          mem_rdata     ;
-    wire [`RegBus]          mem_wdata     ;
-    wire [`RegBus]          mem_addr      ;
-    wire [`mem_type_bus]    mem_type      ;
-    wire                    mem_sign      ;
-    wire                    rmem          ;
-    wire                    wmem          ;
-    wire [`RegBus]          addr          ;
+    wire [`RegBus]          mem_rdata       ;
+    wire [`RegBus]          mem_wdata       ;
+    wire [`RegBus]          mem_addr        ;
+    wire [`mem_type_bus]    mem_type        ;
+    wire                    mem_sign        ;
+    wire                    rmem            ;
+    wire                    wmem            ;
+    wire [`RegBus]          addr            ;
 
-    wire [3:0]		        wen           ;
-    wire [AW-1:0]	        w_addr        ;
-    wire [DW-1:0]           w_data        ;
-    wire 			        ren           ;
-    wire [AW-1:0]	        r_addr        ;
-    wire [DW-1:0]           r_data        ;
+    wire [3:0]		        wen             ;
+    wire [AW-1:0]	        w_addr          ;
+    wire [DW-1:0]           w_data          ;
+    wire 			        ren             ;
+    wire 			        busy            ;
+    wire [AW-1:0]	        r_addr          ;
+    wire [DW-1:0]           r_data          ;
 
     // jtag_signal
-    wire 			        jtag_wen      ;
-    wire [AW-1:0]	        jtag_waddr    ;
-    wire [DW-1:0]           jtag_wdata    ;
-    wire 			        jtag_halt_req ;
-    wire 			        jtag_reset_req;
+    wire 			        jtag_wen        ;
+    wire [AW-1:0]	        jtag_waddr      ;
+    wire [DW-1:0]           jtag_wdata      ;
+    wire 			        jtag_halt_req   ;
+    wire 			        jtag_reset_req  ;
 
     assign over = riscv_inst.register_inst.reg_mem[26];
     assign pass = riscv_inst.register_inst.reg_mem[27];
@@ -47,6 +48,7 @@ module riscv_soc (
     riscv riscv_inst(
               .clk           (clk           ),
               .rstn          (rstn          ),
+              .busy          (busy          ),
               .inst_rom      (inst_rom      ),
               .inst_addr_rom (inst_addr_rom ),
               .mem_rdata     (mem_rdata     ),
@@ -93,6 +95,7 @@ module riscv_soc (
                       .w_data   (w_data     ),
                       .addr     (addr       ),
                       .wen      (wen        ),
+                      .busy     (busy       ),
                       .ren      (ren        )
                   );
 

@@ -4,6 +4,7 @@ module ram_interface (
         input  wire                 clk         ,
         input  wire                 rstn        ,
 
+
         output reg  [`RegBus]       mem_rdata   ,
         input  wire [`RegBus]       mem_wdata   ,
         input  wire [`RegBus]       mem_addr    ,
@@ -16,27 +17,47 @@ module ram_interface (
         output reg  [`RegBus]       w_data      ,
         output wire [`RegBus]       addr        ,
         output reg  [3:0]           wen         ,
+        output wire                 busy        ,
         output wire                 ren
     );
 
     assign addr =  mem_addr;
     assign ren  = rmem;
 
+    reg busy_buff;
+
+    always @(posedge clk or negedge rstn)
+    begin
+        if (!rstn)
+            busy_buff <= `Disable;
+        else
+            busy_buff <= rmem;
+    end
+
+    assign busy = ~busy_buff & rmem;
+
     reg [`mem_type_bus] type_reg;
-    reg [1:0] addr_reg;
-    reg sign_reg;
+    reg [1:0]   addr_reg;
+    reg         sign_reg;
 
 
-    
-    always @(posedge clk) begin
+
+    // always @(posedge clk) begin
+    //     busy <= rstn ? rmem : `Disable;
+    // end
+
+    always @(posedge clk)
+    begin
         type_reg <= rstn ? mem_type : `LS_B;
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk)
+    begin
         addr_reg <= rstn ? mem_addr[1:0] : `ZeroWord;
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk)
+    begin
         sign_reg <= rstn ? mem_sign : `Disable;
     end
 

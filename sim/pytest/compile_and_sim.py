@@ -119,6 +119,8 @@ def compile():
     iverilog_cmd.append(rtl_dir + r'/rtl/periph/rom.v')
     # 通用utils
     iverilog_cmd.append(rtl_dir + r'/rtl/utils/DFF.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/utils/DFFC.v')
+    iverilog_cmd.append(rtl_dir + r'/rtl/utils/DFFD.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/utils/dual_ram.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/utils/full_handshake_rx.v')
     iverilog_cmd.append(rtl_dir + r'/rtl/utils/full_handshake_tx.v')

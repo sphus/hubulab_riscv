@@ -24,30 +24,41 @@ add wave -divider {PC}
 add wave tb_riscv/riscv_soc_inst/riscv_inst/pc_inst/*
 add wave -divider {REGISTER} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/register_inst/reg_mem
+# add wave -divider {MEM_WB} 
+# add wave tb_riscv/riscv_soc_inst/riscv_inst/mem_wb_inst/*
 add wave -divider {IMM_GEN} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/id_unit_inst/imm_gen_inst/*
+# add wave -divider {ID} 
+# add wave tb_riscv/riscv_soc_inst/riscv_inst/id_unit_inst/control_inst/*
 add wave -divider {EX} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/ex_inst/*
+# add wave -divider {ID_EX} 
+# add wave tb_riscv/riscv_soc_inst/riscv_inst/id_ex_inst/*
 add wave -divider {ALU} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/ex_inst/ALU_inst/*
+add wave -divider {FORWARD} 
+add wave tb_riscv/riscv_soc_inst/riscv_inst/forward_inst/*
 add wave -divider {HAZARD_DETECTION} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/hazard_detection_inst/*
+add wave -divider {ROM} 
+add wave tb_riscv/riscv_soc_inst/rom_inst/r_addr
+add wave tb_riscv/riscv_soc_inst/rom_inst/r_data
 add wave -divider {RISCV} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/*
 
 
-add wave -divider {RAM_INTERFACE} 
-add wave tb_riscv/riscv_soc_inst/ram_interface_inst/*
-add wave -divider {RAM} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/*
-add wave -divider {RAM_BYTE0} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/*
-add wave -divider {RAM_BYTE1} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte1/*
-add wave -divider {RAM_BYTE2} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte2/*
-add wave -divider {RAM_BYTE3} 
-add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte3/*
+# add wave -divider {RAM_INTERFACE} 
+# add wave tb_riscv/riscv_soc_inst/ram_interface_inst/*
+# add wave -divider {RAM} 
+# add wave tb_riscv/riscv_soc_inst/ram_inst/*
+# add wave -divider {RAM_BYTE0} 
+# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte0/*
+# add wave -divider {RAM_BYTE1} 
+# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte1/*
+# add wave -divider {RAM_BYTE2} 
+# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte2/*
+# add wave -divider {RAM_BYTE3} 
+# add wave tb_riscv/riscv_soc_inst/ram_inst/ram_byte3/*
 
 configure wave -signalnamewidth 1
 

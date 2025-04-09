@@ -3,15 +3,16 @@
 module tb_riscv();
 
 
-    `define PYTHON
+`define PYTHON
+// `define ONE_INST_TEST
 
 `define CLK_PERIOD 20
 
 `ifdef PYTHON
     `define READ_FILE "../generated/inst_data.txt"
 `else
-// `define READ_FILE "./generated/inst_data.txt"
-    `define READ_FILE "./generated/rv32ui-p-lw.txt"
+    // `define READ_FILE "./generated/inst_data.txt"
+`define READ_FILE "./generated/rv32ui-p-bne.txt"
 `endif
 
 
@@ -82,7 +83,7 @@ module tb_riscv();
     initial
     begin
         wait(x[26] == 32'b1);
-        #(`CLK_PERIOD*3);
+        #(`CLK_PERIOD*5);
         if(x[27] == 32'b1)
         begin
             $display("############################");
@@ -107,8 +108,13 @@ module tb_riscv();
 
     end
 
-    // always @(x[3])
+
+`ifdef ONE_INST_TEST
     always @(inst_addr)
+`else
+    always @(x[3])
+`endif
+
     begin
         $display("inst_addr is %x at %d",inst_addr,$time);
         for(r = 0;r < 31; r = r + 4)

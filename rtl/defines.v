@@ -1,28 +1,40 @@
 
-`define pc_rstn 32'h0
-`define ZeroReg 5'h0
+`define pc_rstn     32'h0
+`define ZeroReg     5'h0
 
-`define RstnEnable 1'b0
+`define RstnEnable  1'b0
 `define RstnDisable 1'b1
-`define Enable 1'b1
-`define Disable 1'b0
-`define ZeroWord 32'h0
+`define Enable      1'b1
+`define Disable     1'b0
+`define ZeroWord    32'h0
+
 // Bus
-`define Hold_Flag_num 3
-`define Hold_Flag_Bus (`Hold_Flag_num-1):0
-`define RegAddrnum 5
-`define RegAddrBus (`RegAddrnum-1):0
-`define Regnum 32
-`define RegBus (`Regnum - 1):0
+`define RegAddrnum  5
+`define RegAddrBus  (`RegAddrnum-1):0
+`define Regnum      32
+`define RegBus      (`Regnum - 1):0
 `define DoubleRegBus 63:0
 
 // forward
-`define Fwdnum 2
-`define FwdBus (`Fwdnum-1):0
-`define Fwd_WB   2'b01
-`define Fwd_MEM  2'b10
-`define Fwd_NONE 2'b00
+`define Fwdnum      2
+`define FwdBus      (`Fwdnum-1):0
+`define Fwd_WB      2'b01
+`define Fwd_MEM     2'b10
+`define Fwd_NONE    2'b00
 
+// hold
+`define Hold_num    2
+`define Hold_Bus    (`Hold_num-1):0
+// `define Hold_pc     2'b01
+// `define Hold_ls     2'b10
+
+
+
+// flush
+`define Flush_num   2
+`define Flush_Bus   (`Flush_num-1):0
+`define Flush_id    2'b01
+`define Flush_jump  2'b10
 
 // ALU Switch
 `define ALU_ctrl_num  3
