@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xc7a35tfgg484-2" LaunchTime="1743514814" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/riscv_soc.dcp">
-  <File Type="PA-TCL" Name="riscv_soc.tcl"/>
   <File Type="REPORTS-TCL" Name="riscv_soc_reports.tcl"/>
-  <File Type="RDS-RDS" Name="riscv_soc.vds"/>
-  <File Type="RDS-PROPCONSTRS" Name="riscv_soc_drc_synth.rpt"/>
   <File Type="RDS-UTIL" Name="riscv_soc_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="riscv_soc_utilization_synth.pb"/>
+  <File Type="PA-TCL" Name="riscv_soc.tcl"/>
+  <File Type="RDS-RDS" Name="riscv_soc.vds"/>
   <File Type="RDS-DCP" Name="riscv_soc.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="riscv_soc_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="riscv_soc_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/../../rtl/core/defines.v">

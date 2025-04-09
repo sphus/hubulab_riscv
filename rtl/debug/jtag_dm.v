@@ -53,8 +53,10 @@
  
      dm_op_req_o,
      dm_halt_req_o,
-     dm_reset_req_o
- 
+     dm_reset_req_o,
+     
+     // interrupt
+     debug_irq
      );
  
      parameter DM_RESP_BITS = DMI_ADDR_BITS + DMI_DATA_BITS + DMI_OP_BITS;
@@ -81,6 +83,9 @@
      output wire dm_op_req_o;
      output wire dm_halt_req_o;
      output wire dm_reset_req_o;
+     
+     // 调试中断
+     output wire debug_irq;
  
      // DM模块寄存器
      reg[31:0] dcsr;
@@ -136,6 +141,8 @@
  
      wire read_dmstatus = (op == `DTM_OP_READ) & (address == DMSTATUS);
  
+     assign debug_irq = dmcontrol[28];
+
      always @ (posedge clk or negedge rst_n) begin
          if (!rst_n) begin
              dm_mem_we <= 1'b0;

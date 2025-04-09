@@ -28,7 +28,7 @@ module id_ex (
         output wire [`RegAddrBus]   rd_addr_o   ,   // rd address
         output wire                 reg_wen_o   ,   // reg write enable
         output wire [`RegBus]       csr_waddr_o ,   // csr address
-        output wire                 csr_wen_o        // csr write enable
+        output wire                 csr_wen_o       // csr write enable
     );
 
     DFF #(32) inst_dff          (clk,rstn,hold_flag_i,`INST_NOP ,inst_i         ,inst_o         );

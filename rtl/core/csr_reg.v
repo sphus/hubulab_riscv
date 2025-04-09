@@ -5,14 +5,23 @@ module csr_reg (
     input wire rstn,
 
     // from ex
-    input wire csr_wen_i,
-    input wire [`RegBus] csr_wdata_i,
-    input wire [`RegBus] csr_waddr_i,
+    input wire ex_wen_i,
+    input wire [`RegBus] ex_wdata_i,
+    input wire [`RegBus] ex_waddr_i,
+    input wire [`RegBus] id_raddr_i,
+    // to ex 
+    output reg [`RegBus] id_rdata_o,
 
-    // from id
-    input  wire [`RegBus] csr_raddr_i,
-    // to id 
-    output reg  [`RegBus] csr_rdata_o
+    // from commit
+    input  wire commit_wen_i,
+    input  wire [`RegBus] commit_wdata_i,
+    input  wire [`RegBus] commit_waddr_i,
+    input  wire [`RegBus] commit_raddr_i,
+    output reg  [`RegBus] commit_rdata_o,
+    output wire [`RegBus] csr_mtvec,
+    output wire [`RegBus] csr_mepc,
+    output wire [`RegBus] csr_mstatus,
+    output wire global_int_en_o
 );
 
     //csr_reg
@@ -24,6 +33,12 @@ module csr_reg (
     reg[`RegBus] mstatus;       //全局中断使能和其他状态信息
     reg[`RegBus] mscratch;      //mscratch寄存器用于机器模式下的程序临时保存某些数据
 
+
+    assign global_int_en_o = (mstatus[3] == 1'b1) ? 1'b1 : 1'b0;     //全局异常使能
+    assign csr_mtvec = mtvec;
+    assign csr_mepc = mepc;
+    assign csr_mstatus = mstatus;
+
     //cycle counter
     always @(posedge clk) begin
         if (!rstn) begin
@@ -34,55 +49,83 @@ module csr_reg (
         end
     end
 
-    //wirte csr_reg
+    // wirte csr_reg
+    // 优先响应ex的写操作
     always @(posedge clk) begin
         if (!rstn) begin
-            // mtvec     <= 32'd1;   
-            // mcause    <= 32'd2;  
-            // mepc      <= 32'd3;    
-            // mie       <= 32'd4;     
-            // mstatus   <= 32'd3; 
-            // mscratch  <= 32'd9;
-            mtvec     <= `ZeroWord;   
+            // mtvec     <= `ZeroWord; 
+            mtvec     <= 32'h000002c4;
             mcause    <= `ZeroWord;  
             mepc      <= `ZeroWord;    
             mie       <= `ZeroWord;     
-            mstatus   <= `ZeroWord; 
+            // mstatus   <= `ZeroWord; 
+            mstatus   <= 32'h00000088; 
             mscratch  <= `ZeroWord;
         end
         else begin
-            if(csr_wen_i == `Enable) begin
-                case (csr_waddr_i[11:0])
-                    `CSR_MTVEC    : mtvec    <= csr_wdata_i;
-                    `CSR_MCAUSE   : mcause   <= csr_wdata_i;
-                    `CSR_MEPC     : mepc     <= csr_wdata_i;
-                    `CSR_MIE      : mie      <= csr_wdata_i;
-                    `CSR_MSTATUS  : mstatus  <= csr_wdata_i;
-                    `CSR_MSCRATCH : mscratch <= csr_wdata_i;
+            if(ex_wen_i == `Enable) begin
+                case (ex_waddr_i[11:0])
+                    `CSR_MTVEC    : mtvec    <= ex_wdata_i;
+                    `CSR_MCAUSE   : mcause   <= ex_wdata_i;
+                    `CSR_MEPC     : mepc     <= ex_wdata_i;
+                    `CSR_MIE      : mie      <= ex_wdata_i;
+                    `CSR_MSTATUS  : mstatus  <= ex_wdata_i;
+                    `CSR_MSCRATCH : mscratch <= ex_wdata_i;
+                    default:    ;
+                endcase
+            end
+            else if(commit_wen_i == `Enable) begin
+                case (commit_waddr_i[11:0])
+                    `CSR_MTVEC    : mtvec    <= commit_wdata_i;
+                    `CSR_MCAUSE   : mcause   <= commit_wdata_i;
+                    `CSR_MEPC     : mepc     <= commit_wdata_i;
+                    `CSR_MIE      : mie      <= commit_wdata_i;
+                    `CSR_MSTATUS  : mstatus  <= commit_wdata_i;
+                    `CSR_MSCRATCH : mscratch <= commit_wdata_i;
                     default:    ;
                 endcase
             end
         end
     end
 
-    //read csr_reg
+    //ex read csr_reg
     always @(*) begin
-        if((csr_raddr_i[11:0] == csr_waddr_i[11:0]) && (csr_wen_i == `Enable)) begin
-            csr_rdata_o = csr_wdata_i;
+        if((ex_waddr_i[11:0] == id_raddr_i[11:0]) && (ex_wen_i == `Enable)) begin
+            id_rdata_o = ex_wdata_i;
         end
         else begin
-            case (csr_raddr_i[11:0]) 
-                `CSR_CYCLE    : csr_rdata_o = cycle[31:0];
-                `CSR_CYCLEH   : csr_rdata_o = cycle[63:32];
-                `CSR_MTVEC    : csr_rdata_o = mtvec;
-                `CSR_MCAUSE   : csr_rdata_o = mcause;
-                `CSR_MEPC     : csr_rdata_o = mepc;
-                `CSR_MIE      : csr_rdata_o = mie;
-                `CSR_MSTATUS  : csr_rdata_o = mstatus;
-                `CSR_MSCRATCH : csr_rdata_o = mscratch;
-                default       : csr_rdata_o = `ZeroWord;
+            case (id_raddr_i[11:0]) 
+                `CSR_CYCLE    : id_rdata_o = cycle[31:0];
+                `CSR_CYCLEH   : id_rdata_o = cycle[63:32];
+                `CSR_MTVEC    : id_rdata_o = mtvec;
+                `CSR_MCAUSE   : id_rdata_o = mcause;
+                `CSR_MEPC     : id_rdata_o = mepc;
+                `CSR_MIE      : id_rdata_o = mie;
+                `CSR_MSTATUS  : id_rdata_o = mstatus;
+                `CSR_MSCRATCH : id_rdata_o = mscratch;
+                default       : id_rdata_o = `ZeroWord;
             endcase
         end    
     end
-    
+ 
+    //commit read csr_reg
+    always @(*) begin
+        if((commit_waddr_i[11:0] == commit_raddr_i[11:0]) && (commit_wen_i == `Enable)) begin
+            commit_rdata_o = commit_wdata_i;
+        end
+        else begin
+            case (id_raddr_i[11:0]) 
+                `CSR_CYCLE    : commit_rdata_o = cycle[31:0];
+                `CSR_CYCLEH   : commit_rdata_o = cycle[63:32];
+                `CSR_MTVEC    : commit_rdata_o = mtvec;
+                `CSR_MCAUSE   : commit_rdata_o = mcause;
+                `CSR_MEPC     : commit_rdata_o = mepc;
+                `CSR_MIE      : commit_rdata_o = mie;
+                `CSR_MSTATUS  : commit_rdata_o = mstatus;
+                `CSR_MSCRATCH : commit_rdata_o = mscratch;
+                default       : commit_rdata_o = `ZeroWord;
+            endcase
+        end    
+    end
+
 endmodule //csr_reg

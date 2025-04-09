@@ -1,4 +1,3 @@
-
 `define ZeroWord 32'h0
 `define ZeroReg 5'h0
 
@@ -13,11 +12,20 @@
 `define RegBus 31:0
 `define DoubleRegBus 63:0
 
+// INST
+`define InstBus 31:0
+`define InstAddrBus 31:0
+`define InstEnable 1'b1
+`define InstDisable 1'b0
+
 // pipeline paused
 `define Hold_None 3'b000
 `define Hold_Pc   3'b001
 `define Hold_If   3'b010
 `define Hold_Id   3'b011
+
+// interruption
+`define Interrupt_Bus 3:0
 
 // I type inst
 `define INST_TYPE_I 7'b0010011

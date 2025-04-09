@@ -42,7 +42,6 @@ module tb_jtag;
         wire[31:0] dmstatus = riscv_soc_inst.u_jtag_top.u_jtag_dm.dmstatus;            // 调试模块的状态
     `endif
 
-
 `ifdef TEST_JTAG
     task DR_init(
         input [39:0] DR_NUM

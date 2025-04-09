@@ -26,7 +26,7 @@ module ex (
 
         // to ctrl
         output wire [`RegBus]       jump_addr_o ,
-        output reg                  jump_en_o   ,
+        output wire                 jump_en_o   ,
         output reg                  hold_flag_o ,
 
         // from mem
@@ -35,8 +35,11 @@ module ex (
         // to mem
         output reg  [`RegBus]       mem_wr_addr ,
         output reg  [`RegBus]       mem_wr_data ,
-        output reg  [ 3:0]          mem_wen     
-                        
+        output reg  [ 3:0]          mem_wen     ,
+        
+        // from commit
+        input  wire                 int_assert,
+        input  wire [`InstAddrBus]   int_addr
     );
 
     // 分线
@@ -68,7 +71,7 @@ module ex (
     wire less_unsigned  = (op1 < op2)       ? `Enable : `Disable;
 
     // ALU
-    assign jump_addr_o = base_addr + offset_addr;
+    assign jump_addr_o = int_assert ?  int_addr : (base_addr + offset_addr);
 
     wire [`RegBus] add_sub_val = op1 + (sub ? ~op2 + sub : op2);
     wire [`RegBus] xor_val     = op1 ^ op2;
@@ -80,13 +83,17 @@ module ex (
     wire [ 1:0] store_index =  jump_addr_o[1:0];
     wire [ 1:0] load_index  =  jump_addr_o[1:0];
 
+    reg jump_en;
+
+    assign jump_en_o = jump_en || ((int_assert === `Enable) ? `Enable : `Disable);
+    
     always @(*) begin
         mem_wr_addr = `ZeroWord;
         mem_wr_data = `ZeroWord;
         mem_wen     = 4'b0000;
         csr_wr_data = `ZeroWord;
         rd_data_o   = `ZeroWord;
-        jump_en_o   = `Disable;
+        jump_en   = `Disable;
         hold_flag_o = `Disable;
         case (opcode)
             `INST_TYPE_I: begin     //
@@ -117,13 +124,13 @@ module ex (
             end
             `INST_TYPE_B: begin
                 case (func3)
-                    `INST_BNE   :jump_en_o = ~eq;
-                    `INST_BEQ   :jump_en_o = eq;
-                    `INST_BLT   :jump_en_o = less_signed;
-                    `INST_BGE   :jump_en_o = ~less_signed;
-                    `INST_BLTU  :jump_en_o = less_unsigned;
-                    `INST_BGEU  :jump_en_o = ~less_unsigned;
-                    default     :jump_en_o = `Disable;
+                    `INST_BNE   :jump_en = ~eq;
+                    `INST_BEQ   :jump_en = eq;
+                    `INST_BLT   :jump_en = less_signed;
+                    `INST_BGE   :jump_en = ~less_signed;
+                    `INST_BLTU  :jump_en = less_unsigned;
+                    `INST_BGEU  :jump_en = ~less_unsigned;
+                    default     :jump_en = `Disable;
                 endcase
             end
             `INST_TYPE_L: begin
@@ -244,7 +251,7 @@ module ex (
             end
             `INST_JAL,`INST_JALR: begin
                 rd_data_o   = add_sub_val;
-                jump_en_o   = `Enable;
+                jump_en   = `Enable;
             end
             `INST_LUI,`INST_AUIPC: begin
                 rd_data_o   = add_sub_val;
@@ -254,7 +261,7 @@ module ex (
                 mem_wr_data = `ZeroWord;
                 mem_wen     = `ZeroReg;
                 rd_data_o   = `ZeroWord;
-                jump_en_o   = `Disable;
+                jump_en   = `Disable;
                 hold_flag_o = `Disable;
             end
         endcase

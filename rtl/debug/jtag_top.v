@@ -50,8 +50,10 @@ module jtag_top #(
     // 暂停请求（to riscv）
     output wire halt_req_o,
     // 复位请求（to riscv）
-    output wire reset_req_o
+    output wire reset_req_o,
 
+    // 调试中断请求
+    output wire debug_irq
     );
 
     parameter DM_RESP_BITS = DMI_ADDR_BITS + DMI_DATA_BITS + DMI_OP_BITS;
@@ -113,7 +115,8 @@ module jtag_top #(
         .dm_mem_rdata_i(mem_rdata_i),
         .dm_op_req_o(op_req_o),
         .dm_halt_req_o(halt_req_o),
-        .dm_reset_req_o(reset_req_o)
+        .dm_reset_req_o(reset_req_o),
+        .debug_irq(debug_irq)
     );
 
 endmodule

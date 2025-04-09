@@ -13,7 +13,11 @@ module riscv(
         output  wire [`RegBus]      inst_addr_rom,
         // jtag 
         input   wire                jtag_halt    , // ctrl
-        input   wire                jtag_reset     // pc
+        input   wire                jtag_reset   , // pc
+        input   wire                debug_irq    , 
+        input   wire                timer_irq    , 
+        input   wire                swi_irq      , 
+        input   wire  [3:0]         plic_irq      
     );
 
     // if_id to id
@@ -24,15 +28,16 @@ module riscv(
     wire [`RegAddrBus]  rs1_addr;
     wire [`RegAddrBus]  rs2_addr;
 
-    // id to csr_register
-    wire [`RegBus]      csr_addr;
-
     // register to id
     wire [`RegBus]      rs1_data;
     wire [`RegBus]      rs2_data;
 
+    // id to csr_register
+    wire [`RegBus]      csr_raddr_id;
+
     // csr_register to id
-    wire [`RegBus]      csr_data;
+    wire [`RegBus]      csr_rdata_id;
+
 
     // id to id_ex
     wire [`RegBus]      inst_id;
@@ -92,12 +97,32 @@ module riscv(
     // ctrl to if_id,id_ex
     wire                hold_flag_ctrl;
 
+    // csr to commit
+    wire commit_wen_i;
+    wire [`RegBus] commit_wdata_i;
+    wire [`RegBus] commit_waddr_i;
+    wire [`RegBus] commit_raddr_i;
+    reg  [`RegBus] commit_rdata_o;
+    wire [`RegBus] csr_mtvec;
+    wire [`RegBus] csr_mepc;
+    wire [`RegBus] csr_mstatus;
+    wire global_int_en_o;
+
+    // commit to ctrl
+    wire commit_halt;
+
+    // commit to ex
+    wire [`InstAddrBus] int_addr;  
+    wire int_assert;
+    wire [3:0] irq_out;
+
     pc pc_inst(
            .clk         (clk            ),
            .rstn        (rstn           ),
            .jump_en     (jump_en_ctrl   ),
            .jump_addr   (jump_addr_ctrl ),
            .jtag_reset  (jtag_reset    ),
+           .halt        (hold_flag_ctrl),
            .pc          (inst_addr_rom  )
         );
 
@@ -108,7 +133,12 @@ module riscv(
               .hold_flag_i  (hold_flag_ctrl ),
               .addr_i       (inst_addr_rom  ),
               .inst_o       (inst_if_id     ),
-              .addr_o       (inst_addr_if_id)
+              .addr_o       (inst_addr_if_id),
+              .debug_irq    (debug_irq      ),
+              .timer_irq    (timer_irq      ),
+              .swi_irq      (swi_irq        ),
+              .plic_irq     (plic_irq       ),
+              .irq_out      (irq_out        )
         );
 
     id id_inst(
@@ -130,8 +160,8 @@ module riscv(
            .mem_raddr   (ram_r_addr     ),  // memory address
            .csr_waddr_o (csr_addr_id    ),
            .csr_wen     (csr_wen_id     ),
-           .csr_data_i  (csr_data       ),
-           .csr_raddr_o (csr_addr       )
+           .csr_data_i  (csr_rdata_id   ),
+           .csr_raddr_o (csr_raddr_id   )
         );
 
     register register_inst(
@@ -152,13 +182,22 @@ module riscv(
             );
 
     csr_reg csr_reg_inst(
-                 .clk           (clk          ),
-                 .rstn          (rstn         ),
-                 .csr_waddr_i   (csr_addr_ex  ),
-                 .csr_wdata_i   (csr_data_ex  ),
-                 .csr_wen_i     (csr_wen_ex  ),
-                 .csr_raddr_i   (csr_addr     ),
-                 .csr_rdata_o   (csr_data     )
+                .clk                (clk             ),
+                .rstn               (rstn            ),
+                .ex_waddr_i         (csr_addr_ex     ),
+                .ex_wdata_i         (csr_data_ex     ),
+                .ex_wen_i           (csr_wen_ex      ),
+                .id_raddr_i         (csr_raddr_id    ),
+                .id_rdata_o         (csr_rdata_id    ),
+                .commit_waddr_i     (commit_waddr_i  ),
+                .commit_wdata_i     (commit_wdata_i  ),
+                .commit_wen_i       (commit_wen_i    ),
+                .commit_raddr_i     (commit_raddr_i  ),
+                .commit_rdata_o     (  ),
+                .csr_mtvec          (csr_mtvec       ),
+                .csr_mepc           (csr_mepc        ),
+                .csr_mstatus        (csr_mstatus     ),
+                .global_int_en_o    (global_int_en_o ) 
              );
 
     id_ex id_ex_inst(
@@ -210,7 +249,9 @@ module riscv(
            .csr_wen_i   (csr_wen_id_ex  ),
            .csr_addr_o  (csr_addr_ex    ),
            .csr_wr_data (csr_data_ex    ),
-           .csr_wen_o   (csr_wen_ex     )
+           .csr_wen_o   (csr_wen_ex     ),
+           .int_addr    (int_addr       ),
+           .int_assert  (int_assert     )
        );
 
     ram #(
@@ -234,11 +275,39 @@ module riscv(
              .jump_en_i   	(jump_en_ex     ),
              .hold_flag_i 	(hold_flag_ex   ),
              .jtag_halt     (jtag_halt      ),
+             .commmit_halt  (commit_halt    ),
              .jump_addr_o 	(jump_addr_ctrl ),
              .jump_en_o   	(jump_en_ctrl   ),
              .hold_flag_o 	(hold_flag_ctrl )
          );
-
+    
+    commit commit_init(
+            .clk                (clk              ),
+            .rstn               (rstn             ),
+            .irq_i              (irq_out          ),
+            // from id
+            .inst_i             (inst_if_id       ),
+            .inst_addr_i        (inst_addr_if_id  ),
+            // from ex
+            .jump_flag_i        (jump_en_ex       ),
+            .jump_addr_i        (jump_addr_ex     ),
+            // from csr
+            .csr_mtvec          (csr_mtvec        ),
+            .csr_mepc           (csr_mepc         ),
+            .csr_mstatus        (csr_mstatus      ),
+            .global_int_en_i    (global_int_en_o  ),
+            // to ctrl
+            .hold_flag_o        (commit_halt      ),
+            // to csr
+            .we_o               (commit_wen_i     ),
+            .waddr_o            (commit_waddr_i   ),
+            .raddr_o            (commit_raddr_i   ),
+            .data_o             (commit_wdata_i   ),
+            // to ex
+            // 做为jump_addr
+            .int_addr_o         (int_addr         ),
+            .int_assert_o       (int_assert       ) 
+    );
 
 endmodule
 

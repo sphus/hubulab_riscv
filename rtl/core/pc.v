@@ -5,7 +5,8 @@ module pc (
         input  wire             rstn        ,
         // from ctrl
         input  wire             jump_en     ,
-        input  wire [`RegBus]   jump_addr   ,      
+        input  wire [`RegBus]   jump_addr   ,   
+        input  wire             halt        ,
         // from jtag
         input  wire             jtag_reset  ,
 
@@ -17,6 +18,8 @@ module pc (
             pc <= `ZeroWord;
         else if(jump_en == `Enable)
             pc <= jump_addr;
+        else if(halt)
+            pc <= pc;
         else 
             pc <= pc + 3'd4;
     end
