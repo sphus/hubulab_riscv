@@ -1,20 +1,17 @@
+`include "../rtl/defines.v"
 
 `timescale 1ns/1ns
 module tb_riscv();
 
-
-`define PYTHON
-// `define ONE_INST_TEST
-
 `define CLK_PERIOD 20
 
-`ifdef PYTHON
-    `define READ_FILE "../generated/inst_data.txt"
-`else
-    // `define READ_FILE "./generated/inst_data.txt"
-`define READ_FILE "./generated/rv32ui-p-bne.txt"
-`endif
+`define PYTHON_FILE "../generated/inst_data.txt"
 
+`ifdef PYTHON
+    `define READ_FILE `PYTHON_FILE
+`else
+    `define READ_FILE `TEST_FILE
+`endif
 
     // 生成波形文件,给GTKWAVE调用
     // initial begin
@@ -129,7 +126,7 @@ module tb_riscv();
             $display("%x jump to %x at %d", inst_addr,jump_addr,$time);
         end
 
-        if ($time >= 20000)
+        if ($time >= `SIM_TIME)
         begin
             for(r = 0;r < 31; r = r + 4)
                 $display("x%2d to x%2d:%x %x %x %x",r,r+3,x[r],x[r+1],x[r+2],x[r+3]);

@@ -1,4 +1,10 @@
 
+`define PYTHON
+`define SIM_TIME 20000
+// `define ONE_INST_TEST
+
+`define TEST_FILE "./generated/rv32ui-p-addi.txt"
+
 `define pc_rstn     32'h0
 `define ZeroReg     5'h0
 
