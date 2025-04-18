@@ -1,17 +1,20 @@
-`include "../rtl/defines.v"
 
+`include "../rtl/defines.v"
 `timescale 1ns/1ns
 module tb_riscv();
+
 
 `define CLK_PERIOD 20
 
 `define PYTHON_FILE "../generated/inst_data.txt"
 
+
 `ifdef PYTHON
     `define READ_FILE `PYTHON_FILE
 `else
-    `define READ_FILE `TEST_FILE
+`define READ_FILE `TEST_FILE
 `endif
+
 
     // 生成波形文件,给GTKWAVE调用
     // initial begin
@@ -58,10 +61,9 @@ module tb_riscv();
         $readmemh(`READ_FILE,tb_riscv.riscv_soc_inst.rom_inst.memory);
     end
 
-    wire [31:0] inst_addr_buff = tb_riscv.riscv_soc_inst.riscv_inst.EX_inst_addr;
-    wire [31:0] inst_addr = (inst_addr_buff - 4) >= -16 ?  0 : inst_addr_buff - 4;
+    wire [31:0] inst_addr = tb_riscv.riscv_soc_inst.riscv_inst.inst_addr;
     wire        jump_flag = tb_riscv.riscv_soc_inst.riscv_inst.jump;
-    wire [31:0] jump_addr = tb_riscv.riscv_soc_inst.riscv_inst.MEM_jump_addr;
+    wire [31:0] jump_addr = tb_riscv.riscv_soc_inst.riscv_inst.jump_addr;
 
     wire [31:0] x [31:0];
 

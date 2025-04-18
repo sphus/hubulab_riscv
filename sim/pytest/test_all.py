@@ -14,6 +14,9 @@ def main():
         os.remove(fail_file)
     if os.path.exists(pass_file):
         os.remove(pass_file)
+
+    pass_flag = True
+
     # 获取路径下所有txt文件
     all_txt_files = list_txtfiles(rtl_dir + r'/sim/generated/')
     # 遍历所有文件一个一个执行
@@ -46,6 +49,7 @@ def main():
                 file.write(print_name.ljust(10, ' ') + 'PASS' + '\n')
         elif(r.find('fail') != -1):
             # 检测fail testnum的值
+            pass_flag = False
             start_index = r.find('fail testnum = ') + len('fail testnum = ')
             end_index = r.find('\n', start_index)
             testnum = r[start_index:end_index].strip()
@@ -55,11 +59,13 @@ def main():
             with open(fail_file, "a") as file:
                 file.write(message + '\n')
         elif(r.find('timeout') != -1):
+            pass_flag = False
             message = print_name.ljust(10, ' ') + 'timeout'
             print(message)
             with open(fail_file, "a") as file:
                 file.write(message + '\n')
         else:
+            pass_flag = False
             print(print_name.ljust(10, ' ') + 'test error!')
             # print('test error!')
 
@@ -76,6 +82,15 @@ def main():
 
             # print(r)
         f.close()
+    print(pass_flag)
+    if (pass_flag == True):
+        print("############################")
+        print("#####  ALL INST PASS  ######")
+        print("############################")
+    else:
+        print("############################")
+        print("#####  SOME INST FAIL  #####")
+        print("############################")
 
 if __name__ == '__main__':
     main()

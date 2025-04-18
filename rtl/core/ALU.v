@@ -38,7 +38,7 @@ module ALU (
             `INST_SR  : result = sr_val;
             `INST_OR  : result = or_val;
             `INST_AND : result = and_val;
-            default:    result = `Disable;
+            default:    result = `ZeroWord;
         endcase
     end
 

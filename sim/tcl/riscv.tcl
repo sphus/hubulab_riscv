@@ -24,22 +24,18 @@ add wave -divider {PC}
 add wave tb_riscv/riscv_soc_inst/riscv_inst/pc_inst/*
 add wave -divider {REGISTER} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/register_inst/reg_mem
-# add wave -divider {MEM_WB} 
-# add wave tb_riscv/riscv_soc_inst/riscv_inst/mem_wb_inst/*
+add wave -divider {CONTROL} 
+add wave tb_riscv/riscv_soc_inst/riscv_inst/control_inst/*
 add wave -divider {IMM_GEN} 
-add wave tb_riscv/riscv_soc_inst/riscv_inst/id_unit_inst/imm_gen_inst/*
+add wave tb_riscv/riscv_soc_inst/riscv_inst/imm_gen_inst/*
 # add wave -divider {ID} 
-# add wave tb_riscv/riscv_soc_inst/riscv_inst/id_unit_inst/control_inst/*
+# add wave tb_riscv/riscv_soc_inst/riscv_inst/control_inst/*
 add wave -divider {EX} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/ex_inst/*
-# add wave -divider {ID_EX} 
-# add wave tb_riscv/riscv_soc_inst/riscv_inst/id_ex_inst/*
 add wave -divider {ALU} 
 add wave tb_riscv/riscv_soc_inst/riscv_inst/ex_inst/ALU_inst/*
-add wave -divider {FORWARD} 
-add wave tb_riscv/riscv_soc_inst/riscv_inst/forward_inst/*
-add wave -divider {HAZARD_DETECTION} 
-add wave tb_riscv/riscv_soc_inst/riscv_inst/hazard_detection_inst/*
+# add wave -divider {HAZARD_DETECTION} 
+# add wave tb_riscv/riscv_soc_inst/riscv_inst/hazard_detection_inst/*
 add wave -divider {ROM} 
 add wave tb_riscv/riscv_soc_inst/rom_inst/r_addr
 add wave tb_riscv/riscv_soc_inst/rom_inst/r_data

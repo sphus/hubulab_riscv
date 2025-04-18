@@ -11,8 +11,8 @@ module register (
         input  wire [`RegBus]       rd_wdata  ,
         input  wire                 wen       ,
         // to id
-        output reg  [`RegBus]       rs1_rdata ,
-        output reg  [`RegBus]       rs2_rdata
+        output reg  [`RegBus]       rs1_data ,
+        output reg  [`RegBus]       rs2_data
     );
 
     reg [`RegBus] reg_mem [`RegBus];
@@ -21,26 +21,26 @@ module register (
     always @(*)
     begin
         if (!rstn)
-            rs1_rdata = `ZeroWord;
+            rs1_data = `ZeroWord;
         else if (rs1_raddr == `ZeroReg)
-            rs1_rdata = `ZeroWord;
-        else if(wen && (rs1_raddr == rd_waddr))
-            rs1_rdata = rd_wdata;
+            rs1_data = `ZeroWord;
+        // else if(wen && (rs1_raddr == rd_waddr))
+        //     rs1_data = rd_wdata;
         else
-            rs1_rdata = reg_mem[rs1_raddr];
+            rs1_data = reg_mem[rs1_raddr];
     end
 
     // read register 2
     always @(*)
     begin
         if (!rstn)
-            rs2_rdata = `ZeroWord;
+            rs2_data = `ZeroWord;
         else if (rs2_raddr == `ZeroReg)
-            rs2_rdata = `ZeroWord;
-        else if(wen && (rs2_raddr == rd_waddr))
-            rs2_rdata = rd_wdata;
+            rs2_data = `ZeroWord;
+        // else if(wen && (rs2_raddr == rd_waddr))
+        //     rs2_data = rd_wdata;
         else
-            rs2_rdata = reg_mem[rs2_raddr];
+            rs2_data = reg_mem[rs2_raddr];
     end
 
     integer i;

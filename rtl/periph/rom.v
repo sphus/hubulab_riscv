@@ -1,5 +1,6 @@
 
-`include "../defines.v" 
+`include "../defines.v"
+
 module rom #(
         parameter DW = 32,
         parameter AW = 32,
@@ -18,13 +19,17 @@ module rom #(
 
     reg[DW-1:0] memory[0:MEM_NUM-1];
 
-    always @(posedge clk) begin
+`ifdef COMBINATION_ROM
+    always @(*)
+            r_data = memory[r_addr >> 2];
+`else
+    always @(posedge clk)
         if(ren)
             r_data <= memory[r_addr >> 2];
-    end
+`endif
 
-    always @(posedge clk) begin
-        // if(rstn && wen)
+    always @(posedge clk)
+    begin
         if(wen)
             memory[w_addr >> 2] <= w_data;
     end
